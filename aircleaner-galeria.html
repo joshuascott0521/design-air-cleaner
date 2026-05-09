@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Galería de Proyectos — AirCleaner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ─── Design Tokens ─── */
+:root {
+  --blue:    #0493D9;
+  --dblue:   #014778;
+  --navy:    #01092D;
+  --teal:    #39DBC4;
+  --white:   #FFFFFF;
+  --gbg:     #F4F6F9;
+  --gborder: #DDE5EF;
+  --gmuted:  #5A7186;
+  --fd: 'DM Sans', system-ui, sans-serif;
+  --fb: 'Outfit', system-ui, sans-serif;
+  --fm: ui-monospace, 'JetBrains Mono', Menlo, monospace;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--fb);
+  background: var(--white);
+  color: var(--navy);
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ─── Nav ─── */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 72px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  transition: background .35s ease, backdrop-filter .35s ease, box-shadow .35s ease;
+}
+#nav.scrolled {
+  background: rgba(1,9,45,.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06);
+}
+.nav-inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.logo-text {
+  font-family: var(--fd);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+}
+.logo-text .air { color: var(--blue); }
+.logo-text .cleaner { color: var(--white); }
+/* Nav links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-left: 48px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--fb);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,.75);
+  transition: color .2s;
+  position: relative;
+  padding-bottom: 2px;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a.active {
+  color: var(--white);
+}
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 2px;
+  background: var(--blue);
+  border-radius: 2px;
+}
+.nav-cta {
+  margin-left: auto;
+  background: var(--blue);
+  color: var(--white);
+  font-family: var(--fb);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 6px;
+  transition: background .2s, transform .15s;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: #037ec0; transform: translateY(-1px); }
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  margin-left: auto;
+  padding: 6px;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+/* Mobile overlay */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--navy);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+.mobile-overlay.open { display: flex; }
+.mobile-overlay a {
+  font-family: var(--fd);
+  font-size: 28px;
+  font-weight: 600;
+  color: rgba(255,255,255,.8);
+  transition: color .2s;
+}
+.mobile-overlay a:hover,
+.mobile-overlay a.active { color: var(--white); }
+.mobile-overlay .close-overlay {
+  position: absolute;
+  top: 24px; right: 32px;
+  font-size: 28px;
+  color: var(--white);
+  line-height: 1;
+}
+
+/* ─── Hero ─── */
+.hero {
+  background: var(--navy);
+  height: 340px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-top: 72px;
+}
+.hero-watermark {
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 420px;
+  height: 420px;
+  opacity: .038;
+  animation: spin 60s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.hero-eyebrow {
+  font-family: var(--fm);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--teal);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.hero h1 {
+  font-family: var(--fd);
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.08;
+  letter-spacing: -.5px;
+  margin-bottom: 20px;
+}
+.hero-accent {
+  width: 48px;
+  height: 3px;
+  background: var(--blue);
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+.breadcrumb {
+  font-family: var(--fb);
+  font-size: 12px;
+  color: rgba(255,255,255,.45);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.breadcrumb a { color: rgba(255,255,255,.55); transition: color .2s; }
+.breadcrumb a:hover { color: var(--white); }
+.breadcrumb span { color: rgba(255,255,255,.3); }
+
+/* ─── Filter Bar ─── */
+.filter-bar {
+  position: sticky;
+  top: 72px;
+  z-index: 900;
+  background: var(--white);
+  border-bottom: 1px solid var(--gborder);
+  padding: 14px 40px;
+}
+.filter-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pill {
+  font-family: var(--fb);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 18px;
+  border-radius: 100px;
+  border: 1.5px solid var(--gborder);
+  color: var(--gmuted);
+  background: transparent;
+  transition: background .2s, color .2s, border-color .2s;
+  cursor: pointer;
+}
+.pill:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.pill.active {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+}
+
+/* ─── Gallery ─── */
+.gallery-section {
+  background: var(--gbg);
+  padding: 72px 40px 96px;
+}
+.gallery-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* ─── Project Card ─── */
+.project-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(1,9,45,.07), 0 1px 2px rgba(1,9,45,.04);
+  transition: transform .25s ease, box-shadow .25s ease;
+  cursor: pointer;
+}
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(1,9,45,.13), 0 2px 6px rgba(1,9,45,.06);
+}
+.project-card[data-hidden="true"] {
+  display: none;
+}
+/* Thumb */
+.card-thumb {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+}
+.card-thumb-bg {
+  position: absolute;
+  inset: 0;
+}
+.card-thumb-turbine {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .12;
+}
+.card-thumb-turbine svg {
+  width: 140px;
+  height: 140px;
+}
+.cat-pill {
+  position: absolute;
+  top: 14px; left: 14px;
+  font-family: var(--fm);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--navy);
+  background: var(--teal);
+  padding: 4px 10px;
+  border-radius: 100px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  z-index: 2;
+}
+/* Hover overlay */
+.card-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(4,147,217,.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .25s ease;
+  z-index: 3;
+}
+.project-card:hover .card-thumb-overlay { opacity: 1; }
+.overlay-cta {
+  font-family: var(--fd);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: .01em;
+}
+/* Card body */
+.card-body {
+  padding: 20px;
+}
+.card-cat-tag {
+  font-family: var(--fm);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--teal);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: 8px;
+}
+.card-title {
+  font-family: var(--fd);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+.card-location {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--gmuted);
+  margin-bottom: 8px;
+}
+.card-desc {
+  font-family: var(--fb);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--gmuted);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.card-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.spec-item {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--navy);
+  background: var(--gbg);
+  border: 1px solid var(--gborder);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* ─── Stats Bar ─── */
+.stats-bar {
+  background: var(--white);
+  border-top: 1px solid var(--gborder);
+  border-bottom: 1px solid var(--gborder);
+  padding: 56px 40px;
+}
+.stats-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+.stat-item {
+  text-align: center;
+}
+.stat-number {
+  font-family: var(--fd);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -.5px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-number em {
+  font-style: normal;
+  color: var(--blue);
+}
+.stat-label {
+  font-family: var(--fb);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--gmuted);
+}
+
+/* ─── CTA Banner ─── */
+.cta-banner {
+  background: var(--navy);
+  padding: 80px 40px;
+  text-align: center;
+}
+.cta-banner h2 {
+  font-family: var(--fd);
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--white);
+  max-width: 640px;
+  margin: 0 auto 16px;
+  line-height: 1.15;
+}
+.cta-banner p {
+  font-family: var(--fb);
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(255,255,255,.55);
+  max-width: 500px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: var(--white);
+  font-family: var(--fb);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 8px;
+  transition: background .2s, transform .15s;
+}
+.btn-primary:hover { background: #037ec0; transform: translateY(-2px); }
+
+/* ─── Footer ─── */
+footer {
+  background: var(--dblue);
+  position: relative;
+  overflow: hidden;
+  padding: 64px 40px 0;
+}
+.footer-watermark {
+  position: absolute;
+  bottom: -60px; right: -60px;
+  width: 340px;
+  height: 340px;
+  opacity: .04;
+  pointer-events: none;
+}
+.footer-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  position: relative;
+  z-index: 1;
+}
+.footer-brand .logo-text .cleaner { color: rgba(255,255,255,.8); }
+.footer-tagline {
+  font-family: var(--fb);
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255,255,255,.5);
+  margin-top: 14px;
+  line-height: 1.6;
+  max-width: 260px;
+}
+.footer-socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+.social-btn {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.08);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.6);
+  font-size: 14px;
+  transition: background .2s, color .2s;
+}
+.social-btn:hover { background: var(--blue); color: var(--white); }
+.footer-col h4 {
+  font-family: var(--fd);
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,.35);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: 18px;
+}
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-col ul li {
+  font-family: var(--fb);
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,.65);
+}
+.footer-col ul li a { transition: color .2s; }
+.footer-col ul li a:hover { color: var(--white); }
+.footer-bar {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  position: relative;
+  z-index: 1;
+}
+.footer-bar p {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: rgba(255,255,255,.3);
+}
+.footer-bar-links {
+  display: flex;
+  gap: 20px;
+}
+.footer-bar-links a {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: rgba(255,255,255,.3);
+  transition: color .2s;
+}
+.footer-bar-links a:hover { color: rgba(255,255,255,.6); }
+
+/* ─── WhatsApp FAB ─── */
+.whatsapp-fab {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 1100;
+  width: 56px; height: 56px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(37,211,102,.4);
+  transition: transform .2s;
+}
+.whatsapp-fab:hover { transform: scale(1.08); }
+.whatsapp-fab::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(37,211,102,.4);
+  animation: wapulse 2s ease-out infinite;
+}
+@keyframes wapulse {
+  0% { transform: scale(1); opacity: .8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.whatsapp-fab svg { width: 28px; height: 28px; }
+
+/* ─── Lightbox ─── */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(1,9,45,.97);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.lightbox.open { display: flex; }
+.lightbox-inner {
+  background: var(--white);
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: lbfade .25s ease;
+}
+@keyframes lbfade {
+  from { opacity: 0; transform: scale(.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.lb-thumb {
+  aspect-ratio: 16/9;
+  position: relative;
+  overflow: hidden;
+}
+.lb-thumb-bg { position: absolute; inset: 0; }
+.lb-thumb-turbine {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .18;
+}
+.lb-thumb-turbine svg { width: 220px; height: 220px; }
+.lb-body { padding: 32px; }
+.lb-cat {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--teal);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: 10px;
+}
+.lb-title {
+  font-family: var(--fd);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.lb-location {
+  font-family: var(--fm);
+  font-size: 12px;
+  color: var(--gmuted);
+  margin-bottom: 16px;
+}
+.lb-desc {
+  font-family: var(--fb);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--gmuted);
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+.lb-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.lb-spec {
+  background: var(--gbg);
+  border: 1px solid var(--gborder);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.lb-spec-label {
+  font-family: var(--fm);
+  font-size: 10px;
+  color: var(--gmuted);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: 4px;
+}
+.lb-spec-value {
+  font-family: var(--fm);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--navy);
+}
+.lb-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: var(--white);
+  font-family: var(--fb);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 7px;
+  transition: background .2s;
+}
+.lb-cta:hover { background: #037ec0; }
+/* Lightbox controls */
+.lb-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  z-index: 10;
+  width: 36px; height: 36px;
+  background: rgba(1,9,45,.55);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white);
+  font-size: 18px;
+  line-height: 1;
+  transition: background .2s;
+}
+.lb-close:hover { background: rgba(1,9,45,.9); }
+.lb-nav {
+  position: fixed;
+  top: 50%; transform: translateY(-50%);
+  z-index: 2100;
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,.12);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white);
+  font-size: 20px;
+  backdrop-filter: blur(8px);
+  transition: background .2s;
+}
+.lb-nav:hover { background: rgba(255,255,255,.22); }
+.lb-prev { left: 16px; }
+.lb-next { right: 16px; }
+
+/* ─── Scroll Reveal ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 960px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .hero h1 { font-size: 38px; }
+}
+@media (max-width: 860px) {
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+}
+@media (max-width: 640px) {
+  #nav { padding: 0 20px; }
+  .gallery-section { padding: 48px 20px 64px; }
+  .filter-bar { padding: 12px 20px; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero { height: 300px; }
+  .hero h1 { font-size: 30px; }
+  .hero-content { padding: 0 20px; }
+  .stats-bar { padding: 40px 20px; }
+  .cta-banner { padding: 56px 20px; }
+  .cta-banner h2 { font-size: 26px; }
+  footer { padding: 48px 20px 0; }
+  .lb-specs-grid { grid-template-columns: 1fr; }
+  .lb-title { font-size: 22px; }
+  .lb-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Nav ─── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="aircleaner-landing.html" class="logo">
+      <svg width="36" height="36" viewBox="-52 -52 104 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(0)"/>
+        <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(72)"/>
+        <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(144)"/>
+        <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(216)"/>
+        <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(288)"/>
+        <rect x="-5" y="-5" width="10" height="10" rx="2" fill="#FFFFFF"/>
+      </svg>
+      <span class="logo-text"><span class="air">Air</span><span class="cleaner">Cleaner</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="aircleaner-servicios.html">Servicios</a></li>
+      <li><a href="aircleaner-galeria.html" class="active">Galería</a></li>
+      <li><a href="aircleaner-solicitar.html">Solicitar</a></li>
+      <li><a href="aircleaner-contacto.html">Contacto</a></li>
+    </ul>
+    <a href="aircleaner-solicitar.html" class="nav-cta" style="margin-left:auto;">Solicitar diagnóstico</a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobileOverlay">
+  <button class="close-overlay" id="closeOverlay">&#x2715;</button>
+  <a href="aircleaner-servicios.html">Servicios</a>
+  <a href="aircleaner-galeria.html" class="active">Galería</a>
+  <a href="aircleaner-solicitar.html">Solicitar</a>
+  <a href="aircleaner-contacto.html">Contacto</a>
+  <a href="aircleaner-solicitar.html" style="color:var(--teal);">Solicitar diagnóstico</a>
+</div>
+
+<!-- ─── Hero ─── -->
+<section class="hero">
+  <svg class="hero-watermark" viewBox="-52 -52 104 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+    <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+  </svg>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Proyectos ejecutados</p>
+    <h1>Experiencia comprobada<br>en el Caribe</h1>
+    <div class="hero-accent"></div>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="aircleaner-landing.html">Inicio</a>
+      <span>/</span>
+      <span>Galería</span>
+    </nav>
+  </div>
+</section>
+
+<!-- ─── Filter Bar ─── -->
+<div class="filter-bar" id="filterBar">
+  <div class="filter-inner">
+    <button class="pill active" data-filter="todos">Todos</button>
+    <button class="pill" data-filter="climatizacion">Climatización</button>
+    <button class="pill" data-filter="refrigeracion">Refrigeración</button>
+    <button class="pill" data-filter="bombeo">Bombeo</button>
+    <button class="pill" data-filter="incendios">Incendios</button>
+  </div>
+</div>
+
+<!-- ─── Gallery Grid ─── -->
+<section class="gallery-section">
+  <div class="gallery-inner">
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- CARD 1 -->
+      <article class="project-card reveal" data-cat="climatizacion" data-index="0" role="button" tabindex="0" aria-label="Ver proyecto Centro Comercial Buenavista">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#014778,#0493D9);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="none">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Climatización</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Climatización</p>
+          <h2 class="card-title">Centro Comercial Buenavista</h2>
+          <p class="card-location">Barranquilla · 2024</p>
+          <p class="card-desc">Sistema VRF central con control de zona, maximizando el confort y eficiencia energética.</p>
+          <div class="card-specs">
+            <span class="spec-item">2,400 m²</span>
+            <span class="spec-item">VRF System</span>
+            <span class="spec-item">Ahorro 28%</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 2 -->
+      <article class="project-card reveal" data-cat="climatizacion" data-index="1" role="button" tabindex="0" aria-label="Ver proyecto Edificio Torre Empresarial Bavaria">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#014778,#0493D9);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="none">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Climatización</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Climatización</p>
+          <h2 class="card-title">Edificio Torre Empresarial Bavaria</h2>
+          <p class="card-location">Barranquilla · 2023</p>
+          <p class="card-desc">Chiller de alta eficiencia en edificio de 18 pisos con certificación LEED Silver.</p>
+          <div class="card-specs">
+            <span class="spec-item">200 TR</span>
+            <span class="spec-item">18 pisos</span>
+            <span class="spec-item">LEED</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 3 -->
+      <article class="project-card reveal" data-cat="climatizacion" data-index="2" role="button" tabindex="0" aria-label="Ver proyecto Hospital Universitario del Caribe">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#014778,#0493D9);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="none">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Climatización</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Climatización</p>
+          <h2 class="card-title">Hospital Universitario del Caribe</h2>
+          <p class="card-location">Cartagena · 2024</p>
+          <p class="card-desc">HVAC presurizado para quirófanos con control de caudal certificado ISO 14644.</p>
+          <div class="card-specs">
+            <span class="spec-item">HVAC Quirófanos</span>
+            <span class="spec-item">ISO 14644</span>
+            <span class="spec-item">2024</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 4 -->
+      <article class="project-card reveal" data-cat="refrigeracion" data-index="3" role="button" tabindex="0" aria-label="Ver proyecto Planta Procesadora Alimentos Santa Marta">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#01092D,#014778);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="none">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Refrigeración</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Refrigeración</p>
+          <h2 class="card-title">Planta Procesadora Alimentos Santa Marta</h2>
+          <p class="card-location">Santa Marta · 2023</p>
+          <p class="card-desc">Cuartos fríos de congelación profunda para procesamiento de alimentos bajo norma HACCP.</p>
+          <div class="card-specs">
+            <span class="spec-item">-18°C</span>
+            <span class="spec-item">800 m³</span>
+            <span class="spec-item">HACCP</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 5 -->
+      <article class="project-card reveal" data-cat="refrigeracion" data-index="4" role="button" tabindex="0" aria-label="Ver proyecto Zona Franca La Cayena">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#01092D,#014778);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="none">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Refrigeración</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Refrigeración</p>
+          <h2 class="card-title">Zona Franca La Cayena · Almacenamiento frío</h2>
+          <p class="card-location">Barranquilla · 2022</p>
+          <p class="card-desc">Sistema de almacenamiento frío con monitoreo 24/7 y rango de temperatura controlado.</p>
+          <div class="card-specs">
+            <span class="spec-item">1,200 m²</span>
+            <span class="spec-item">0°C a +4°C</span>
+            <span class="spec-item">24/7</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 6 -->
+      <article class="project-card reveal" data-cat="refrigeracion" data-index="5" role="button" tabindex="0" aria-label="Ver proyecto Supermercado La Colina Norte">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#01092D,#014778);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="none">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Refrigeración</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Refrigeración</p>
+          <h2 class="card-title">Supermercado La Colina Norte</h2>
+          <p class="card-location">Barranquilla · 2023</p>
+          <p class="card-desc">Islas de frío para exhibición y cámaras walk-in de conservación de alimentos frescos.</p>
+          <div class="card-specs">
+            <span class="spec-item">45 TR</span>
+            <span class="spec-item">Islas de frío</span>
+            <span class="spec-item">Walk-in</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 7 -->
+      <article class="project-card reveal" data-cat="bombeo" data-index="6" role="button" tabindex="0" aria-label="Ver proyecto Aeropuerto Ernesto Cortissoz">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#0493D9,#39DBC4 80%);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="white" fill-opacity=".9">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Bombeo</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Bombeo</p>
+          <h2 class="card-title">Aeropuerto Ernesto Cortissoz</h2>
+          <p class="card-location">Barranquilla · 2022</p>
+          <p class="card-desc">Red presurizada dual para sistemas contra incendios y agua potable en instalación aeroportuaria.</p>
+          <div class="card-specs">
+            <span class="spec-item">120 PSI</span>
+            <span class="spec-item">Contra incendios</span>
+            <span class="spec-item">Agua potable</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 8 -->
+      <article class="project-card reveal" data-cat="bombeo" data-index="7" role="button" tabindex="0" aria-label="Ver proyecto Conjunto Residencial El Prado">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#0493D9,#39DBC4 80%);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="white" fill-opacity=".9">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Bombeo</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Bombeo</p>
+          <h2 class="card-title">Conjunto Residencial El Prado</h2>
+          <p class="card-location">Barranquilla · 2023</p>
+          <p class="card-desc">Sistema VFD de presión constante para 8 torres residenciales, eliminando golpe de ariete.</p>
+          <div class="card-specs">
+            <span class="spec-item">VFD</span>
+            <span class="spec-item">8 torres</span>
+            <span class="spec-item">0 golpe ariete</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 9 -->
+      <article class="project-card reveal" data-cat="bombeo" data-index="8" role="button" tabindex="0" aria-label="Ver proyecto Planta Industrial Refinería">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#0493D9,#39DBC4 80%);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="white" fill-opacity=".9">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Bombeo</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Bombeo</p>
+          <h2 class="card-title">Planta Industrial Refinería · Bombeo de proceso</h2>
+          <p class="card-location">Cartagena · 2024</p>
+          <p class="card-desc">Bombas centrífugas de alta capacidad con variadores Allen-Bradley para proceso industrial.</p>
+          <div class="card-specs">
+            <span class="spec-item">500 L/s</span>
+            <span class="spec-item">Allen-Bradley</span>
+            <span class="spec-item">Centrífugas</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 10 -->
+      <article class="project-card reveal" data-cat="incendios" data-index="9" role="button" tabindex="0" aria-label="Ver proyecto Centro Logístico Maersk">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#014778,#01092D);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="none">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Incendios</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Incendios</p>
+          <h2 class="card-title">Centro Logístico Maersk</h2>
+          <p class="card-location">Barranquilla · 2024</p>
+          <p class="card-desc">Red húmeda NFPA 13 con 380 sprinklers y certificación completa por Cuerpo de Bomberos.</p>
+          <div class="card-specs">
+            <span class="spec-item">NFPA 13</span>
+            <span class="spec-item">380 sprinklers</span>
+            <span class="spec-item">Certificado</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 11 -->
+      <article class="project-card reveal" data-cat="incendios" data-index="10" role="button" tabindex="0" aria-label="Ver proyecto Clínica General del Norte">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#014778,#01092D);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="none">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Incendios</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Incendios</p>
+          <h2 class="card-title">Clínica General del Norte</h2>
+          <p class="card-location">Barranquilla · 2023</p>
+          <p class="card-desc">Sistema de detección y supresión hospitalaria bajo norma NFPA 72 con zonas de alarma diferenciadas.</p>
+          <div class="card-specs">
+            <span class="spec-item">NFPA 72</span>
+            <span class="spec-item">Supresión</span>
+            <span class="spec-item">Hospitalario</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 12 -->
+      <article class="project-card reveal" data-cat="incendios" data-index="11" role="button" tabindex="0" aria-label="Ver proyecto Centro Comercial Caribe Plaza">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,#014778,#01092D);"></div>
+          <div class="card-thumb-turbine">
+            <svg viewBox="-52 -52 104 104" fill="none">
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+              <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+              <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+            </svg>
+          </div>
+          <span class="cat-pill">Incendios</span>
+          <div class="card-thumb-overlay"><span class="overlay-cta">Ver detalles →</span></div>
+        </div>
+        <div class="card-body">
+          <p class="card-cat-tag">Incendios</p>
+          <h2 class="card-title">Centro Comercial Caribe Plaza</h2>
+          <p class="card-location">Barranquilla · 2022</p>
+          <p class="card-desc">Red mixta seca y húmeda con 650 sprinklers, probada a 200 PSI según normativa vigente.</p>
+          <div class="card-specs">
+            <span class="spec-item">650 sprinklers</span>
+            <span class="spec-item">200 PSI</span>
+            <span class="spec-item">Red mixta</span>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /gallery-grid -->
+  </div>
+</section>
+
+<!-- ─── Stats Bar ─── -->
+<section class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-number"><em>200</em>+</div>
+      <div class="stat-label">Proyectos ejecutados</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-number"><em>18</em>+</div>
+      <div class="stat-label">Años de experiencia</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-number"><em>4</em></div>
+      <div class="stat-label">Líneas de servicio</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-number" style="font-size:28px;padding-top:10px;">Caribe</div>
+      <div class="stat-label">colombiano</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA Banner ─── -->
+<section class="cta-banner">
+  <h2 class="reveal">¿Su operación no puede permitirse una falla?</h2>
+  <p class="reveal">Cada proyecto en esta galería comenzó con un diagnóstico técnico gratuito.</p>
+  <a href="aircleaner-solicitar.html" class="btn-primary reveal">
+    Solicitar diagnóstico
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</section>
+
+<!-- ─── Footer ─── -->
+<footer>
+  <svg class="footer-watermark" viewBox="-52 -52 104 104" fill="none">
+    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+    <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+  </svg>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="-52 -52 104 104" fill="none">
+          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(0)"/>
+          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(72)"/>
+          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(144)"/>
+          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(216)"/>
+          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(288)"/>
+          <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+        </svg>
+        <span class="logo-text"><span class="air">Air</span><span class="cleaner">Cleaner</span></span>
+      </div>
+      <p class="footer-tagline">Soluciones en climatización, refrigeración, bombeo y sistemas contra incendios para el Caribe colombiano.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn" aria-label="LinkedIn">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" class="social-btn" aria-label="Facebook">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-btn" aria-label="Instagram">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li>Barranquilla, Colombia</li>
+        <li><a href="tel:+573001234567">+57 300 123 4567</a></li>
+        <li><a href="mailto:info@aircleaner.co">info@aircleaner.co</a></li>
+        <li><a href="aircleaner-solicitar.html">Solicitar diagnóstico</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Horario</h4>
+      <ul>
+        <li>Lun – Vie: 7:00 am – 5:30 pm</li>
+        <li>Sábado: 8:00 am – 1:00 pm</li>
+        <li>Emergencias 24/7</li>
+        <li style="margin-top:8px; color:rgba(255,255,255,.35); font-size:12px;">Servicio técnico disponible en toda la región Caribe</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <p>&copy; 2024 AirCleaner S.A.S. Todos los derechos reservados.</p>
+    <div class="footer-bar-links">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── WhatsApp FAB ─── -->
+<a href="https://wa.me/573001234567?text=Hola,%20me%20interesa%20un%20diagnóstico%20técnico" class="whatsapp-fab" aria-label="WhatsApp" target="_blank" rel="noopener">
+  <svg viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 2C8.268 2 2 8.268 2 16c0 2.478.675 4.8 1.85 6.787L2 30l7.425-1.825A13.93 13.93 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm7.4 19.325c-.3.837-1.762 1.6-2.412 1.662-.638.063-1.25.3-4.188-.875-3.563-1.413-5.813-5.05-5.988-5.288-.175-.237-1.437-1.912-1.437-3.65 0-1.737.912-2.587 1.237-2.937.325-.35.712-.438.95-.438l.688.013c.225.012.525-.088.825.625.3.712 1.012 2.45 1.1 2.625.087.175.15.387.025.625-.125.237-.2.387-.387.6-.188.212-.4.475-.562.637-.187.175-.375.375-.163.725.212.35.95 1.563 2.05 2.538 1.412 1.25 2.6 1.637 2.95 1.812.35.175.55.15.75-.087.2-.237.863-.988 1.1-1.338.225-.35.463-.287.775-.175.313.113 2 .938 2.338 1.112.337.175.562.263.637.413.075.15.075.862-.225 1.7z"/>
+  </svg>
+</a>
+
+<!-- ─── Lightbox ─── -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Detalles del proyecto">
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Proyecto anterior">&#8592;</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Proyecto siguiente">&#8594;</button>
+  <div class="lightbox-inner" id="lightboxInner">
+    <button class="lb-close" id="lbClose" aria-label="Cerrar">&#x2715;</button>
+    <div class="lb-thumb">
+      <div class="lb-thumb-bg" id="lbThumbBg"></div>
+      <div class="lb-thumb-turbine">
+        <svg viewBox="-52 -52 104 104" fill="none">
+          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
+          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
+          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
+          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
+          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
+          <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
+        </svg>
+      </div>
+    </div>
+    <div class="lb-body">
+      <p class="lb-cat" id="lbCat"></p>
+      <h2 class="lb-title" id="lbTitle"></h2>
+      <p class="lb-location" id="lbLocation"></p>
+      <p class="lb-desc" id="lbDesc"></p>
+      <div class="lb-specs-grid" id="lbSpecs"></div>
+      <a href="aircleaner-solicitar.html" class="lb-cta">
+        Solicitar servicio similar
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ─── Project Data ───
+  var projects = [
+    {
+      cat: 'climatizacion', catLabel: 'Climatización',
+      title: 'Centro Comercial Buenavista',
+      location: 'Barranquilla · 2024',
+      gradient: 'linear-gradient(135deg,#014778,#0493D9)',
+      desc: 'Implementación de sistema VRF (Variable Refrigerant Flow) central con control de zona independiente para cada área comercial. El sistema permitió un ahorro energético del 28% respecto al sistema anterior, con monitoreo remoto y gestión centralizada de temperatura.',
+      specs: [
+        { label: 'Área climatizada', value: '2,400 m²' },
+        { label: 'Sistema', value: 'VRF Central' },
+        { label: 'Ahorro energético', value: '28%' },
+        { label: 'Año', value: '2024' }
+      ]
+    },
+    {
+      cat: 'climatizacion', catLabel: 'Climatización',
+      title: 'Edificio Torre Empresarial Bavaria',
+      location: 'Barranquilla · 2023',
+      gradient: 'linear-gradient(135deg,#014778,#0493D9)',
+      desc: 'Instalación de chiller de agua enfriada de 200 TR con distribución por fan-coils para 18 pisos de oficinas corporativas. El proyecto cumplió con los requisitos de la certificación LEED Silver, incluyendo control de calidad del aire y eficiencia energética.',
+      specs: [
+        { label: 'Capacidad', value: '200 TR' },
+        { label: 'Pisos', value: '18 pisos' },
+        { label: 'Certificación', value: 'LEED Silver' },
+        { label: 'Año', value: '2023' }
+      ]
+    },
+    {
+      cat: 'climatizacion', catLabel: 'Climatización',
+      title: 'Hospital Universitario del Caribe',
+      location: 'Cartagena · 2024',
+      gradient: 'linear-gradient(135deg,#014778,#0493D9)',
+      desc: 'Sistema HVAC de alta precisión para quirófanos con presurización diferencial, filtración HEPA y control de caudal certificado bajo norma ISO 14644. Garantiza ambientes estériles y confort para el personal médico en cirugías de larga duración.',
+      specs: [
+        { label: 'Aplicación', value: 'Quirófanos' },
+        { label: 'Norma', value: 'ISO 14644' },
+        { label: 'Filtración', value: 'HEPA H14' },
+        { label: 'Año', value: '2024' }
+      ]
+    },
+    {
+      cat: 'refrigeracion', catLabel: 'Refrigeración',
+      title: 'Planta Procesadora Alimentos Santa Marta',
+      location: 'Santa Marta · 2023',
+      gradient: 'linear-gradient(135deg,#01092D,#014778)',
+      desc: 'Diseño e instalación de cuartos fríos de congelación profunda a -18°C para almacenamiento de productos cárnicos y pesqueros. Sistema completo bajo norma HACCP con registro continuo de temperatura y alarmas de desviación.',
+      specs: [
+        { label: 'Temperatura', value: '-18°C' },
+        { label: 'Volumen', value: '800 m³' },
+        { label: 'Norma', value: 'HACCP' },
+        { label: 'Año', value: '2023' }
+      ]
+    },
+    {
+      cat: 'refrigeracion', catLabel: 'Refrigeración',
+      title: 'Zona Franca La Cayena · Almacenamiento frío',
+      location: 'Barranquilla · 2022',
+      gradient: 'linear-gradient(135deg,#01092D,#014778)',
+      desc: 'Sistema de refrigeración de media temperatura para almacenamiento de productos de exportación e importación. Monitoreo 24/7 con SCADA y generación automática de reportes de temperatura para trazabilidad de cadena de frío.',
+      specs: [
+        { label: 'Área', value: '1,200 m²' },
+        { label: 'Rango temp.', value: '0°C a +4°C' },
+        { label: 'Monitoreo', value: '24/7 SCADA' },
+        { label: 'Año', value: '2022' }
+      ]
+    },
+    {
+      cat: 'refrigeracion', catLabel: 'Refrigeración',
+      title: 'Supermercado La Colina Norte',
+      location: 'Barranquilla · 2023',
+      gradient: 'linear-gradient(135deg,#01092D,#014778)',
+      desc: 'Instalación completa de islas de frío para exhibición de alimentos y cámaras walk-in para almacenamiento en supermercado de gran formato. Sistema de refrigeración comercial optimizado para bajo consumo eléctrico.',
+      specs: [
+        { label: 'Capacidad', value: '45 TR' },
+        { label: 'Tipo', value: 'Islas + walk-in' },
+        { label: 'Eficiencia', value: 'Alta eficiencia' },
+        { label: 'Año', value: '2023' }
+      ]
+    },
+    {
+      cat: 'bombeo', catLabel: 'Bombeo',
+      title: 'Aeropuerto Ernesto Cortissoz',
+      location: 'Barranquilla · 2022',
+      gradient: 'linear-gradient(135deg,#0493D9,#39DBC4 80%)',
+      desc: 'Red de bombeo presurizado dual para sistema contra incendios y red de agua potable en instalaciones aeroportuarias. Presión constante de 120 PSI con respaldo de generador y pruebas de certificación NFPA.',
+      specs: [
+        { label: 'Presión', value: '120 PSI' },
+        { label: 'Aplicación', value: 'Dual (CI + AP)' },
+        { label: 'Respaldo', value: 'Generador' },
+        { label: 'Año', value: '2022' }
+      ]
+    },
+    {
+      cat: 'bombeo', catLabel: 'Bombeo',
+      title: 'Conjunto Residencial El Prado',
+      location: 'Barranquilla · 2023',
+      gradient: 'linear-gradient(135deg,#0493D9,#39DBC4 80%)',
+      desc: 'Sistema de bombeo con variadores de frecuencia (VFD) para presión constante en conjunto residencial de 8 torres. Eliminación total del golpe de ariete y reducción del 35% en consumo energético de bombeo.',
+      specs: [
+        { label: 'Torres', value: '8 torres' },
+        { label: 'Tecnología', value: 'VFD' },
+        { label: 'Golpe ariete', value: '0 eventos' },
+        { label: 'Año', value: '2023' }
+      ]
+    },
+    {
+      cat: 'bombeo', catLabel: 'Bombeo',
+      title: 'Planta Industrial Refinería · Bombeo de proceso',
+      location: 'Cartagena · 2024',
+      gradient: 'linear-gradient(135deg,#0493D9,#39DBC4 80%)',
+      desc: 'Suministro e instalación de bombas centrífugas de alta capacidad con variadores Allen-Bradley para proceso industrial en refinería. Sistema con redundancia N+1 y monitoreo en tiempo real de condición mecánica.',
+      specs: [
+        { label: 'Caudal', value: '500 L/s' },
+        { label: 'Variadores', value: 'Allen-Bradley' },
+        { label: 'Redundancia', value: 'N+1' },
+        { label: 'Año', value: '2024' }
+      ]
+    },
+    {
+      cat: 'incendios', catLabel: 'Incendios',
+      title: 'Centro Logístico Maersk',
+      location: 'Barranquilla · 2024',
+      gradient: 'linear-gradient(135deg,#014778,#01092D)',
+      desc: 'Diseño, suministro e instalación de red húmeda contra incendios bajo norma NFPA 13 para bodega logística de gran formato. 380 sprinklers de respuesta rápida, sistema de alarma y certificación completa por Cuerpo de Bomberos de Barranquilla.',
+      specs: [
+        { label: 'Norma', value: 'NFPA 13' },
+        { label: 'Sprinklers', value: '380 unidades' },
+        { label: 'Tipo', value: 'Red húmeda' },
+        { label: 'Año', value: '2024' }
+      ]
+    },
+    {
+      cat: 'incendios', catLabel: 'Incendios',
+      title: 'Clínica General del Norte',
+      location: 'Barranquilla · 2023',
+      gradient: 'linear-gradient(135deg,#014778,#01092D)',
+      desc: 'Sistema integrado de detección y supresión de incendios para instalación hospitalaria bajo norma NFPA 72. Zonas de alarma diferenciadas por área clínica, panel inteligente con evacuación por fases y supresión limpia en áreas críticas.',
+      specs: [
+        { label: 'Norma', value: 'NFPA 72' },
+        { label: 'Tipo', value: 'Detección + supresión' },
+        { label: 'Áreas', value: 'Hospitalarias' },
+        { label: 'Año', value: '2023' }
+      ]
+    },
+    {
+      cat: 'incendios', catLabel: 'Incendios',
+      title: 'Centro Comercial Caribe Plaza',
+      location: 'Barranquilla · 2022',
+      gradient: 'linear-gradient(135deg,#014778,#01092D)',
+      desc: 'Red mixta de incendios (seca y húmeda) para centro comercial de múltiples pisos con 650 sprinklers. Prueba hidrostática a 200 PSI, certificación completa y mantenimiento preventivo incluido por 24 meses.',
+      specs: [
+        { label: 'Sprinklers', value: '650 unidades' },
+        { label: 'Prueba', value: '200 PSI' },
+        { label: 'Tipo', value: 'Red mixta' },
+        { label: 'Año', value: '2022' }
+      ]
+    }
+  ];
+
+  // ─── State ───
+  var currentFilter = 'todos';
+  var currentLbIndex = -1;
+  var filteredIndices = [];
+
+  // ─── Nav scroll ───
+  var nav = document.getElementById('nav');
+  function updateNav() {
+    if (window.scrollY > 10) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  // ─── Mobile menu ───
+  var hamburger = document.getElementById('hamburger');
+  var mobileOverlay = document.getElementById('mobileOverlay');
+  var closeOverlay = document.getElementById('closeOverlay');
+  hamburger.addEventListener('click', function() {
+    mobileOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  closeOverlay.addEventListener('click', function() {
+    mobileOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+
+  // ─── Filter pills ───
+  var pills = document.querySelectorAll('.pill');
+  var cards = document.querySelectorAll('.project-card');
+
+  function getFilteredIndices() {
+    var result = [];
+    cards.forEach(function(card, i) {
+      if (currentFilter === 'todos' || card.dataset.cat === currentFilter) {
+        result.push(i);
+      }
+    });
+    return result;
+  }
+
+  function applyFilter() {
+    filteredIndices = getFilteredIndices();
+    cards.forEach(function(card) {
+      var cat = card.dataset.cat;
+      if (currentFilter === 'todos' || cat === currentFilter) {
+        card.style.display = '';
+        card.removeAttribute('data-hidden');
+      } else {
+        card.style.display = 'none';
+        card.setAttribute('data-hidden', 'true');
+      }
+    });
+  }
+
+  pills.forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      pills.forEach(function(p) { p.classList.remove('active'); });
+      pill.classList.add('active');
+      currentFilter = pill.dataset.filter;
+      applyFilter();
+    });
+  });
+
+  applyFilter();
+
+  // ─── Lightbox ───
+  var lightbox = document.getElementById('lightbox');
+  var lbThumbBg = document.getElementById('lbThumbBg');
+  var lbCat = document.getElementById('lbCat');
+  var lbTitle = document.getElementById('lbTitle');
+  var lbLocation = document.getElementById('lbLocation');
+  var lbDesc = document.getElementById('lbDesc');
+  var lbSpecs = document.getElementById('lbSpecs');
+  var lbClose = document.getElementById('lbClose');
+  var lbPrev = document.getElementById('lbPrev');
+  var lbNext = document.getElementById('lbNext');
+
+  function openLightbox(cardIndex) {
+    filteredIndices = getFilteredIndices();
+    var posInFiltered = filteredIndices.indexOf(cardIndex);
+    if (posInFiltered === -1) posInFiltered = 0;
+    currentLbIndex = posInFiltered;
+    renderLightbox();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    lbClose.focus();
+  }
+
+  function renderLightbox() {
+    var globalIndex = filteredIndices[currentLbIndex];
+    var p = projects[globalIndex];
+    if (!p) return;
+
+    lbThumbBg.style.background = p.gradient;
+    lbCat.textContent = p.catLabel;
+    lbTitle.textContent = p.title;
+    lbLocation.textContent = p.location;
+    lbDesc.textContent = p.desc;
+
+    lbSpecs.innerHTML = '';
+    p.specs.forEach(function(s) {
+      var div = document.createElement('div');
+      div.className = 'lb-spec';
+      div.innerHTML = '<div class="lb-spec-label">' + s.label + '</div><div class="lb-spec-value">' + s.value + '</div>';
+      lbSpecs.appendChild(div);
+    });
+
+    lbPrev.style.visibility = currentLbIndex > 0 ? 'visible' : 'hidden';
+    lbNext.style.visibility = currentLbIndex < filteredIndices.length - 1 ? 'visible' : 'hidden';
+
+    var inner = document.getElementById('lightboxInner');
+    inner.scrollTop = 0;
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    currentLbIndex = -1;
+  }
+
+  cards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      var idx = parseInt(card.dataset.index, 10);
+      openLightbox(idx);
+    });
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        var idx = parseInt(card.dataset.index, 10);
+        openLightbox(idx);
+      }
+    });
+  });
+
+  lbClose.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  lbPrev.addEventListener('click', function() {
+    if (currentLbIndex > 0) {
+      currentLbIndex--;
+      renderLightbox();
+    }
+  });
+
+  lbNext.addEventListener('click', function() {
+    if (currentLbIndex < filteredIndices.length - 1) {
+      currentLbIndex++;
+      renderLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft' && currentLbIndex > 0) { currentLbIndex--; renderLightbox(); }
+    if (e.key === 'ArrowRight' && currentLbIndex < filteredIndices.length - 1) { currentLbIndex++; renderLightbox(); }
+  });
+
+  // ─── Scroll reveal ───
+  var revealEls = document.querySelectorAll('.reveal');
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(function(el) { revealObserver.observe(el); });
+
+})();
+</script>
+</body>
+</html>

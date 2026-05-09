@@ -1,0 +1,829 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AirCleaner · UX/UI Spec · 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0493D9;--dblue:#014778;--navy:#01092D;--teal:#39DBC4;--wh:#FFFFFF;
+--g50:#F4F6F9;--g100:#E8EEF4;--g300:#B8C8D8;--g500:#6B7E8F;
+--fd:'Cal Sans','DM Sans',system-ui,sans-serif;--fb:'Outfit',system-ui,sans-serif;--fm:ui-monospace,'JetBrains Mono',monospace;
+--rsm:4px;--rmd:8px;--rlg:16px;
+--sh1:0 1px 3px rgba(1,9,45,.08);--sh2:0 4px 16px rgba(1,9,45,.12);--sh3:0 8px 32px rgba(1,9,45,.18);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--fb);background:#ECF0F5;color:var(--navy);}
+.sh{position:sticky;top:0;z-index:100;background:var(--navy);display:flex;align-items:center;gap:16px;padding:10px 24px;}
+.sh-brand{font-size:14px;font-weight:700;color:var(--blue);}
+.sh-sub{font-size:12px;color:rgba(255,255,255,.4);margin-right:auto;}
+.tnav{display:flex;gap:4px;}
+.tbtn{border:none;background:transparent;color:rgba(255,255,255,.45);font:600 12px var(--fb);padding:6px 14px;border-radius:var(--rsm);cursor:pointer;transition:.15s;}
+.tbtn:hover{background:rgba(255,255,255,.1);color:#fff;}
+.tbtn.on{background:var(--blue);color:#fff;}
+.tp{display:none;}.tp.on{display:block;}
+.w{max-width:1160px;margin:0 auto;padding:48px 24px;}
+.stitle{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--g500);margin-bottom:28px;font-family:var(--fm);}
+.card{background:#fff;border-radius:var(--rlg);padding:28px;box-shadow:var(--sh1);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;}
+.ch{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g500);margin-bottom:16px;}
+.sw-row{display:flex;flex-direction:column;gap:10px;}
+.sw{display:flex;align-items:center;gap:12px;}
+.sw-b{width:44px;height:44px;border-radius:var(--rsm);border:1px solid rgba(0,0,0,.06);flex-shrink:0;}
+.sw-n{font-size:13px;font-weight:600;}
+.sw-x{font-size:12px;color:var(--g500);font-family:var(--fm);}
+.sw-r{font-size:11px;color:var(--g500);}
+.tr{padding:10px 0;border-bottom:1px solid var(--g100);}
+.tr:last-child{border-bottom:none;}
+.tm{font-size:11px;color:var(--g500);font-family:var(--fm);margin-bottom:4px;}
+.t-h1{font-size:52px;font-weight:700;line-height:1.05;letter-spacing:-.02em;font-family:var(--fd);}
+.t-h2{font-size:38px;font-weight:700;line-height:1.1;letter-spacing:-.015em;font-family:var(--fd);}
+.t-h3{font-size:26px;font-weight:700;line-height:1.2;font-family:var(--fd);}
+.t-h4{font-size:20px;font-weight:600;line-height:1.3;font-family:var(--fd);}
+.t-bl{font-size:18px;font-weight:300;line-height:1.65;}
+.t-b{font-size:16px;font-weight:300;line-height:1.6;}
+.t-sm{font-size:14px;line-height:1.5;}
+.t-cap{font-size:12px;color:var(--g500);}
+.t-ey{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-family:var(--fm);}
+.brow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+.bl{font-size:11px;color:var(--g500);margin-top:2px;}
+.btn{display:inline-flex;align-items:center;border-radius:var(--rsm);font:600 14px/1 var(--fb);padding:11px 22px;cursor:pointer;border:2px solid transparent;transition:.15s;}
+.bp{background:var(--blue);color:#fff;border-color:var(--blue);}
+.bp:hover{background:#037ec0;border-color:#037ec0;}
+.bs{background:var(--navy);color:#fff;border-color:var(--navy);}
+.bg{background:transparent;color:var(--navy);border-color:var(--navy);}
+.bgl{background:transparent;color:#fff;border-color:rgba(255,255,255,.5);}
+.bgl:hover{border-color:#fff;}
+.bd{opacity:.35;pointer-events:none;}
+.fi{display:flex;flex-direction:column;gap:6px;}
+.fl{font-size:13px;font-weight:600;}
+.fi input,.fi textarea,.fi select{width:100%;padding:10px 14px;border:1.5px solid var(--g300);border-radius:var(--rmd);font:14px var(--fb);color:var(--navy);background:#fff;outline:none;transition:.15s;}
+.fi.foc input{border-color:var(--blue);box-shadow:0 0 0 3px rgba(4,147,217,.14);}
+.fi.err input{border-color:#E53E3E;}
+.fi.ok input{border-color:#38A169;}
+.fi .fm{font-size:12px;color:var(--g500);}
+.fi.err .fm{color:#E53E3E;}
+.fi.ok .fm{color:#38A169;}
+.sc{border:1px solid var(--g100);border-radius:var(--rmd);padding:24px;transition:.2s;}
+.sc:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
+.sc .tl{width:28px;height:2px;background:var(--teal);margin-bottom:12px;}
+.sc h4{font-size:16px;font-weight:700;font-family:var(--fd);margin-bottom:8px;}
+.sc p{font-size:13px;font-weight:300;color:var(--g500);line-height:1.5;}
+.gc{background:var(--navy);border-radius:var(--rmd);overflow:hidden;}
+.gct{height:140px;display:flex;align-items:flex-end;padding:12px;position:relative;}
+.gct::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(1,9,45,.85),transparent 60%);}
+.gc-cat{position:absolute;top:10px;left:10px;z-index:2;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);background:rgba(1,9,45,.6);padding:3px 7px;border-radius:2px;}
+.gcm{padding:14px;}
+.gcm strong{font-size:13px;font-weight:600;color:#fff;display:block;}
+.gcm span{font-size:11px;color:rgba(255,255,255,.45);}
+.sp-rows{display:flex;flex-direction:column;gap:8px;}
+.spr{display:flex;align-items:center;gap:12px;}
+.spb{height:18px;background:rgba(4,147,217,.6);border-radius:2px;}
+.spl{font-size:11px;font-family:var(--fm);color:var(--g500);white-space:nowrap;}
+.flow{display:flex;flex-direction:column;align-items:center;}
+.fa{width:2px;height:24px;background:var(--g300);margin:0 auto;}
+.fn{background:var(--navy);color:#fff;border-radius:var(--rmd);padding:11px 20px;font:600 13px var(--fb);text-align:center;min-width:180px;}
+.fn small{display:block;font-size:10px;font-weight:300;opacity:.6;margin-top:3px;}
+.fn.bl2{background:var(--blue);}
+.fn.te{background:var(--teal);color:var(--navy);}
+.fn.db{background:var(--dblue);}
+.fn.li{background:var(--g50);color:var(--navy);border:1.5px solid var(--g100);}
+.fbr{display:flex;gap:40px;align-items:flex-start;}
+.fbi{display:flex;flex-direction:column;align-items:center;}
+.fla{font-size:11px;color:var(--g500);margin:4px 0;}
+.ht{width:100%;border-collapse:collapse;}
+.ht th{background:var(--navy);color:#fff;padding:10px 14px;font-size:12px;text-align:left;}
+.ht td{padding:10px 14px;font-size:13px;border-bottom:1px solid var(--g100);vertical-align:top;}
+.ht tr:nth-child(even) td{background:var(--g50);}
+.bdg{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.bdg-p{background:rgba(4,147,217,.12);color:var(--blue);}
+.bdg-s{background:rgba(1,71,120,.1);color:var(--dblue);}
+.wtog{display:flex;gap:8px;margin-bottom:32px;}
+.wbtn{padding:7px 18px;border:1.5px solid var(--g300);background:#fff;border-radius:var(--rsm);font:600 12px var(--fb);cursor:pointer;color:var(--navy);transition:.15s;}
+.wbtn.on{border-color:var(--blue);background:var(--blue);color:#fff;}
+.wfrm{display:none;}.wfrm.on{display:block;}
+.wf-wrap{background:#fff;border-radius:var(--rlg);overflow:hidden;box-shadow:var(--sh2);}
+.wf-bar{background:var(--g100);padding:10px 16px;display:flex;align-items:center;gap:6px;}
+.wf-dot{width:11px;height:11px;border-radius:50%;}
+.wf-url{background:#fff;border-radius:3px;flex:1;height:22px;margin-left:8px;font-size:11px;color:var(--g500);display:flex;align-items:center;padding:0 10px;max-width:380px;}
+.ws{border-bottom:2px dashed var(--g300);position:relative;}
+.ws:last-child{border-bottom:none;}
+.wbox{background:rgba(4,147,217,.08);border:1.5px dashed rgba(4,147,217,.35);border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;}
+.wbox.dk{background:rgba(1,9,45,.06);border-color:rgba(1,9,45,.15);}
+.wbox.te{background:rgba(57,219,196,.1);border-color:rgba(57,219,196,.35);}
+.wlb{font-size:10px;font-weight:600;color:rgba(1,9,45,.35);text-align:center;padding:6px;}
+.ann{position:absolute;right:12px;top:20px;font-size:10px;color:var(--dblue);background:rgba(4,147,217,.07);border-left:2px solid var(--blue);padding:4px 8px;border-radius:0 3px 3px 0;max-width:200px;line-height:1.4;}
+.mtnav{display:flex;gap:8px;margin-bottom:32px;flex-wrap:wrap;}
+.mtbtn{padding:7px 18px;border:1.5px solid var(--g300);background:#fff;border-radius:var(--rsm);font:600 12px var(--fb);cursor:pointer;color:var(--navy);transition:.15s;}
+.mtbtn.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+.mp{display:none;}.mp.on{display:block;}
+.mframe{border-radius:var(--rlg);overflow:hidden;box-shadow:var(--sh3);}
+.mh{background:var(--navy);position:relative;overflow:hidden;}
+.mnav{display:flex;align-items:center;padding:18px 56px;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(1,9,45,.92);position:relative;z-index:2;}
+.mlogo{display:flex;align-items:center;gap:10px;}
+.mlogo-t{font:700 19px var(--fd);}
+.mlogo-t .ai{color:var(--blue);}
+.mlogo-t .cl{color:#fff;}
+.mlinks{display:flex;gap:28px;margin-left:auto;}
+.mlink{color:rgba(255,255,255,.6);font-size:13px;text-decoration:none;transition:.15s;}
+.mlink:hover{color:#fff;}
+.mcta{margin-left:24px;}
+.mhero-c{display:flex;flex-direction:column;justify-content:center;padding:72px 56px 56px;position:relative;z-index:2;}
+.mey{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-family:var(--fm);margin-bottom:22px;}
+.mh1{font-size:62px;font-weight:700;line-height:1.04;letter-spacing:-.02em;color:#fff;font-family:var(--fd);max-width:660px;margin-bottom:10px;}
+.mline{width:72px;height:3px;background:var(--blue);margin-bottom:26px;}
+.msub{font-size:17px;font-weight:300;color:rgba(255,255,255,.6);max-width:500px;line-height:1.65;margin-bottom:36px;}
+.mctas{display:flex;gap:14px;margin-bottom:52px;}
+.mbar{display:flex;gap:36px;padding-top:28px;border-top:1px solid rgba(255,255,255,.1);}
+.mst{display:flex;flex-direction:column;gap:3px;}
+.mstv{font-size:28px;font-weight:700;color:#fff;font-family:var(--fd);line-height:1;}
+.mstl{font-size:11px;font-weight:300;color:rgba(255,255,255,.45);}
+.mhbg{position:absolute;right:-60px;bottom:-60px;width:520px;height:520px;opacity:.035;}
+.msrv{background:#fff;padding:72px 56px;}
+.mse{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-family:var(--fm);margin-bottom:10px;}
+.msh2{font-size:40px;font-weight:700;letter-spacing:-.015em;color:var(--navy);font-family:var(--fd);margin-bottom:4px;display:inline-block;position:relative;}
+.msh2::after{content:'';position:absolute;left:0;bottom:-5px;width:42px;height:2px;background:var(--teal);}
+.msp{font-size:16px;font-weight:300;color:var(--g500);max-width:540px;line-height:1.65;margin:26px 0 44px;}
+.mscards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.mscard{border:1px solid var(--g100);border-radius:var(--rmd);padding:24px;transition:.2s;}
+.mscard:hover{box-shadow:var(--sh2);transform:translateY(-3px);}
+.mscard .tl{width:26px;height:2px;background:var(--teal);margin-bottom:12px;}
+.mscard h3{font-size:15px;font-weight:700;font-family:var(--fd);margin-bottom:8px;color:var(--navy);}
+.mscard p{font-size:13px;font-weight:300;color:var(--g500);line-height:1.5;margin-bottom:16px;}
+.mscard a{font-size:12px;font-weight:600;color:var(--blue);text-decoration:none;}
+.mgal{background:var(--navy);padding:72px 56px;}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px;}
+.mgcard{border-radius:var(--rmd);overflow:hidden;cursor:pointer;position:relative;}
+.mgthumb{height:190px;display:flex;align-items:flex-end;padding:14px;position:relative;}
+.mgthumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(1,9,45,.82),transparent 55%);}
+.mgcat{position:absolute;top:10px;left:10px;z-index:2;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);background:rgba(1,9,45,.65);padding:3px 7px;border-radius:2px;}
+.mgmeta{position:relative;z-index:2;}
+.mgtitle{font-size:13px;font-weight:600;color:#fff;}
+.mgsub{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;}
+.mgov{position:absolute;inset:0;background:rgba(4,147,217,.9);display:flex;align-items:center;justify-content:center;opacity:0;transition:.2s;border-radius:var(--rmd);}
+.mgcard:hover .mgov{opacity:1;}
+.mgov span{color:#fff;font-size:13px;font-weight:600;}
+.mfm{background:var(--g50);padding:72px 56px;}
+.mfw{display:grid;grid-template-columns:1fr 1.3fr;gap:72px;align-items:start;}
+.mfcard{background:#fff;border-radius:var(--rlg);padding:36px;box-shadow:var(--sh2);}
+.mfgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.mfl{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:5px;display:block;}
+.mfl span{color:var(--blue);margin-left:2px;}
+.mfinput{width:100%;padding:10px 13px;border:1.5px solid var(--g300);border-radius:var(--rmd);font:14px var(--fb);color:var(--navy);background:#fff;outline:none;transition:.15s;}
+.mfinput:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(4,147,217,.12);}
+.mfsub{width:100%;padding:13px;background:var(--blue);color:#fff;border:none;border-radius:var(--rsm);font:700 14px var(--fb);cursor:pointer;margin-top:6px;transition:.15s;}
+.mfsub:hover{background:#037ec0;}
+.mfull{grid-column:1/-1;}
+.mct{background:var(--dblue);padding:72px 56px 0;}
+.mctg{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:56px;padding-bottom:52px;border-bottom:1px solid rgba(255,255,255,.1);}
+.mctb h3{font-size:24px;font-weight:700;color:#fff;font-family:var(--fd);margin-bottom:14px;}
+.mctb p{font-size:13px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.65;max-width:260px;}
+.mctcol h4{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+.mctcol p,.mctcol a{font-size:13px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.8;text-decoration:none;display:block;}
+.mctcol a:hover{color:#fff;}
+.mfbar{display:flex;justify-content:space-between;align-items:center;padding:20px 0;}
+.mfcopy{font-size:11px;color:rgba(255,255,255,.3);}
+.cp-card{background:#fff;border-radius:var(--rlg);padding:28px;box-shadow:var(--sh1);margin-bottom:24px;}
+.cp-card h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--g100);}
+.cprow{display:grid;grid-template-columns:130px 1fr;gap:14px;padding:9px 0;border-bottom:1px solid var(--g100);align-items:start;}
+.cprow:last-child{border-bottom:none;}
+.cprole{font-size:10px;font-weight:700;color:var(--g500);text-transform:uppercase;letter-spacing:.06em;padding-top:2px;font-family:var(--fm);}
+.cptxt{font-size:13px;color:var(--navy);line-height:1.5;}
+.a11y-t{width:100%;border-collapse:collapse;}
+.a11y-t th{background:var(--navy);color:#fff;padding:9px 14px;font-size:11px;text-align:left;}
+.a11y-t td{padding:9px 14px;border-bottom:1px solid var(--g100);font-size:12px;}
+.a11y-t tr:nth-child(even) td{background:var(--g50);}
+.pass{color:#38A169;font-weight:700;}
+.warn{color:#D97706;font-weight:700;}
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px;}
+.iitem{background:var(--g50);border-radius:var(--rmd);padding:14px;}
+.iitem h4{font-size:11px;font-weight:700;color:var(--navy);margin-bottom:7px;}
+.iitem p{font-size:11px;color:var(--g500);line-height:1.5;}
+.iitem code{font-family:var(--fm);font-size:10px;background:#fff;padding:1px 5px;border-radius:2px;color:var(--blue);}
+</style>
+</head>
+<body>
+
+<header class="sh">
+  <span class="sh-brand">AirCleaner</span>
+  <span class="sh-sub">UX/UI Spec · Mayo 2026</span>
+  <nav class="tnav">
+    <button class="tbtn on" onclick="tab(this,'ds')">Sistema de Diseño</button>
+    <button class="tbtn" onclick="tab(this,'ar')">Arquitectura</button>
+    <button class="tbtn" onclick="tab(this,'wf')">Wireframes</button>
+    <button class="tbtn" onclick="tab(this,'mk')">Mockups</button>
+    <button class="tbtn" onclick="tab(this,'cp')">Copy &amp; A11y</button>
+  </nav>
+</header>
+
+<!-- DESIGN SYSTEM -->
+<div id="ds" class="tp on"><div class="w">
+<p class="stitle">Sistema de Diseño · AirCleaner B2B</p>
+<div class="grid2" style="margin-bottom:24px">
+  <div class="card">
+    <div class="ch">Paleta de color</div>
+    <div class="sw-row">
+      <div class="sw"><div class="sw-b" style="background:#0493D9"></div><div><div class="sw-n">Azul corporativo</div><div class="sw-x">#0493D9</div><div class="sw-r">CTAs · iconografía · "Air" del wordmark · énfasis</div></div></div>
+      <div class="sw"><div class="sw-b" style="background:#014778"></div><div><div class="sw-n">Azul oscuro</div><div class="sw-x">#014778</div><div class="sw-r">Texto secundario sobre claro · "Cleaner" wordmark · footer bg</div></div></div>
+      <div class="sw"><div class="sw-b" style="background:#01092D"></div><div><div class="sw-n">Navy profundo</div><div class="sw-x">#01092D</div><div class="sw-r">Hero bg · secciones de impacto · texto principal</div></div></div>
+      <div class="sw"><div class="sw-b" style="background:#39DBC4;border-color:rgba(0,0,0,.1)"></div><div><div class="sw-n">Turquesa / mint</div><div class="sw-x">#39DBC4</div><div class="sw-r">Microacentos · líneas bajo H2 · eyebrow labels · hover states</div></div></div>
+      <div class="sw"><div class="sw-b" style="background:#fff"></div><div><div class="sw-n">Blanco</div><div class="sw-x">#FFFFFF</div><div class="sw-r">Fondos de secciones claras · texto sobre fondos oscuros</div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Reglas de proporción</div>
+    <p style="font-size:13px;line-height:1.65;color:var(--g500);margin-bottom:16px">Navy + Blanco ocupan <strong style="color:var(--navy)">~85%</strong> de la superficie. Azul en CTAs e iconografía. Turquesa <em>solo</em> en microdetalles — nunca como fondo extenso.</p>
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <tr style="background:var(--g50)"><th style="padding:7px 10px;text-align:left;font-weight:600;color:var(--navy)">Sección</th><th style="padding:7px 10px;text-align:left;font-weight:600;color:var(--navy)">Fondo</th><th style="padding:7px 10px;text-align:left;font-weight:600;color:var(--navy)">Acento</th></tr>
+      <tr><td style="padding:6px 10px;border-top:1px solid var(--g100)">Navbar</td><td style="padding:6px 10px;border-top:1px solid var(--g100)">Blanco → transparente scroll</td><td style="padding:6px 10px;border-top:1px solid var(--g100)">Azul logo + ítem activo</td></tr>
+      <tr style="background:var(--g50)"><td style="padding:6px 10px">Hero</td><td style="padding:6px 10px">#01092D navy</td><td style="padding:6px 10px">Turquesa eyebrow · azul CTA/línea</td></tr>
+      <tr><td style="padding:6px 10px;border-top:1px solid var(--g100)">Servicios</td><td style="padding:6px 10px;border-top:1px solid var(--g100)">#FFFFFF</td><td style="padding:6px 10px;border-top:1px solid var(--g100)">Azul iconografía · turquesa línea H2</td></tr>
+      <tr style="background:var(--g50)"><td style="padding:6px 10px">Galería</td><td style="padding:6px 10px">#01092D navy</td><td style="padding:6px 10px">Turquesa category labels</td></tr>
+      <tr><td style="padding:6px 10px;border-top:1px solid var(--g100)">Formulario</td><td style="padding:6px 10px;border-top:1px solid var(--g100)">#F4F6F9 gris frío</td><td style="padding:6px 10px;border-top:1px solid var(--g100)">Azul focus + submit CTA</td></tr>
+      <tr style="background:var(--g50)"><td style="padding:6px 10px">Contacto/Footer</td><td style="padding:6px 10px">#014778 azul oscuro</td><td style="padding:6px 10px">Turquesa col headings</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:24px">
+  <div class="ch">Escala tipográfica — Display: Cal Sans · Body: Outfit Light</div>
+  <div class="tr"><div class="tm">H1 · 62px · 700 · ls -0.02em · lh 1.04 — Cal Sans</div><div class="t-h1">Sus sistemas críticos</div></div>
+  <div class="tr"><div class="tm">H2 · 40px · 700 · ls -0.015em · lh 1.1 — Cal Sans</div><div class="t-h2">Servicios técnicos</div></div>
+  <div class="tr"><div class="tm">H3 · 26px · 700 · lh 1.2 — Cal Sans</div><div class="t-h3">Climatización industrial</div></div>
+  <div class="tr"><div class="tm">H4 · 20px · 600 · lh 1.3 — Cal Sans</div><div class="t-h4">Mantenimiento preventivo</div></div>
+  <div class="tr"><div class="tm">Body Large · 18px · 300 · lh 1.65 — Outfit</div><div class="t-bl" style="color:var(--g500)">Gestión preventiva de sistemas críticos para empresas industriales del Caribe colombiano.</div></div>
+  <div class="tr"><div class="tm">Body · 16px · 300 · lh 1.6 — Outfit</div><div class="t-b" style="color:var(--g500)">El mantenimiento preventivo reduce fallas y optimiza el consumo energético de los sistemas.</div></div>
+  <div class="tr"><div class="tm">Small · 14px · 400 · lh 1.5 — Outfit</div><div class="t-sm">Consulta técnica gratuita · Diagnóstico inicial sin costo</div></div>
+  <div class="tr"><div class="tm">Caption · 12px · 400 — Outfit</div><div class="t-cap">Barranquilla, Región Caribe · Colombia</div></div>
+  <div class="tr"><div class="tm">Eyebrow / Label · 11px · 700 · ls 0.1em · uppercase — monospace</div><div class="t-ey">Gestión técnica integral · Región Caribe</div></div>
+</div>
+
+<div class="grid2" style="margin-bottom:24px">
+  <div class="card">
+    <div class="ch">Sistema de espaciado — base 4px</div>
+    <div class="sp-rows">
+      <div class="spr"><div class="spb" style="width:4px"></div><span class="spl">4px — separadores internos</span></div>
+      <div class="spr"><div class="spb" style="width:8px"></div><span class="spl">8px — gap entre elementos inline</span></div>
+      <div class="spr"><div class="spb" style="width:16px"></div><span class="spl">16px — padding interno de cards</span></div>
+      <div class="spr"><div class="spb" style="width:24px"></div><span class="spl">24px — gap entre componentes</span></div>
+      <div class="spr"><div class="spb" style="width:32px"></div><span class="spl">32px — padding sección interna</span></div>
+      <div class="spr"><div class="spb" style="width:48px"></div><span class="spl">48px — padding sección mobile</span></div>
+      <div class="spr"><div class="spb" style="width:72px"></div><span class="spl">72px — padding sección desktop</span></div>
+    </div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--g100)">
+      <div class="ch">Radios · Sombras · Transiciones</div>
+      <div style="display:flex;gap:12px;margin-bottom:14px">
+        <div style="text-align:center"><div style="width:44px;height:44px;background:var(--g100);border-radius:4px;margin-bottom:4px"></div><span style="font-size:10px;color:var(--g500);font-family:var(--fm)">4px btn</span></div>
+        <div style="text-align:center"><div style="width:44px;height:44px;background:var(--g100);border-radius:8px;margin-bottom:4px"></div><span style="font-size:10px;color:var(--g500);font-family:var(--fm)">8px card</span></div>
+        <div style="text-align:center"><div style="width:44px;height:44px;background:var(--g100);border-radius:16px;margin-bottom:4px"></div><span style="font-size:10px;color:var(--g500);font-family:var(--fm)">16px modal</span></div>
+      </div>
+      <div style="font-size:11px;color:var(--g500);font-family:var(--fm);line-height:1.9">
+        Fast: <strong style="color:var(--navy)">150ms ease</strong> — hover, focus rings<br>
+        Std: <strong style="color:var(--navy)">250ms ease</strong> — card hover, overlay<br>
+        Slow: <strong style="color:var(--navy)">400ms ease-out</strong> — scroll-reveal, hero load
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Botones — todos los estados</div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;color:var(--g500);margin-bottom:8px;font-family:var(--fm)">PRIMARIO</div>
+      <div class="brow">
+        <span><button class="btn bp">Solicitar diagnóstico</button><div class="bl">default</div></span>
+        <span><button class="btn bp" style="background:#037ec0;border-color:#037ec0">Solicitar diagnóstico</button><div class="bl">hover</div></span>
+        <span><button class="btn bp bd">Solicitar diagnóstico</button><div class="bl">disabled</div></span>
+      </div>
+    </div>
+    <div style="margin-bottom:14px;padding-top:12px;border-top:1px solid var(--g100)">
+      <div style="font-size:11px;color:var(--g500);margin-bottom:8px;font-family:var(--fm)">SECUNDARIO / GHOST</div>
+      <div class="brow">
+        <button class="btn bs">Conocer servicios</button>
+        <button class="btn bg">Ver proyectos</button>
+        <div style="background:var(--navy);padding:8px;border-radius:var(--rsm);display:inline-block"><button class="btn bgl">Conocer servicios</button></div>
+      </div>
+    </div>
+    <div style="padding-top:12px;border-top:1px solid var(--g100)">
+      <div class="ch">Inputs — estados</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="fi"><label class="fl">Empresa</label><input placeholder="Nombre de la empresa"></div>
+        <div class="fi foc"><label class="fl">Email corporativo</label><input value="jgomez@empresa.com.co" style="border-color:var(--blue);box-shadow:0 0 0 3px rgba(4,147,217,.14)"></div>
+        <div class="fi err"><label class="fl">NIT</label><input value="abc123"><span class="fm">Formato inválido. Ej: 900.123.456-7</span></div>
+        <div class="fi ok"><label class="fl">Teléfono</label><input value="+57 300 123 4567"><span class="fm">Formato verificado</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid3">
+  <div class="card">
+    <div class="ch">Card de servicio</div>
+    <div class="sc">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="margin-bottom:14px"><circle cx="18" cy="18" r="14" stroke="#0493D9" stroke-width="1.5"/><path d="M18 8C18 8 24 12 24 18C24 24 18 28 18 28C18 28 12 24 12 18C12 12 18 8 18 8Z" stroke="#0493D9" stroke-width="1.5" fill="none"/><circle cx="18" cy="18" r="3" fill="#0493D9"/></svg>
+      <div class="tl"></div>
+      <h4>Climatización</h4>
+      <p>Diseño, instalación y mantenimiento de sistemas HVAC industriales con eficiencia certificada.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Card de galería</div>
+    <div class="gc">
+      <div class="gct" style="background:linear-gradient(135deg,#014778,#0493D9)">
+        <div class="gc-cat">Climatización</div>
+        <div class="gcm" style="position:relative;z-index:2"><strong>Centro Comercial Buenavista</strong><span>Barranquilla · 2024</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Iconografía — Lucide Icons</div>
+    <p style="font-size:12px;color:var(--g500);line-height:1.6;margin-bottom:14px">Stroke 1.5px · sin relleno · stroke-linecap: round · stroke-linejoin: round</p>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round"><path d="M12 2L12 6M12 18L12 22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12L6 12M18 12L22 12M4.93 19.07L7.76 16.24M16.24 7.76L19.07 4.93"/><circle cx="12" cy="12" r="4"/></svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round"><path d="M12 22V12M12 12C12 12 7 8 7 4a5 5 0 0 1 10 0c0 4-5 8-5 8Z"/></svg>
+    </div>
+    <p style="font-size:11px;color:var(--g500)">#0493D9 sobre claro · #39DBC4 o #FFF sobre oscuro</p>
+  </div>
+</div>
+</div></div>
+
+<!-- ARQUITECTURA -->
+<div id="ar" class="tp"><div class="w">
+<p class="stitle">Arquitectura de información · Flujo de usuario B2B</p>
+<div class="grid2" style="margin-bottom:28px">
+  <div class="card">
+    <div class="ch">Flujo principal — visitante B2B</div>
+    <div class="flow" style="padding:8px 0;gap:0">
+      <div class="fn">Aterrizaje en la landing<small>Google, referido, LinkedIn</small></div>
+      <div class="fa"></div>
+      <div class="fn li">Lee hero — valida relevancia<small>Titular + propuesta de valor</small></div>
+      <div class="fa"></div>
+      <div class="fn li">Explora Servicios<small>¿Resuelve mi problema?</small></div>
+      <div class="fa"></div>
+      <div class="fn li">Revisa Galería<small>¿Tienen experiencia real?</small></div>
+      <div class="fa"></div>
+      <div class="fn bl2">Punto de decisión</div>
+      <div class="fa"></div>
+      <div class="fbr">
+        <div class="fbi">
+          <div class="fla">Ruta A — urgente</div>
+          <div class="fn te">WhatsApp flotante<small>Contacto inmediato</small></div>
+        </div>
+        <div class="fbi">
+          <div class="fla">Ruta B — evaluación</div>
+          <div class="fn db">Formulario diagnóstico<small>Lead calificado formal</small></div>
+        </div>
+      </div>
+      <div class="fa" style="margin-top:0"></div>
+      <div class="fn bl2">Conversión · Lead calificado</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Jerarquía de información por sección</div>
+    <table class="ht">
+      <tr><th>Sección</th><th>1° Idea</th><th>CTA principal</th><th>P</th></tr>
+      <tr><td><strong>Hero</strong></td><td>Continuidad operativa garantizada</td><td>Solicitar diagnóstico técnico</td><td><span class="bdg bdg-p">P0</span></td></tr>
+      <tr><td><strong>Servicios</strong></td><td>4 pilares técnicos especializados</td><td>Ver detalles del servicio</td><td><span class="bdg bdg-p">P0</span></td></tr>
+      <tr><td><strong>Galería</strong></td><td>Prueba social — proyectos reales</td><td>Ver proyecto completo</td><td><span class="bdg bdg-s">P1</span></td></tr>
+      <tr><td><strong>Formulario</strong></td><td>Diagnóstico sin compromiso</td><td>Enviar solicitud</td><td><span class="bdg bdg-p">P0</span></td></tr>
+      <tr><td><strong>Contacto</strong></td><td>Múltiples canales de acceso</td><td>WhatsApp / Llamar</td><td><span class="bdg bdg-s">P1</span></td></tr>
+    </table>
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--g100)">
+      <div class="ch">Elementos persistentes</div>
+      <div style="font-size:13px;color:var(--g500);line-height:1.9">
+        <strong style="color:var(--navy)">Navbar sticky</strong> — Logo + anclas + CTA "Solicitar"<br>
+        <strong style="color:var(--navy)">WhatsApp flotante</strong> — Esquina inferior derecha, siempre visible<br>
+        <strong style="color:var(--navy)">Footer</strong> — Datos de contacto, legal, redes sociales
+      </div>
+    </div>
+  </div>
+</div>
+</div></div>
+
+<!-- WIREFRAMES -->
+<div id="wf" class="tp"><div class="w">
+<p class="stitle">Wireframes · Baja fidelidad anotados</p>
+<div class="wtog">
+  <button class="wbtn on" onclick="wftab(this,'wfd')">Desktop 1440px</button>
+  <button class="wbtn" onclick="wftab(this,'wfm')">Mobile 375px</button>
+</div>
+
+<div id="wfd" class="wfrm on">
+<div class="wf-wrap">
+  <div class="wf-bar"><div style="display:flex;gap:5px"><div class="wf-dot" style="background:#FF5F57"></div><div class="wf-dot" style="background:#FEBC2E"></div><div class="wf-dot" style="background:#28C840"></div></div><div class="wf-url">aircleaner.com.co</div></div>
+  <div class="ws" style="background:rgba(4,147,217,.03)">
+    <div style="height:60px;display:flex;align-items:center;padding:0 56px;gap:32px">
+      <div class="wbox" style="width:140px;height:36px"><div class="wlb">Logo horizontal</div></div>
+      <div style="display:flex;gap:24px;margin-left:auto">
+        <div class="wbox" style="width:72px;height:28px"><div class="wlb">Servicios</div></div>
+        <div class="wbox" style="width:62px;height:28px"><div class="wlb">Galería</div></div>
+        <div class="wbox" style="width:72px;height:28px"><div class="wlb">Contacto</div></div>
+        <div class="wbox te" style="width:130px;height:36px"><div class="wlb">CTA primario</div></div>
+      </div>
+    </div>
+    <div class="ann">Sticky · blanco → transparente sobre hero · activo: azul</div>
+  </div>
+  <div class="ws" style="background:rgba(1,9,45,.05)">
+    <div style="padding:56px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="wbox te" style="height:22px;width:240px"><div class="wlb">Eyebrow turquesa — label región</div></div>
+        <div class="wbox dk" style="height:88px"><div class="wlb">H1 — Titular principal 62px · 2 líneas</div></div>
+        <div class="wbox te" style="height:3px;width:72px"></div>
+        <div class="wbox" style="height:56px"><div class="wlb">Subtítulo propuesta de valor · 17px · 300</div></div>
+        <div style="display:flex;gap:12px">
+          <div class="wbox te" style="width:190px;height:44px"><div class="wlb">CTA primario azul</div></div>
+          <div class="wbox" style="width:160px;height:44px"><div class="wlb">CTA ghost blanco</div></div>
+        </div>
+        <div style="display:flex;gap:20px;padding-top:16px;border-top:1px dashed rgba(1,9,45,.15)">
+          <div class="wbox" style="width:90px;height:48px"><div class="wlb" style="font-size:9px">18+<br>años</div></div>
+          <div class="wbox" style="width:90px;height:48px"><div class="wlb" style="font-size:9px">+200<br>proyectos</div></div>
+          <div class="wbox" style="width:90px;height:48px"><div class="wlb" style="font-size:9px">4<br>servicios</div></div>
+          <div class="wbox" style="width:90px;height:48px"><div class="wlb" style="font-size:9px">100%<br>Caribe</div></div>
+        </div>
+      </div>
+      <div class="wbox dk" style="height:300px"><div class="wlb">Símbolo turbina decorativa<br>opacidad 4% · esquina inferior derecha</div></div>
+    </div>
+    <div class="ann">Fondo: #01092D · Patrón orgánico curvas al 3.5% op.</div>
+  </div>
+  <div class="ws" style="background:#fff">
+    <div style="padding:56px">
+      <div style="margin-bottom:28px">
+        <div class="wbox te" style="height:18px;width:160px;margin-bottom:10px"><div class="wlb">Eyebrow turquesa</div></div>
+        <div class="wbox dk" style="height:52px;max-width:420px;margin-bottom:10px"><div class="wlb">H2 — Gestión técnica integral · + línea teal</div></div>
+        <div class="wbox" style="height:36px;max-width:540px"><div class="wlb">Párrafo descriptivo — 16px · 300</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+        <div class="wbox" style="height:200px"><div class="wlb">Icono stroke + teal line + H3 + texto + link →</div></div>
+        <div class="wbox" style="height:200px"><div class="wlb">Icono stroke + teal line + H3 + texto + link →</div></div>
+        <div class="wbox" style="height:200px"><div class="wlb">Icono stroke + teal line + H3 + texto + link →</div></div>
+        <div class="wbox" style="height:200px"><div class="wlb">Icono stroke + teal line + H3 + texto + link →</div></div>
+      </div>
+    </div>
+    <div class="ann">Fondo: blanco · hover: sombra + translateY(-3px) 250ms</div>
+  </div>
+  <div class="ws" style="background:rgba(1,9,45,.05)">
+    <div style="padding:56px">
+      <div class="wbox te" style="height:18px;width:140px;margin-bottom:10px"><div class="wlb">Eyebrow</div></div>
+      <div class="wbox dk" style="height:52px;max-width:400px;margin-bottom:28px"><div class="wlb">H2 — Experiencia comprobada en el Caribe</div></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+        <div class="wbox dk" style="height:180px"><div class="wlb">Foto proyecto + cat label + título + lightbox hover</div></div>
+        <div class="wbox dk" style="height:180px"><div class="wlb">Foto proyecto + cat label + título + lightbox hover</div></div>
+        <div class="wbox dk" style="height:180px"><div class="wlb">Foto proyecto + cat label + título + lightbox hover</div></div>
+        <div class="wbox dk" style="height:180px"><div class="wlb">Foto proyecto + cat label + título + lightbox hover</div></div>
+        <div class="wbox dk" style="height:180px"><div class="wlb">Foto proyecto + cat label + título + lightbox hover</div></div>
+        <div class="wbox dk" style="height:180px"><div class="wlb">Foto proyecto + cat label + título + lightbox hover</div></div>
+      </div>
+    </div>
+    <div class="ann">Lightbox: overlay #0493D9 · ícono zoom · modal imagen grande</div>
+  </div>
+  <div class="ws">
+    <div style="padding:56px;display:grid;grid-template-columns:1fr 1.3fr;gap:64px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="wbox te" style="height:18px;width:160px"><div class="wlb">Eyebrow</div></div>
+        <div class="wbox dk" style="height:68px"><div class="wlb">H2 — Solicitar diagnóstico técnico gratuito</div></div>
+        <div class="wbox" style="height:72px"><div class="wlb">Párrafo — qué incluye el diagnóstico · 48h · sin costo</div></div>
+        <div class="wbox" style="height:80px"><div class="wlb">✓ Bullets: sin costo · 48h · sin compromiso · ingenieros certificados</div></div>
+      </div>
+      <div class="wbox" style="height:360px;border-radius:var(--rlg)"><div class="wlb">Card formulario (fondo blanco, sombra):<br>Empresa, NIT, Nombre, Cargo,<br>Email, Teléfono, Sistema, Descripción,<br>CTA submit full-width azul</div></div>
+    </div>
+    <div class="ann">Fondo: #F4F6F9 · Card blanca con sombra media</div>
+  </div>
+  <div class="ws" style="background:rgba(1,71,120,.08)">
+    <div style="padding:48px 56px 0">
+      <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding-bottom:36px">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="wbox" style="width:140px;height:44px"><div class="wlb">Logo negativo</div></div>
+          <div class="wbox" style="height:52px"><div class="wlb">Tagline + descripción corta + redes sociales</div></div>
+        </div>
+        <div class="wbox" style="height:110px"><div class="wlb">Col: Información<br>Dirección · Tel · Email</div></div>
+        <div class="wbox" style="height:110px"><div class="wlb">Col: Horario<br>Lun–Vie 7–6pm · Sáb 8–12m</div></div>
+      </div>
+      <div class="wbox" style="height:32px;margin-bottom:0"><div class="wlb">Footer bar: copyright · política de privacidad · términos</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="wfm" class="wfrm">
+<div style="max-width:375px;margin:0 auto">
+<div class="wf-wrap">
+  <div class="wf-bar" style="padding:8px 12px"><div style="display:flex;gap:5px"><div class="wf-dot" style="background:#FF5F57"></div><div class="wf-dot" style="background:#FEBC2E"></div><div class="wf-dot" style="background:#28C840"></div></div></div>
+  <div class="ws" style="background:rgba(4,147,217,.03)">
+    <div style="height:56px;display:flex;align-items:center;padding:0 20px;justify-content:space-between">
+      <div class="wbox" style="width:110px;height:30px"><div class="wlb">Logo</div></div>
+      <div class="wbox" style="width:44px;height:44px;border-radius:var(--rsm)"><div class="wlb" style="font-size:9px">☰<br>44px</div></div>
+    </div>
+    <div class="ann" style="font-size:9px">Hamburger 44×44px tap target</div>
+  </div>
+  <div class="ws" style="background:rgba(1,9,45,.05)">
+    <div style="padding:32px 20px;display:flex;flex-direction:column;gap:12px">
+      <div class="wbox te" style="height:18px"><div class="wlb">Eyebrow</div></div>
+      <div class="wbox dk" style="height:96px"><div class="wlb">H1 — 36px mobile · 2-3 líneas</div></div>
+      <div class="wbox te" style="height:2px;width:48px"></div>
+      <div class="wbox" style="height:60px"><div class="wlb">Subtítulo — 16px</div></div>
+      <div class="wbox te" style="height:44px"><div class="wlb">CTA primario — full width 44px</div></div>
+      <div class="wbox" style="height:44px"><div class="wlb">CTA ghost — full width 44px</div></div>
+      <div style="display:flex;gap:8px;padding-top:12px;border-top:1px dashed rgba(1,9,45,.15)">
+        <div class="wbox" style="flex:1;height:52px"><div class="wlb" style="font-size:9px">18+<br>años</div></div>
+        <div class="wbox" style="flex:1;height:52px"><div class="wlb" style="font-size:9px">+200<br>proy.</div></div>
+        <div class="wbox" style="flex:1;height:52px"><div class="wlb" style="font-size:9px">4<br>serv.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="ws" style="background:#fff">
+    <div style="padding:36px 20px;display:flex;flex-direction:column;gap:12px">
+      <div class="wbox dk" style="height:44px"><div class="wlb">H2 — 28px</div></div>
+      <div class="wbox" style="height:120px"><div class="wlb">Card servicio — full width</div></div>
+      <div class="wbox" style="height:120px"><div class="wlb">Card servicio — full width</div></div>
+      <div class="wbox" style="height:120px"><div class="wlb">Card servicio — full width</div></div>
+      <div class="wbox" style="height:120px"><div class="wlb">Card servicio — full width</div></div>
+    </div>
+  </div>
+  <div class="ws" style="background:rgba(1,9,45,.05)">
+    <div style="padding:36px 20px;display:flex;flex-direction:column;gap:10px">
+      <div class="wbox dk" style="height:44px"><div class="wlb">H2 — Proyectos</div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="wbox dk" style="height:120px"><div class="wlb" style="font-size:9px">Foto</div></div>
+        <div class="wbox dk" style="height:120px"><div class="wlb" style="font-size:9px">Foto</div></div>
+        <div class="wbox dk" style="height:120px"><div class="wlb" style="font-size:9px">Foto</div></div>
+        <div class="wbox dk" style="height:120px"><div class="wlb" style="font-size:9px">Foto</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="ws">
+    <div style="padding:36px 20px;display:flex;flex-direction:column;gap:10px">
+      <div class="wbox dk" style="height:44px"><div class="wlb">H2 — Solicitar diagnóstico</div></div>
+      <div class="wbox" style="height:340px"><div class="wlb">Formulario 1 col · todos los campos · CTA full-width 48px</div></div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div></div>
+
+<!-- MOCKUPS -->
+<div id="mk" class="tp"><div class="w">
+<p class="stitle">Mockups alta fidelidad · Desktop 1440px</p>
+<div class="mtnav">
+  <button class="mtbtn on" onclick="mtab(this,'m1')">01 Hero</button>
+  <button class="mtbtn" onclick="mtab(this,'m2')">02 Servicios</button>
+  <button class="mtbtn" onclick="mtab(this,'m3')">03 Galería</button>
+  <button class="mtbtn" onclick="mtab(this,'m4')">04 Formulario</button>
+  <button class="mtbtn" onclick="mtab(this,'m5')">05 Contacto</button>
+</div>
+
+<div id="m1" class="mp on">
+<div class="mframe">
+<div class="mh">
+  <svg class="mhbg" viewBox="0 0 520 520" fill="none">
+    <path d="M260 260C260 140 340 100 400 160C460 220 420 340 260 260Z" fill="#39DBC4"/>
+    <path d="M260 260C380 260 420 340 360 400C300 460 180 420 260 260Z" fill="#39DBC4"/>
+    <path d="M260 260C260 380 180 420 120 360C60 300 100 180 260 260Z" fill="#39DBC4"/>
+    <path d="M260 260C140 260 100 180 160 120C220 60 340 100 260 260Z" fill="#39DBC4"/>
+    <circle cx="260" cy="260" r="30" fill="#0493D9"/>
+  </svg>
+  <nav class="mnav">
+    <div class="mlogo">
+      <svg width="32" height="32" viewBox="0 0 40 40" fill="none"><path d="M20 20C20 10 28 7 33 14C38 21 30 28 20 20Z" fill="#0493D9" opacity=".95"/><path d="M20 20C30 20 33 28 26 33C19 38 12 30 20 20Z" fill="#0493D9" opacity=".75"/><path d="M20 20C20 30 12 33 7 26C2 19 10 12 20 20Z" fill="#0493D9" opacity=".55"/><path d="M20 20C10 20 7 12 14 7C21 2 28 10 20 20Z" fill="#0493D9" opacity=".38"/><circle cx="20" cy="20" r="4" fill="#0493D9"/></svg>
+      <div class="mlogo-t"><span class="ai">Air</span><span class="cl">Cleaner</span></div>
+    </div>
+    <div class="mlinks">
+      <a class="mlink" href="#">Servicios</a>
+      <a class="mlink" href="#">Galería</a>
+      <a class="mlink" href="#">Contacto</a>
+    </div>
+    <div class="mcta"><button class="btn bp" style="font-size:13px;padding:9px 18px">Solicitar diagnóstico</button></div>
+  </nav>
+  <div class="mhero-c">
+    <div class="mey">Gestión técnica integral · Región Caribe</div>
+    <div class="mh1">Sus sistemas críticos,<br>siempre en operación.</div>
+    <div class="mline"></div>
+    <div class="msub">Gestión preventiva integral de climatización, refrigeración, bombeo y protección contra incendios para empresas industriales y corporativas del Caribe colombiano.</div>
+    <div class="mctas">
+      <button class="btn bp">Solicitar diagnóstico técnico</button>
+      <button class="btn bgl">Conocer servicios →</button>
+    </div>
+    <div class="mbar">
+      <div class="mst"><div class="mstv">18+</div><div class="mstl">Años de experiencia</div></div>
+      <div class="mst"><div class="mstv">+200</div><div class="mstl">Proyectos ejecutados</div></div>
+      <div class="mst"><div class="mstv">4</div><div class="mstl">Líneas de servicio</div></div>
+      <div class="mst"><div class="mstv">100%</div><div class="mstl">Caribe colombiano</div></div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div id="m2" class="mp">
+<div class="mframe">
+<div class="msrv">
+  <div class="mse">Nuestras líneas de servicio</div>
+  <div class="msh2">Gestión técnica integral</div>
+  <div class="msp">Cuatro especialidades complementarias que protegen la continuidad operativa de su organización. Cada servicio respaldado por ingenieros certificados y protocolos ISO.</div>
+  <div class="mscards">
+    <div class="mscard">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:16px"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      <div class="tl"></div>
+      <h3>Climatización</h3>
+      <p>Diseño, instalación y mantenimiento preventivo de sistemas HVAC. Eficiencia energética certificada para edificios industriales y corporativos.</p>
+      <a href="#">Ver servicio →</a>
+    </div>
+    <div class="mscard">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:16px"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <div class="tl"></div>
+      <h3>Refrigeración Industrial</h3>
+      <p>Sistemas de refrigeración para cadena de frío, cuartos fríos y procesos productivos. Continuidad garantizada 24/7.</p>
+      <a href="#">Ver servicio →</a>
+    </div>
+    <div class="mscard">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:16px"><path d="M12 22V12M12 12C12 12 7 8 7 4a5 5 0 0 1 10 0c0 4-5 8-5 8Z"/></svg>
+      <div class="tl"></div>
+      <h3>Sistemas de Bombeo</h3>
+      <p>Diagnóstico, instalación y mantenimiento de equipos de bombeo para agua, procesos industriales e infraestructura hidráulica.</p>
+      <a href="#">Ver servicio →</a>
+    </div>
+    <div class="mscard">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:16px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div class="tl"></div>
+      <h3>Protección Contra Incendios</h3>
+      <p>Diseño e instalación de redes contra incendios, rociadores y extintores. Cumplimiento NFPA y regulación colombiana.</p>
+      <a href="#">Ver servicio →</a>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div id="m3" class="mp">
+<div class="mframe">
+<div class="mgal">
+  <div class="mse" style="color:rgba(255,255,255,.5)">Proyectos ejecutados</div>
+  <div class="msh2" style="color:#fff">Experiencia comprobada<br>en el Caribe</div>
+  <div class="mgrid">
+    <div class="mgcard"><div class="mgthumb" style="background:linear-gradient(135deg,#014778,#0493D9)"><div class="mgcat">Climatización</div><div class="mgmeta"><div class="mgtitle">Centro Comercial Buenavista</div><div class="mgsub">Barranquilla · 2024</div></div></div><div class="mgov"><span>+ Ver proyecto</span></div></div>
+    <div class="mgcard"><div class="mgthumb" style="background:linear-gradient(135deg,#01092D,#014778)"><div class="mgcat">Refrigeración</div><div class="mgmeta"><div class="mgtitle">Planta procesadora Santa Marta</div><div class="mgsub">Santa Marta · 2023</div></div></div><div class="mgov"><span>+ Ver proyecto</span></div></div>
+    <div class="mgcard"><div class="mgthumb" style="background:linear-gradient(135deg,#0493D9,#39DBC4)"><div class="mgcat">Incendios</div><div class="mgmeta"><div class="mgtitle">Hospital Universitario del Caribe</div><div class="mgsub">Cartagena · 2024</div></div></div><div class="mgov"><span>+ Ver proyecto</span></div></div>
+    <div class="mgcard"><div class="mgthumb" style="background:linear-gradient(135deg,#014778,#0493D9 80%)"><div class="mgcat">Bombeo</div><div class="mgmeta"><div class="mgtitle">Edificio Torre Empresarial</div><div class="mgsub">Barranquilla · 2023</div></div></div><div class="mgov"><span>+ Ver proyecto</span></div></div>
+    <div class="mgcard"><div class="mgthumb" style="background:linear-gradient(135deg,#01092D,#0493D9)"><div class="mgcat">Climatización</div><div class="mgmeta"><div class="mgtitle">Aeropuerto Ernesto Cortissoz</div><div class="mgsub">Barranquilla · 2022</div></div></div><div class="mgov"><span>+ Ver proyecto</span></div></div>
+    <div class="mgcard"><div class="mgthumb" style="background:linear-gradient(135deg,#014778,#01092D)"><div class="mgcat">Refrigeración</div><div class="mgmeta"><div class="mgtitle">Zona Franca La Cayena</div><div class="mgsub">Barranquilla · 2022</div></div></div><div class="mgov"><span>+ Ver proyecto</span></div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<div id="m4" class="mp">
+<div class="mframe">
+<div class="mfm">
+  <div class="mfw">
+    <div>
+      <div class="mse">Sin costo · Sin compromiso</div>
+      <div class="msh2" style="margin-bottom:24px">Solicitar diagnóstico<br>técnico gratuito</div>
+      <p style="font-size:15px;font-weight:300;color:var(--g500);line-height:1.65;margin-bottom:28px">Nuestros ingenieros evalúan el estado actual de sus sistemas y presentan un informe con hallazgos y recomendaciones en 48 horas hábiles.</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--g500)"><span style="color:var(--teal);font-weight:700;font-size:16px">✓</span>Evaluación técnica sin costo inicial</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--g500)"><span style="color:var(--teal);font-weight:700;font-size:16px">✓</span>Informe entregado en 48 horas hábiles</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--g500)"><span style="color:var(--teal);font-weight:700;font-size:16px">✓</span>Sin compromiso de contratación</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--g500)"><span style="color:var(--teal);font-weight:700;font-size:16px">✓</span>Ingenieros certificados en campo</div>
+      </div>
+    </div>
+    <div class="mfcard">
+      <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--g100)">Datos de su empresa</div>
+      <div class="mfgrid">
+        <div><label class="mfl">Empresa <span>*</span></label><input class="mfinput" placeholder="Nombre de la empresa" type="text"></div>
+        <div><label class="mfl">NIT <span>*</span></label><input class="mfinput" placeholder="900.123.456-7" type="text"></div>
+        <div><label class="mfl">Nombre de contacto <span>*</span></label><input class="mfinput" placeholder="Nombre completo" type="text"></div>
+        <div><label class="mfl">Cargo</label><input class="mfinput" placeholder="Gerente de Mantenimiento" type="text"></div>
+        <div><label class="mfl">Correo corporativo <span>*</span></label><input class="mfinput" placeholder="nombre@empresa.com.co" type="email"></div>
+        <div><label class="mfl">Teléfono <span>*</span></label><input class="mfinput" placeholder="+57 300 000 0000" type="tel"></div>
+        <div class="mfull"><label class="mfl">Sistema a evaluar <span>*</span></label><select class="mfinput"><option value="">Seleccione el sistema principal</option><option>Climatización (HVAC)</option><option>Refrigeración industrial</option><option>Sistema de bombeo</option><option>Protección contra incendios</option><option>Múltiples sistemas</option></select></div>
+        <div class="mfull"><label class="mfl">Descripción de la necesidad</label><textarea class="mfinput" style="resize:vertical;min-height:88px" placeholder="Describa brevemente la situación actual, síntomas o requerimientos…"></textarea></div>
+      </div>
+      <button class="mfsub">Enviar solicitud de diagnóstico</button>
+      <p style="font-size:11px;color:var(--g500);text-align:center;margin-top:10px">Sus datos son confidenciales y no serán compartidos con terceros.</p>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div id="m5" class="mp">
+<div class="mframe" style="position:relative">
+<div class="mct">
+  <div class="mctg">
+    <div class="mctb">
+      <h3>AirCleaner</h3>
+      <p>Aliado estratégico en la gestión técnica de sistemas críticos para empresas del Caribe colombiano.</p>
+      <div style="margin-top:20px;display:flex;gap:10px">
+        <a href="#" style="width:36px;height:36px;border:1px solid rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#39DBC4" stroke-width="1.5" stroke-linecap="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" style="width:36px;height:36px;border:1px solid rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#39DBC4" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="mctcol">
+      <h4>Contáctenos</h4>
+      <p>Barranquilla, Atlántico<br>Región Caribe, Colombia</p>
+      <a href="tel:+573001234567">+57 300 123 4567</a>
+      <a href="mailto:contacto@aircleaner.com.co">contacto@aircleaner.com.co</a>
+    </div>
+    <div class="mctcol">
+      <h4>Horario de atención</h4>
+      <p>Lunes – Viernes<br>7:00 a.m. – 6:00 p.m.</p>
+      <p style="margin-top:10px">Sábados<br>8:00 a.m. – 12:00 m.</p>
+      <a href="#" style="margin-top:10px;color:var(--teal);font-weight:600">Emergencias 24/7 →</a>
+    </div>
+  </div>
+  <div class="mfbar">
+    <span class="mfcopy">© 2026 AirCleaner · Todos los derechos reservados</span>
+    <span class="mfcopy">Política de privacidad · Términos de servicio</span>
+  </div>
+</div>
+<div style="position:relative;height:0"><div style="position:absolute;bottom:-80px;right:32px;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,.4)">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</div></div>
+</div>
+</div>
+</div></div>
+
+<!-- COPY & A11Y -->
+<div id="cp" class="tp"><div class="w">
+<p class="stitle">Especificaciones de copy · Accesibilidad · Interacciones</p>
+
+<div class="cp-card">
+  <h3>01 · Hero</h3>
+  <div class="cprow"><div class="cprole">Eyebrow</div><div class="cptxt">Gestión técnica integral · Región Caribe</div></div>
+  <div class="cprow"><div class="cprole">H1</div><div class="cptxt">Sus sistemas críticos, siempre en operación.</div></div>
+  <div class="cprow"><div class="cprole">Subtítulo</div><div class="cptxt">Gestión preventiva integral de climatización, refrigeración, bombeo y protección contra incendios para empresas industriales y corporativas del Caribe colombiano.</div></div>
+  <div class="cprow"><div class="cprole">CTA primario</div><div class="cptxt">Solicitar diagnóstico técnico</div></div>
+  <div class="cprow"><div class="cprole">CTA secundario</div><div class="cptxt">Conocer servicios →</div></div>
+  <div class="cprow"><div class="cprole">Trust stats</div><div class="cptxt">18+ Años de experiencia · +200 Proyectos ejecutados · 4 Líneas de servicio · 100% Caribe colombiano</div></div>
+</div>
+
+<div class="cp-card">
+  <h3>02 · Servicios</h3>
+  <div class="cprow"><div class="cprole">Eyebrow</div><div class="cptxt">Nuestras líneas de servicio</div></div>
+  <div class="cprow"><div class="cprole">H2</div><div class="cptxt">Gestión técnica integral</div></div>
+  <div class="cprow"><div class="cprole">Párrafo intro</div><div class="cptxt">Cuatro especialidades complementarias que protegen la continuidad operativa de su organización. Cada servicio respaldado por ingenieros certificados y protocolos ISO.</div></div>
+  <div class="cprow"><div class="cprole">Card 1</div><div class="cptxt"><strong>Climatización</strong> — Diseño, instalación y mantenimiento preventivo de sistemas HVAC. Eficiencia energética certificada para edificios industriales y corporativos.</div></div>
+  <div class="cprow"><div class="cprole">Card 2</div><div class="cptxt"><strong>Refrigeración Industrial</strong> — Sistemas para cadena de frío, cuartos fríos y procesos productivos. Continuidad garantizada 24/7.</div></div>
+  <div class="cprow"><div class="cprole">Card 3</div><div class="cptxt"><strong>Sistemas de Bombeo</strong> — Diagnóstico, instalación y mantenimiento de equipos de bombeo para agua, procesos industriales e infraestructura hidráulica.</div></div>
+  <div class="cprow"><div class="cprole">Card 4</div><div class="cptxt"><strong>Protección Contra Incendios</strong> — Diseño e instalación de redes contra incendios, rociadores y extintores. Cumplimiento normativo NFPA y regulación colombiana.</div></div>
+</div>
+
+<div class="cp-card">
+  <h3>03 · Galería</h3>
+  <div class="cprow"><div class="cprole">Eyebrow</div><div class="cptxt">Proyectos ejecutados</div></div>
+  <div class="cprow"><div class="cprole">H2</div><div class="cptxt">Experiencia comprobada en el Caribe</div></div>
+  <div class="cprow"><div class="cprole">Nota copy</div><div class="cptxt">Reemplazar nombres de proyectos con casos reales. Los títulos actuales son representativos del tipo de cliente B2B objetivo.</div></div>
+</div>
+
+<div class="cp-card">
+  <h3>04 · Formulario</h3>
+  <div class="cprow"><div class="cprole">Eyebrow</div><div class="cptxt">Sin costo · Sin compromiso</div></div>
+  <div class="cprow"><div class="cprole">H2</div><div class="cptxt">Solicitar diagnóstico técnico gratuito</div></div>
+  <div class="cprow"><div class="cprole">Párrafo</div><div class="cptxt">Nuestros ingenieros evalúan el estado actual de sus sistemas y presentan un informe con hallazgos y recomendaciones en 48 horas hábiles.</div></div>
+  <div class="cprow"><div class="cprole">Bullets</div><div class="cptxt">✓ Evaluación técnica sin costo inicial · ✓ Informe entregado en 48 horas hábiles · ✓ Sin compromiso de contratación · ✓ Ingenieros certificados en campo</div></div>
+  <div class="cprow"><div class="cprole">CTA submit</div><div class="cptxt">Enviar solicitud de diagnóstico</div></div>
+  <div class="cprow"><div class="cprole">Disclaimer</div><div class="cptxt">Sus datos son confidenciales y no serán compartidos con terceros.</div></div>
+</div>
+
+<div class="cp-card">
+  <h3>Accesibilidad · Contraste AA (WCAG 2.1)</h3>
+  <table class="a11y-t">
+    <tr><th>Combinación de color</th><th>Ratio</th><th>Texto normal</th><th>Texto grande</th><th>Estado</th></tr>
+    <tr><td>Blanco sobre #01092D navy</td><td>18.6:1</td><td class="pass">AAA</td><td class="pass">AAA</td><td class="pass">✓ PASS</td></tr>
+    <tr><td>Blanco sobre #014778 azul oscuro</td><td>9.8:1</td><td class="pass">AAA</td><td class="pass">AAA</td><td class="pass">✓ PASS</td></tr>
+    <tr><td>#01092D sobre #FFFFFF</td><td>18.6:1</td><td class="pass">AAA</td><td class="pass">AAA</td><td class="pass">✓ PASS</td></tr>
+    <tr><td>#01092D sobre #F4F6F9</td><td>16.4:1</td><td class="pass">AAA</td><td class="pass">AAA</td><td class="pass">✓ PASS</td></tr>
+    <tr><td>#39DBC4 sobre #01092D</td><td>7.1:1</td><td class="pass">AA</td><td class="pass">AAA</td><td class="pass">✓ PASS</td></tr>
+    <tr><td>Blanco sobre #0493D9 (CTA btn)</td><td>3.2:1</td><td class="warn">—</td><td class="pass">AA</td><td class="warn">Solo ≥18px bold</td></tr>
+    <tr><td>#0493D9 sobre #FFFFFF (links)</td><td>3.2:1</td><td class="warn">—</td><td class="pass">AA</td><td class="warn">Solo decorativo/grande</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--g500);margin-top:14px;line-height:1.5"><strong>Nota:</strong> El azul #0493D9 no alcanza AA para texto pequeño sobre blanco. Usarlo solo en CTAs (con texto blanco ≥14px bold) e iconografía. Nunca como texto de cuerpo sobre fondo claro.</p>
+</div>
+
+<div class="cp-card">
+  <h3>Especificaciones de interacción</h3>
+  <div class="igrid">
+    <div class="iitem"><h4>Cards de servicio — hover</h4><p><code>box-shadow: 0 4px 16px rgba(1,9,45,.12)</code> + <code>transform: translateY(-3px)</code> en <code>250ms ease</code>. Link "Ver servicio →" subraya en hover.</p></div>
+    <div class="iitem"><h4>Galería — lightbox hover</h4><p>Overlay <code>rgba(4,147,217,.9)</code> con <code>opacity 0→1</code> en <code>200ms ease</code>. Click abre modal con imagen ampliada, título, descripción, botón cerrar.</p></div>
+    <div class="iitem"><h4>Navbar — scroll behavior</h4><p>Sobre hero: fondo transparente. Al salir del hero: <code>background: rgba(1,9,45,.95)</code> + <code>backdrop-filter: blur(12px)</code> en <code>300ms ease</code>.</p></div>
+    <div class="iitem"><h4>WhatsApp flotante</h4><p>Siempre visible. Pulse: <code>box-shadow</code> 0→20px en <code>1.5s infinite ease-in-out</code>. Tap target mobile: 52×52px. Tooltip "¡Escríbenos!" hover desktop.</p></div>
+    <div class="iitem"><h4>Formulario — estados</h4><p>Vacío: borde <code>#B8C8D8</code>. Focus: <code>#0493D9</code> + glow <code>rgba(4,147,217,.12)</code>. Error: rojo + mensaje. Éxito post-submit: mensaje ✓ verde, form oculto.</p></div>
+    <div class="iitem"><h4>Scroll reveal</h4><p>Secciones: <code>opacity 0→1</code> + <code>translateY 24px→0</code> en <code>400ms ease-out</code> via IntersectionObserver. Cards en grid: delay escalonado <code>0, 80, 160, 240ms</code>.</p></div>
+    <div class="iitem"><h4>Menú mobile — hamburger</h4><p>Panel full-screen <code>#01092D</code>. Slide-down <code>300ms ease</code>. Links 24px, min 48px height. CTA primario full-width al final. Cerrar con × o tap fuera.</p></div>
+    <div class="iitem"><h4>Tap targets mobile</h4><p>Todos los botones: mínimo <code>44×44px</code>. Cards: estado active <code>scale(0.98)</code> en vez de hover. Inputs: height mínima <code>48px</code>. Foco visible: outline <code>3px solid #0493D9</code>.</p></div>
+  </div>
+</div>
+</div></div>
+
+<script>
+function tab(btn,id){document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));document.querySelectorAll('.tp').forEach(p=>p.classList.remove('on'));btn.classList.add('on');document.getElementById(id).classList.add('on');window.scrollTo(0,0);}
+function wftab(btn,id){document.querySelectorAll('.wbtn').forEach(b=>b.classList.remove('on'));document.querySelectorAll('.wfrm').forEach(p=>p.classList.remove('on'));btn.classList.add('on');document.getElementById(id).classList.add('on');}
+function mtab(btn,id){document.querySelectorAll('.mtbtn').forEach(b=>b.classList.remove('on'));document.querySelectorAll('.mp').forEach(p=>p.classList.remove('on'));btn.classList.add('on');document.getElementById(id).classList.add('on');}
+</script>
+</body>
+</html>
