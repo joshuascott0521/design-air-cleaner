@@ -24,7 +24,6 @@
       --fm: ui-monospace, 'JetBrains Mono', Menlo, monospace;
     }
 
-    /* ── Cal Sans via @font-face fallback (hosted subset) ── */
     @font-face {
       font-family: 'Cal Sans';
       src: local('Cal Sans'), local('CalSans-SemiBold');
@@ -32,7 +31,6 @@
       font-style: normal;
     }
 
-    /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -61,6 +59,10 @@
       display: flex;
       align-items: center;
       padding: 0 40px;
+      background: rgba(1,9,45,.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255,255,255,.06);
       transition: background 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
     }
     .nav.scrolled {
@@ -68,10 +70,6 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       box-shadow: 0 1px 0 rgba(255,255,255,.06);
-    }
-    .nav.light:not(.scrolled) {
-      background: rgba(255,255,255,0.97);
-      box-shadow: 0 1px 0 var(--gborder);
     }
     .nav-inner {
       display: flex;
@@ -86,39 +84,31 @@
       align-items: center;
       gap: 10px;
       flex-shrink: 0;
+      text-decoration: none;
     }
-    .nav-logo-text {
-      font-family: var(--fd);
-      font-size: 22px;
-      font-weight: 600;
-      line-height: 1;
-      letter-spacing: -0.02em;
-    }
-    .nav-logo-text .air  { color: var(--blue); }
-    .nav-logo-text .cleaner { color: var(--dblue); }
-    .nav.scrolled .nav-logo-text .cleaner,
-    .nav-overlay-open .nav-logo-text .cleaner { color: var(--white); }
-
+    .nav-logo-text { font-family: var(--fd); font-size: 20px; font-weight: 600; line-height: 1; letter-spacing: -.02em; }
+    .nav-logo-text .air { color: var(--blue); }
+    .nav-logo-text .cleaner { color: var(--white); }
+    .nav.scrolled .nav-logo-text .cleaner { color: var(--white); }
     .nav-links {
       display: flex;
       align-items: center;
       gap: 36px;
+      list-style: none;
     }
     .nav-links a {
-      font-family: var(--fb);
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.01em;
-      color: rgba(1,9,45,.72);
+      color: rgba(255,255,255,.72);
       transition: color 0.2s;
       position: relative;
+      text-decoration: none;
     }
     .nav.scrolled .nav-links a { color: rgba(255,255,255,.72); }
     .nav-links a:hover { color: var(--blue); }
     .nav.scrolled .nav-links a:hover { color: var(--white); }
-    .nav-links a.active {
-      color: var(--blue);
-    }
+    .nav-links a.active { color: var(--blue); }
     .nav-links a.active::after {
       content: '';
       position: absolute;
@@ -128,7 +118,6 @@
       border-radius: 1px;
     }
     .nav.scrolled .nav-links a.active { color: var(--blue); }
-
     .nav-cta {
       display: inline-flex;
       align-items: center;
@@ -141,10 +130,9 @@
       border-radius: 6px;
       transition: background 0.2s, transform 0.15s;
       white-space: nowrap;
+      text-decoration: none;
     }
     .nav-cta:hover { background: #0280c2; transform: translateY(-1px); }
-    .nav-cta:active { transform: translateY(0); }
-
     .nav-hamburger {
       display: none;
       flex-direction: column;
@@ -153,12 +141,13 @@
       border: none;
       padding: 8px;
       border-radius: 4px;
+      cursor: pointer;
     }
     .nav-hamburger span {
       display: block;
       width: 24px;
       height: 2px;
-      background: var(--navy);
+      background: rgba(255,255,255,.85);
       border-radius: 2px;
       transition: transform 0.25s, opacity 0.25s, background 0.25s;
     }
@@ -166,8 +155,6 @@
     .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav-hamburger.open span:nth-child(2) { opacity: 0; }
     .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* ── Mobile Overlay ── */
     .nav-overlay {
       display: none;
       position: fixed;
@@ -186,6 +173,7 @@
       font-weight: 600;
       color: rgba(255,255,255,.8);
       transition: color 0.2s;
+      text-decoration: none;
     }
     .nav-overlay a:hover { color: var(--white); }
     .nav-overlay a.active { color: var(--blue); }
@@ -196,37 +184,28 @@
       margin-top: 8px;
     }
 
-    /* ── Hero ── */
-    .hero {
-      position: relative;
-      height: 360px;
+    /* ── Page Hero ── */
+    .page-hero {
       background: var(--navy);
+      padding: 120px 40px 64px;
+      position: relative;
       overflow: hidden;
-      display: flex;
-      align-items: flex-end;
-      padding-bottom: 56px;
     }
-    .hero-watermark {
+    .page-hero-watermark {
       position: absolute;
-      top: -60px;
-      right: -80px;
-      width: 480px;
-      height: 480px;
-      opacity: 0.038;
-      animation: spin 60s linear infinite;
+      top: -60px; right: -80px;
+      width: 420px; height: 420px;
+      opacity: 0.04;
+      animation: spin 80s linear infinite;
       pointer-events: none;
+      object-fit: contain;
     }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-    .hero-content {
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .page-hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
       position: relative;
       z-index: 1;
-      max-width: 1280px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 0 40px;
     }
     .eyebrow {
       font-family: var(--fm);
@@ -237,31 +216,37 @@
       color: var(--teal);
       margin-bottom: 16px;
     }
-    .hero-title {
+    .page-hero h1 {
       font-family: var(--fd);
-      font-size: 54px;
+      font-size: clamp(36px, 5vw, 56px);
       font-weight: 600;
       color: var(--white);
       line-height: 1.08;
       letter-spacing: -0.03em;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
+    }
+    .page-hero-sub {
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(255,255,255,.55);
+      max-width: 520px;
+      line-height: 1.65;
+      margin-bottom: 20px;
     }
     .hero-rule {
-      width: 56px;
-      height: 3px;
+      width: 56px; height: 3px;
       background: var(--blue);
       border-radius: 2px;
       margin-bottom: 20px;
     }
     .breadcrumb {
-      font-family: var(--fb);
       font-size: 13px;
-      color: rgba(255,255,255,.40);
+      color: rgba(255,255,255,.35);
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .breadcrumb span { color: rgba(255,255,255,.25); }
+    .breadcrumb span { color: rgba(255,255,255,.2); }
 
     /* ── Container ── */
     .container {
@@ -270,241 +255,401 @@
       padding: 0 40px;
     }
 
-    /* ── Service Sections ── */
-    .service-section {
-      padding: 96px 0;
-    }
-    .service-section:nth-child(even) {
-      background: var(--gbg);
-    }
-    .service-section:nth-child(odd) {
+    /* ── Trust Bar ── */
+    .trust-bar {
       background: var(--white);
+      border-bottom: 1px solid var(--gborder);
     }
-
-    .service-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: start;
-    }
-
-    .service-number {
-      font-family: var(--fm);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 12px;
-    }
-    .service-eyebrow {
-      font-family: var(--fm);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 20px;
-    }
-    .service-title {
-      font-family: var(--fd);
-      font-size: 36px;
-      font-weight: 600;
-      color: var(--navy);
-      line-height: 1.12;
-      letter-spacing: -0.025em;
-      margin-bottom: 14px;
-    }
-    .service-title-rule {
-      width: 40px;
-      height: 3px;
-      background: var(--teal);
-      border-radius: 2px;
-      margin-bottom: 24px;
-    }
-    .service-lead {
-      font-family: var(--fb);
-      font-size: 17px;
-      font-weight: 300;
-      color: var(--gmuted);
-      line-height: 1.72;
-      margin-bottom: 36px;
-    }
-    .feature-list {
+    .trust-bar-inner {
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 40px;
+      align-items: stretch;
+      border-left: 1px solid var(--gborder);
     }
-    .feature-list li {
+    .tb-item {
+      flex: 1;
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-family: var(--fb);
-      font-size: 15px;
-      color: var(--navy);
-      line-height: 1.55;
+      align-items: center;
+      gap: 14px;
+      padding: 22px 28px;
+      border-right: 1px solid var(--gborder);
+      transition: background .2s;
     }
-    .check {
+    .tb-item:hover { background: var(--gbg); }
+    .tb-icon {
+      width: 38px; height: 38px;
+      background: rgba(4,147,217,.09);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      background: rgba(57,219,196,.12);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 1px;
-      color: var(--teal);
-      font-size: 11px;
-      font-weight: 700;
     }
-
-    .service-cta {
-      display: inline-flex;
-      align-items: center;
-      height: 48px;
-      padding: 0 28px;
-      background: var(--blue);
-      color: var(--white);
-      font-family: var(--fb);
-      font-size: 15px;
+    .tb-text strong {
+      display: block;
+      font-size: 13.5px;
       font-weight: 600;
-      border-radius: 6px;
-      border: none;
-      transition: background 0.2s, transform 0.15s;
-      text-decoration: none;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 2px;
     }
-    .service-cta:hover { background: #0280c2; transform: translateY(-1px); color: var(--white); }
-    .service-cta:active { transform: translateY(0); }
+    .tb-text span { font-size: 12px; font-weight: 300; color: var(--gmuted); }
 
-    /* ── Specs Card ── */
-    .specs-card {
-      background: var(--navy);
-      border-radius: 12px;
-      padding: 36px;
-      position: sticky;
-      top: 96px;
-    }
-    .specs-card-title {
-      font-family: var(--fm);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 28px;
-    }
-    .specs-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .specs-row {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding: 16px 0;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
-    .specs-row:last-child { border-bottom: none; }
-    .specs-label {
-      font-family: var(--fm);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.40);
-    }
-    .specs-value {
-      font-family: var(--fm);
-      font-size: 14px;
-      color: var(--white);
-      line-height: 1.5;
-    }
-
-    /* ── Why Different ── */
-    .why-section {
-      background: var(--navy);
+    /* ── Services Section ── */
+    .services-section {
+      background: var(--gbg);
       padding: 96px 0;
     }
     .section-header {
       text-align: center;
       margin-bottom: 64px;
     }
+    .section-eyebrow {
+      font-family: var(--fm);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 14px;
+      display: block;
+    }
     .section-title {
       font-family: var(--fd);
-      font-size: 42px;
+      font-size: clamp(28px, 3.5vw, 42px);
       font-weight: 600;
-      color: var(--white);
+      color: var(--navy);
       letter-spacing: -0.03em;
-      line-height: 1.12;
+      line-height: 1.1;
+      margin-bottom: 16px;
     }
-    .why-grid {
+    .section-desc {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--gmuted);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Service Cards Grid ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    .svc-card {
+      background: var(--white);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--gborder);
+      transition: box-shadow .3s ease, transform .3s ease;
+    }
+    .svc-card:hover {
+      box-shadow: 0 12px 40px rgba(1,9,45,.10);
+      transform: translateY(-4px);
+    }
+
+    /* Card image area */
+    .svc-card-img {
+      height: 220px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .svc-card-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(1,9,45,.55) 100%);
+      z-index: 1;
+    }
+    .svc-card-number {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      z-index: 2;
+      font-family: var(--fm);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,.7);
+      background: rgba(1,9,45,.4);
+      padding: 4px 9px;
+      border-radius: 3px;
+    }
+    .svc-card-icon-wrap {
+      position: relative;
+      z-index: 2;
+      opacity: .22;
+    }
+    .bg-hvac      { background: linear-gradient(135deg, #014778 0%, #0493D9 100%); }
+    .bg-refrig    { background: linear-gradient(135deg, #01092D 0%, #014778 100%); }
+    .bg-bombeo    { background: linear-gradient(140deg, #0493D9 20%, #39DBC4 100%); }
+    .bg-incendios { background: linear-gradient(135deg, #014778 0%, #01092D 100%); }
+
+    /* Card body */
+    .svc-card-body {
+      padding: 28px 30px 32px;
+    }
+    .svc-card-tl {
+      width: 32px; height: 2px;
+      background: var(--teal);
+      border-radius: 1px;
+      margin-bottom: 14px;
+    }
+    .svc-card-body h2 {
+      font-family: var(--fd);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .svc-card-body > p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--gmuted);
+      line-height: 1.68;
+      margin-bottom: 22px;
+    }
+
+    /* Feature list */
+    .svc-features {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 26px;
+    }
+    .svc-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+    .svc-check {
+      flex-shrink: 0;
+      width: 18px; height: 18px;
+      background: rgba(57,219,196,.13);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+      color: var(--teal);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    /* Specs mini-bar */
+    .svc-specs {
+      display: flex;
+      gap: 0;
+      padding: 16px 0 24px;
+      border-top: 1px solid var(--gborder);
+      border-bottom: 1px solid var(--gborder);
+      margin-bottom: 24px;
+    }
+    .svc-spec {
+      flex: 1;
+      padding-right: 16px;
+      margin-right: 16px;
+      border-right: 1px solid var(--gborder);
+    }
+    .svc-spec:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+    .svc-spec-label {
+      font-family: var(--fm);
+      font-size: 10px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--gmuted);
+      margin-bottom: 4px;
+    }
+    .svc-spec-value {
+      font-family: var(--fm);
+      font-size: 13px;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+
+    .svc-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--blue);
+      transition: gap .15s;
+    }
+    .svc-card-link:hover { gap: 10px; color: #0280c2; }
+
+    /* ── Testimonials ── */
+    .testimonials-section {
+      background: var(--white);
+      padding: 96px 0;
+    }
+    .testi-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
+      gap: 24px;
     }
-    .why-card {
+    .tcard {
+      background: var(--gbg);
+      border-radius: 10px;
+      padding: 28px;
+      border: 1px solid var(--gborder);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: box-shadow .25s, transform .25s;
+    }
+    .tcard:hover { box-shadow: 0 6px 24px rgba(1,9,45,.08); transform: translateY(-3px); }
+    .tcard-stars { display: flex; gap: 3px; }
+    .tstar { color: #F9A825; font-size: 15px; }
+    .tcard-quote {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--navy);
+      line-height: 1.7;
+      flex: 1;
+      font-style: italic;
+    }
+    .tcard-quote::before {
+      content: '\201C';
+      font-size: 28px;
+      color: var(--blue);
+      line-height: 0;
+      vertical-align: -10px;
+      margin-right: 2px;
+      font-style: normal;
+      font-family: var(--fd);
+      font-weight: 700;
+    }
+    .tcard-sep { height: 1px; background: var(--gborder); }
+    .tcard-author { display: flex; align-items: center; gap: 12px; }
+    .tcard-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .tcard-name { font-size: 13.5px; font-weight: 600; color: var(--navy); }
+    .tcard-role { font-size: 11.5px; font-weight: 300; color: var(--gmuted); }
+    .tcard-service {
+      display: inline-block;
+      margin-top: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: rgba(4,147,217,.08);
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-family: var(--fm);
+    }
+
+    /* ── How It Works ── */
+    .process-section {
+      background: var(--navy);
+      padding: 96px 0;
+    }
+    .process-section .section-title { color: var(--white); }
+    .process-section .section-desc  { color: rgba(255,255,255,.45); }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    .process-card {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
-    .why-icon {
-      width: 48px;
-      height: 48px;
-      flex-shrink: 0;
-    }
-    .why-card h3 {
+    .process-num {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
       font-family: var(--fd);
       font-size: 20px;
       font-weight: 600;
       color: var(--white);
+    }
+    .process-card h3 {
+      font-family: var(--fd);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--white);
       letter-spacing: -0.01em;
     }
-    .why-card p {
-      font-family: var(--fb);
-      font-size: 15px;
-      color: rgba(255,255,255,.50);
-      line-height: 1.7;
+    .process-card p {
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,.48);
+      line-height: 1.68;
+    }
+    .process-connector {
+      display: none;
     }
 
     /* ── CTA Banner ── */
-    .cta-banner {
+    .cta-section {
       background: var(--blue);
       padding: 80px 40px;
       text-align: center;
     }
-    .cta-banner h2 {
+    .cta-section h2 {
       font-family: var(--fd);
-      font-size: 38px;
+      font-size: clamp(26px, 3.5vw, 40px);
       font-weight: 600;
       color: var(--white);
       letter-spacing: -0.025em;
       line-height: 1.12;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
-    .cta-banner p {
-      font-family: var(--fb);
+    .cta-section p {
       font-size: 16px;
       color: rgba(255,255,255,.70);
       margin-bottom: 36px;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .cta-banner-btn {
+    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-white {
       display: inline-flex;
       align-items: center;
       height: 52px;
       padding: 0 36px;
       background: var(--white);
       color: var(--blue);
-      font-family: var(--fb);
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       border-radius: 6px;
       border: none;
-      transition: opacity 0.2s, transform 0.15s;
-      text-decoration: none;
+      transition: opacity .2s, transform .15s;
     }
-    .cta-banner-btn:hover { opacity: 0.90; transform: translateY(-1px); color: var(--blue); }
+    .btn-white:hover { opacity: .9; transform: translateY(-1px); color: var(--blue); }
+    .btn-outline-white {
+      display: inline-flex;
+      align-items: center;
+      height: 52px;
+      padding: 0 36px;
+      background: transparent;
+      color: rgba(255,255,255,.85);
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 2px solid rgba(255,255,255,.4);
+      transition: border-color .2s, color .2s;
+    }
+    .btn-outline-white:hover { border-color: var(--white); color: var(--white); }
 
     /* ── Footer ── */
     .footer {
@@ -515,10 +660,8 @@
     }
     .footer-watermark {
       position: absolute;
-      bottom: -60px;
-      right: -60px;
-      width: 320px;
-      height: 320px;
+      bottom: -60px; right: -60px;
+      width: 320px; height: 320px;
       opacity: 0.04;
       pointer-events: none;
     }
@@ -528,39 +671,26 @@
       gap: 56px;
       padding-bottom: 56px;
     }
-    .footer-brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .footer-logo-wrap {
       margin-bottom: 16px;
     }
-    .footer-brand-logo .nav-logo-text .air     { color: var(--blue); }
-    .footer-brand-logo .nav-logo-text .cleaner { color: var(--white); }
     .footer-tagline {
-      font-family: var(--fb);
       font-size: 14px;
       color: rgba(255,255,255,.50);
       line-height: 1.7;
       margin-bottom: 28px;
       max-width: 280px;
     }
-    .footer-socials {
-      display: flex;
-      gap: 12px;
-    }
+    .footer-socials { display: flex; gap: 12px; }
     .social-link {
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       border-radius: 6px;
       background: rgba(255,255,255,.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
     }
     .social-link:hover { background: rgba(255,255,255,.16); }
     .social-link svg { width: 16px; height: 16px; }
-
     .footer-col-title {
       font-family: var(--fm);
       font-size: 11px;
@@ -570,22 +700,16 @@
       color: var(--teal);
       margin-bottom: 20px;
     }
-    .footer-col p,
-    .footer-col address {
-      font-family: var(--fb);
+    .footer-col p, .footer-col address {
       font-size: 14px;
       color: rgba(255,255,255,.55);
       line-height: 1.8;
       font-style: normal;
     }
-    .footer-col a {
-      color: rgba(255,255,255,.55);
-      transition: color 0.2s;
-    }
+    .footer-col a { color: rgba(255,255,255,.55); transition: color .2s; }
     .footer-col a:hover { color: var(--white); }
     .footer-col a.teal { color: var(--teal); }
     .footer-col a.teal:hover { color: #5ee8d6; }
-
     .footer-bar {
       border-top: 1px solid rgba(255,255,255,.07);
       padding: 20px 0;
@@ -593,45 +717,26 @@
       align-items: center;
       justify-content: space-between;
     }
-    .footer-bar p {
-      font-family: var(--fb);
-      font-size: 13px;
-      color: rgba(255,255,255,.30);
-    }
-    .footer-bar-links {
-      display: flex;
-      gap: 24px;
-    }
-    .footer-bar-links a {
-      font-family: var(--fb);
-      font-size: 13px;
-      color: rgba(255,255,255,.30);
-      transition: color 0.2s;
-    }
+    .footer-bar p { font-size: 13px; color: rgba(255,255,255,.30); }
+    .footer-bar-links { display: flex; gap: 24px; }
+    .footer-bar-links a { font-size: 13px; color: rgba(255,255,255,.30); transition: color .2s; }
     .footer-bar-links a:hover { color: rgba(255,255,255,.60); }
 
     /* ── WhatsApp FAB ── */
     .whatsapp-fab {
       position: fixed;
-      bottom: 32px;
-      right: 32px;
+      bottom: 32px; right: 32px;
       z-index: 997;
-      width: 56px;
-      height: 56px;
+      width: 56px; height: 56px;
       border-radius: 50%;
       background: #25D366;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       box-shadow: 0 4px 20px rgba(37,211,102,.40);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform .2s, box-shadow .2s;
       border: none;
       text-decoration: none;
     }
-    .whatsapp-fab:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 28px rgba(37,211,102,.55);
-    }
+    .whatsapp-fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(37,211,102,.55); }
     .whatsapp-fab::before {
       content: '';
       position: absolute;
@@ -644,12 +749,7 @@
       0%, 100% { transform: scale(1); opacity: 1; }
       50%       { transform: scale(1.25); opacity: 0; }
     }
-    .whatsapp-fab svg {
-      position: relative;
-      z-index: 1;
-      width: 28px;
-      height: 28px;
-    }
+    .whatsapp-fab svg { position: relative; z-index: 1; width: 28px; height: 28px; }
 
     /* ── Scroll Reveal ── */
     .reveal {
@@ -657,55 +757,51 @@
       transform: translateY(24px);
       transition: opacity 550ms ease, transform 550ms ease;
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
     .reveal-delay-1 { transition-delay: 80ms; }
     .reveal-delay-2 { transition-delay: 160ms; }
     .reveal-delay-3 { transition-delay: 240ms; }
+    .reveal-delay-4 { transition-delay: 320ms; }
 
     /* ── Responsive ── */
     @media (max-width: 1024px) {
-      .service-grid { gap: 48px; }
-      .hero-title { font-size: 44px; }
+      .services-grid { gap: 20px; }
+      .process-grid  { grid-template-columns: repeat(2,1fr); gap: 28px; }
     }
     @media (max-width: 860px) {
       .nav { padding: 0 24px; }
       .nav-links, .nav-cta { display: none; }
       .nav-hamburger { display: flex; }
 
-      .hero { height: auto; min-height: 300px; padding: 100px 0 48px; }
-      .hero-content { padding: 0 24px; }
-      .hero-title { font-size: 36px; }
+      .page-hero { padding: 100px 24px 48px; }
 
       .container { padding: 0 24px; }
-      .service-section { padding: 64px 0; }
-      .service-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-      .specs-card { position: static; }
-      .service-title { font-size: 28px; }
+      .services-section { padding: 64px 0; }
+      .services-grid { grid-template-columns: 1fr; gap: 20px; }
+      .svc-card-img { height: 180px; }
+      .svc-specs { flex-wrap: wrap; gap: 12px; }
+      .svc-spec { border-right: none; flex-basis: 45%; }
 
-      .why-grid { grid-template-columns: 1fr; gap: 36px; }
-      .section-title { font-size: 32px; }
-      .why-section { padding: 64px 0; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .testimonials-section { padding: 64px 0; }
 
-      .cta-banner h2 { font-size: 28px; }
-      .cta-banner { padding: 64px 24px; }
+      .process-section { padding: 64px 0; }
+      .process-grid { grid-template-columns: 1fr; gap: 28px; }
 
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
+      .footer-grid { grid-template-columns: 1fr; gap: 40px; }
       .footer { padding: 56px 0 0; }
+
+      .trust-bar-inner { flex-wrap: wrap; }
+      .tb-item { flex-basis: 50%; }
 
       .whatsapp-fab { bottom: 24px; right: 24px; }
     }
-    @media (max-width: 480px) {
-      .hero-title { font-size: 30px; }
-      .service-title { font-size: 24px; }
+    @media (max-width: 580px) {
+      .page-hero h1 { font-size: 32px; }
+      .tb-item { flex-basis: 100%; }
+      .svc-specs { flex-direction: column; }
+      .svc-spec { flex-basis: 100%; padding-right: 0; margin-right: 0; border-right: none; border-bottom: 1px solid var(--gborder); padding-bottom: 10px; }
+      .svc-spec:last-child { border-bottom: none; padding-bottom: 0; }
     }
   </style>
 </head>
@@ -715,21 +811,7 @@
 <nav class="nav" id="nav" aria-label="Navegación principal">
   <div class="nav-inner">
     <a href="aircleaner-landing.html" class="nav-logo" aria-label="AirCleaner — Inicio">
-      <!-- Turbine mark -->
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <!-- Hub -->
-        <rect x="14" y="14" width="8" height="8" rx="2" fill="#0493D9"/>
-        <!-- Blade 1 top -->
-        <path d="M18 14 C16 8, 10 6, 9 9 C8 12, 13 14, 18 14Z" fill="#0493D9" opacity="0.85"/>
-        <!-- Blade 2 right -->
-        <path d="M22 18 C28 16, 30 10, 27 9 C24 8, 22 13, 22 18Z" fill="#0493D9" opacity="0.70"/>
-        <!-- Blade 3 bottom-right -->
-        <path d="M22 22 C26 26, 24 32, 21 31 C18 30, 19 25, 22 22Z" fill="#0493D9" opacity="0.55"/>
-        <!-- Blade 4 bottom-left -->
-        <path d="M14 22 C10 28, 12 33, 15 32 C18 31, 17 26, 14 22Z" fill="#0493D9" opacity="0.40"/>
-        <!-- Blade 5 left -->
-        <path d="M14 18 C8 20, 6 26, 9 27 C12 28, 14 23, 14 18Z" fill="#0493D9" opacity="0.25"/>
-      </svg>
+      <img src="mp7f4gt1-isotipo.png" alt="AirCleaner" style="height:40px;width:40px;object-fit:contain;flex-shrink:0;">
       <span class="nav-logo-text"><span class="air">Air</span><span class="cleaner">Cleaner</span></span>
     </a>
 
@@ -758,22 +840,14 @@
 </div>
 
 
-<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
-<section class="hero" aria-label="Encabezado de página">
-  <!-- Rotating turbine watermark -->
-  <svg class="hero-watermark" viewBox="0 0 480 480" fill="none" aria-hidden="true">
-    <rect x="200" y="200" width="80" height="80" rx="12" fill="white"/>
-    <path d="M240 200 C220 120, 120 90, 100 130 C80 170, 170 200, 240 200Z" fill="white" opacity="0.9"/>
-    <path d="M280 240 C360 220, 390 120, 350 100 C310 80, 280 170, 280 240Z" fill="white" opacity="0.75"/>
-    <path d="M280 280 C350 350, 330 430, 290 420 C250 410, 260 330, 280 280Z" fill="white" opacity="0.60"/>
-    <path d="M200 280 C130 360, 150 440, 190 430 C230 420, 220 340, 200 280Z" fill="white" opacity="0.45"/>
-    <path d="M200 240 C120 260, 90 360, 130 370 C170 380, 200 300, 200 240Z" fill="white" opacity="0.30"/>
-  </svg>
-
-  <div class="hero-content">
-    <p class="eyebrow">Nuestras líneas de servicio</p>
-    <h1 class="hero-title">Gestión técnica integral</h1>
+<!-- ═══════════════════════════════ PAGE HERO ═══════════════════════════════ -->
+<section class="page-hero" aria-label="Encabezado de página">
+  <img src="mp7f4gt1-isotipo.png" class="page-hero-watermark" alt="" aria-hidden="true">
+  <div class="page-hero-inner">
+    <p class="eyebrow">Lo que hacemos · Barranquilla &amp; Región Caribe</p>
+    <h1>Gestión técnica<br>de sistemas críticos</h1>
     <div class="hero-rule"></div>
+    <p class="page-hero-sub">Cuatro especialidades complementarias que protegen la continuidad operativa de su empresa. Personal certificado, respaldo técnico documentado y cobertura regional.</p>
     <nav class="breadcrumb" aria-label="Ruta de navegación">
       <a href="aircleaner-landing.html">Inicio</a>
       <span aria-hidden="true">›</span>
@@ -783,366 +857,375 @@
 </section>
 
 
-<!-- ══════════════════ SERVICE 01 — CLIMATIZACIÓN ══════════════════ -->
-<section class="service-section" id="climatizacion" aria-labelledby="svc1-title">
-  <div class="container">
-    <div class="service-grid">
-      <!-- Left: content -->
-      <div>
-        <p class="service-number reveal">01</p>
-        <p class="service-eyebrow reveal reveal-delay-1">Sistemas HVAC · Climatización</p>
-        <h2 class="service-title reveal reveal-delay-2" id="svc1-title">Climatización industrial y corporativa</h2>
-        <div class="service-title-rule reveal reveal-delay-2"></div>
-        <p class="service-lead reveal reveal-delay-3">
-          Diseño, instalación y mantenimiento preventivo de sistemas de climatización para edificios industriales, centros comerciales, hospitales y zonas corporativas del Caribe colombiano. Garantizamos eficiencia energética certificada y continuidad operativa.
-        </p>
-        <ul class="feature-list reveal">
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Diagnóstico y auditoría energética inicial
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Diseño de sistemas HVAC a medida
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Instalación con personal certificado
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Mantenimiento preventivo programado
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Monitoreo de consumo y optimización continua
-          </li>
-        </ul>
-        <a href="aircleaner-solicitar.html" class="service-cta reveal">
-          Solicitar diagnóstico de climatización
-        </a>
+<!-- ═══════════════════════════════ TRUST BAR ═══════════════════════════════ -->
+<div class="trust-bar" aria-hidden="true">
+  <div class="trust-bar-inner">
+    <div class="tb-item">
+      <div class="tb-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
       </div>
-      <!-- Right: specs card -->
-      <div class="reveal reveal-delay-2">
-        <div class="specs-card">
-          <p class="specs-card-title">Indicadores técnicos</p>
-          <div class="specs-list">
-            <div class="specs-row">
-              <span class="specs-label">Ahorro energético</span>
-              <span class="specs-value">Hasta 30%</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Normas aplicables</span>
-              <span class="specs-value">ASHRAE 90.1 · RETIE</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Tipos de sistemas</span>
-              <span class="specs-value">VRF · Chiller · Split · Central</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Tiempo de diagnóstico</span>
-              <span class="specs-value">48 horas hábiles</span>
-            </div>
-          </div>
-        </div>
+      <div class="tb-text"><strong>Ingenieros certificados</strong><span>ASHRAE · NFPA · RETIE</span></div>
+    </div>
+    <div class="tb-item">
+      <div class="tb-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
       </div>
+      <div class="tb-text"><strong>Diagnóstico en 48 h</strong><span>Sin costo · Sin compromiso</span></div>
+    </div>
+    <div class="tb-item">
+      <div class="tb-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 12 19.79 19.79 0 011.61 3.18 2 2 0 013.58 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9a16 16 0 006 6l.81-.81a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+      </div>
+      <div class="tb-text"><strong>Emergencias 24/7</strong><span>Línea directa disponible</span></div>
+    </div>
+    <div class="tb-item">
+      <div class="tb-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>
+      <div class="tb-text"><strong>6 ciudades del Caribe</strong><span>Cobertura regional garantizada</span></div>
     </div>
   </div>
-</section>
+</div>
 
 
-<!-- ══════════════════ SERVICE 02 — REFRIGERACIÓN ══════════════════ -->
-<section class="service-section" id="refrigeracion" aria-labelledby="svc2-title">
-  <div class="container">
-    <div class="service-grid">
-      <!-- Left: content -->
-      <div>
-        <p class="service-number reveal">02</p>
-        <p class="service-eyebrow reveal reveal-delay-1">Sistemas de frío · Cadena de frío</p>
-        <h2 class="service-title reveal reveal-delay-2" id="svc2-title">Refrigeración para procesos industriales</h2>
-        <div class="service-title-rule reveal reveal-delay-2"></div>
-        <p class="service-lead reveal reveal-delay-3">
-          Sistemas de refrigeración para cadena de frío, cuartos fríos, cámaras de conservación y procesos productivos que requieren temperatura controlada. Operación continua 24/7 con monitoreo remoto incluido.
-        </p>
-        <ul class="feature-list reveal">
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Cuartos fríos y cámaras de conservación
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Sistemas para cadena de frío certificada
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Monitoreo remoto de temperatura 24/7
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Mantenimiento preventivo y correctivo
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Cumplimiento INVIMA y BPM
-          </li>
-        </ul>
-        <a href="aircleaner-solicitar.html" class="service-cta reveal">
-          Solicitar diagnóstico de refrigeración
-        </a>
-      </div>
-      <!-- Right: specs card -->
-      <div class="reveal reveal-delay-2">
-        <div class="specs-card">
-          <p class="specs-card-title">Indicadores técnicos</p>
-          <div class="specs-list">
-            <div class="specs-row">
-              <span class="specs-label">Rango de temperatura</span>
-              <span class="specs-value">−40 °C a +18 °C</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Normas aplicables</span>
-              <span class="specs-value">INVIMA · BPM · HACCP</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Capacidades</span>
-              <span class="specs-value">1 TR a 500 TR</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Sistema de alarmas</span>
-              <span class="specs-value">SMS · Correo · Llamada</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════════ SERVICE 03 — BOMBEO ══════════════════ -->
-<section class="service-section" id="bombeo" aria-labelledby="svc3-title">
-  <div class="container">
-    <div class="service-grid">
-      <!-- Left: content -->
-      <div>
-        <p class="service-number reveal">03</p>
-        <p class="service-eyebrow reveal reveal-delay-1">Bombeo · Infraestructura hidráulica</p>
-        <h2 class="service-title reveal reveal-delay-2" id="svc3-title">Bombeo para agua e infraestructura</h2>
-        <div class="service-title-rule reveal reveal-delay-2"></div>
-        <p class="service-lead reveal reveal-delay-3">
-          Diagnóstico, diseño, instalación y mantenimiento de sistemas de bombeo para agua potable, aguas residuales, agua contra incendios y procesos industriales en edificaciones del Caribe colombiano.
-        </p>
-        <ul class="feature-list reveal">
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Bombas centrífugas, sumergibles y de presión
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Sistemas de presión constante (variador de frecuencia)
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Redes contra incendios con bomba jockey
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Tratamiento y reúso de aguas grises
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Cumplimiento RAS 2000 y NTC
-          </li>
-        </ul>
-        <a href="aircleaner-solicitar.html" class="service-cta reveal">
-          Solicitar diagnóstico de bombeo
-        </a>
-      </div>
-      <!-- Right: specs card -->
-      <div class="reveal reveal-delay-2">
-        <div class="specs-card">
-          <p class="specs-card-title">Indicadores técnicos</p>
-          <div class="specs-list">
-            <div class="specs-row">
-              <span class="specs-label">Caudal</span>
-              <span class="specs-value">0.5 L/s a 500 L/s</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Presión de trabajo</span>
-              <span class="specs-value">Hasta 120 PSI</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Normas aplicables</span>
-              <span class="specs-value">RAS 2000 · NTC 1500 · NFPA 20</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Control VFD</span>
-              <span class="specs-value">Velocidad variable integrada</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════════ SERVICE 04 — INCENDIOS ══════════════════ -->
-<section class="service-section" id="incendios" aria-labelledby="svc4-title">
-  <div class="container">
-    <div class="service-grid">
-      <!-- Left: content -->
-      <div>
-        <p class="service-number reveal">04</p>
-        <p class="service-eyebrow reveal reveal-delay-1">Redes contra incendios · NFPA</p>
-        <h2 class="service-title reveal reveal-delay-2" id="svc4-title">Sistemas de protección contra incendios</h2>
-        <div class="service-title-rule reveal reveal-delay-2"></div>
-        <p class="service-lead reveal reveal-delay-3">
-          Diseño e instalación de redes contra incendios, sistemas de rociadores automáticos, extintores y detección de humo para edificios industriales, comerciales y hospitalarios. Cumplimiento normativo NFPA y regulación colombiana.
-        </p>
-        <ul class="feature-list reveal">
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Redes húmedas y secas contra incendios
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Rociadores automáticos (sprinklers)
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Detectores de humo y calor
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Gabinetes y extintores certificados
-          </li>
-          <li>
-            <span class="check" aria-hidden="true">✓</span>
-            Pruebas hidrostáticas y certificación
-          </li>
-        </ul>
-        <a href="aircleaner-solicitar.html" class="service-cta reveal">
-          Solicitar diagnóstico contra incendios
-        </a>
-      </div>
-      <!-- Right: specs card -->
-      <div class="reveal reveal-delay-2">
-        <div class="specs-card">
-          <p class="specs-card-title">Indicadores técnicos</p>
-          <div class="specs-list">
-            <div class="specs-row">
-              <span class="specs-label">Normas aplicables</span>
-              <span class="specs-value">NFPA 13 · NFPA 20 · NSR-10</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Presión de prueba</span>
-              <span class="specs-value">200 PSI</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Tipos de rociadores</span>
-              <span class="specs-value">Pendientes · Verticales · ESFR</span>
-            </div>
-            <div class="specs-row">
-              <span class="specs-label">Certificación final</span>
-              <span class="specs-value">Cuerpo de Bomberos</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════════ WHY DIFFERENT ══════════════════ -->
-<section class="why-section" aria-labelledby="why-title">
+<!-- ═══════════════════════════════ SERVICES GRID ═══════════════════════════════ -->
+<section class="services-section" aria-labelledby="services-title">
   <div class="container">
     <div class="section-header reveal">
-      <h2 class="section-title" id="why-title">Un aliado estratégico, no un proveedor puntual</h2>
+      <span class="section-eyebrow">Nuestras líneas de servicio</span>
+      <h2 class="section-title" id="services-title">Lo que hacemos en el Caribe</h2>
+      <p class="section-desc">Más de 18 años ejecutando proyectos industriales, corporativos y hospitalarios en Barranquilla, Cartagena, Santa Marta y la región.</p>
     </div>
-    <div class="why-grid">
-      <!-- Col 1 -->
-      <div class="why-card reveal reveal-delay-1">
-        <svg class="why-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-          <circle cx="24" cy="24" r="20" stroke="#39DBC4" stroke-width="2"/>
-          <path d="M16 28 C16 28, 20 18, 24 18 C28 18, 32 28, 32 28" stroke="#39DBC4" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="24" cy="18" r="3" stroke="#39DBC4" stroke-width="2"/>
-          <path d="M20 32 L24 36 L28 32" stroke="#39DBC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <h3>Ingeniería preventiva</h3>
-        <p>Intervenimos antes de que surjan fallas. Nuestros programas de mantenimiento preventivo reducen los tiempos de paro no planificados y protegen la vida útil de sus equipos.</p>
+
+    <div class="services-grid">
+
+      <!-- ── Card 01: Climatización ── -->
+      <article class="svc-card reveal reveal-delay-1" id="climatizacion" aria-labelledby="svc1-title">
+        <div class="svc-card-img bg-hvac">
+          <div class="svc-card-img-overlay"></div>
+          <span class="svc-card-number">01</span>
+          <div class="svc-card-icon-wrap">
+            <svg width="96" height="96" viewBox="0 0 38 38" fill="none">
+              <circle cx="19" cy="19" r="7" stroke="white" stroke-width="1.5"/>
+              <line x1="19" y1="2"  x2="19" y2="8"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="19" y1="30" x2="19" y2="36" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="2"  y1="19" x2="8"  y2="19" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="30" y1="19" x2="36" y2="19" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="6.5"  y1="6.5"  x2="10.5" y2="10.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="27.5" y1="27.5" x2="31.5" y2="31.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="27.5" y1="6.5"  x2="31.5" y2="10.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="6.5"  y1="27.5" x2="10.5" y2="31.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="svc-card-body">
+          <div class="svc-card-tl"></div>
+          <h2 id="svc1-title">Climatización industrial y corporativa</h2>
+          <p>Diseño, instalación y mantenimiento preventivo de sistemas HVAC para edificios industriales, centros comerciales, hospitales y zonas corporativas. Eficiencia energética certificada y continuidad operativa garantizada.</p>
+          <ul class="svc-features" role="list">
+            <li><span class="svc-check" aria-hidden="true">✓</span>Diagnóstico y auditoría energética inicial</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Diseño de sistemas VRF, Chiller, Split y Central</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Instalación con personal certificado ASHRAE</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Mantenimiento preventivo programado</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Monitoreo de consumo y optimización continua</li>
+          </ul>
+          <div class="svc-specs">
+            <div class="svc-spec">
+              <div class="svc-spec-label">Ahorro energético</div>
+              <div class="svc-spec-value">Hasta 30%</div>
+            </div>
+            <div class="svc-spec">
+              <div class="svc-spec-label">Normas</div>
+              <div class="svc-spec-value">ASHRAE 90.1 · RETIE</div>
+            </div>
+            <div class="svc-spec">
+              <div class="svc-spec-label">Diagnóstico</div>
+              <div class="svc-spec-value">48 horas hábiles</div>
+            </div>
+          </div>
+          <a href="aircleaner-solicitar.html" class="svc-card-link">
+            Solicitar diagnóstico
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- ── Card 02: Refrigeración ── -->
+      <article class="svc-card reveal reveal-delay-2" id="refrigeracion" aria-labelledby="svc2-title">
+        <div class="svc-card-img bg-refrig">
+          <div class="svc-card-img-overlay"></div>
+          <span class="svc-card-number">02</span>
+          <div class="svc-card-icon-wrap">
+            <svg width="96" height="96" viewBox="0 0 38 38" fill="none">
+              <rect x="6" y="4" width="26" height="30" rx="3" stroke="white" stroke-width="1.5"/>
+              <line x1="12" y1="12" x2="26" y2="12" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="12" y1="17" x2="22" y2="17" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="12" y1="22" x2="24" y2="22" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="19" cy="30" r="2.5" stroke="white" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </div>
+        <div class="svc-card-body">
+          <div class="svc-card-tl"></div>
+          <h2 id="svc2-title">Refrigeración para procesos industriales</h2>
+          <p>Sistemas de refrigeración para cadena de frío, cuartos fríos, cámaras de conservación y procesos productivos que requieren temperatura controlada. Operación continua 24/7 con monitoreo remoto incluido.</p>
+          <ul class="svc-features" role="list">
+            <li><span class="svc-check" aria-hidden="true">✓</span>Cuartos fríos y cámaras de conservación</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Sistemas para cadena de frío certificada</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Monitoreo remoto de temperatura 24/7</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Mantenimiento preventivo y correctivo</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Cumplimiento INVIMA y BPM</li>
+          </ul>
+          <div class="svc-specs">
+            <div class="svc-spec">
+              <div class="svc-spec-label">Temperatura</div>
+              <div class="svc-spec-value">−40 °C a +18 °C</div>
+            </div>
+            <div class="svc-spec">
+              <div class="svc-spec-label">Normas</div>
+              <div class="svc-spec-value">INVIMA · BPM · HACCP</div>
+            </div>
+            <div class="svc-spec">
+              <div class="svc-spec-label">Capacidad</div>
+              <div class="svc-spec-value">1 TR a 500 TR</div>
+            </div>
+          </div>
+          <a href="aircleaner-solicitar.html" class="svc-card-link">
+            Solicitar diagnóstico
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- ── Card 03: Bombeo ── -->
+      <article class="svc-card reveal reveal-delay-1" id="bombeo" aria-labelledby="svc3-title">
+        <div class="svc-card-img bg-bombeo">
+          <div class="svc-card-img-overlay"></div>
+          <span class="svc-card-number">03</span>
+          <div class="svc-card-icon-wrap">
+            <svg width="96" height="96" viewBox="0 0 38 38" fill="none">
+              <circle cx="19" cy="16" r="8" stroke="white" stroke-width="1.5"/>
+              <path d="M19 8C19 8 14 12 14 16C14 20 17 22 19 24" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <path d="M19 8C19 8 24 12 24 16C24 20 21 22 19 24" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <line x1="19" y1="24" x2="19" y2="34" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="14" y1="34" x2="24" y2="34" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="svc-card-body">
+          <div class="svc-card-tl"></div>
+          <h2 id="svc3-title">Bombeo para agua e infraestructura</h2>
+          <p>Diagnóstico, diseño, instalación y mantenimiento de sistemas de bombeo para agua potable, aguas residuales, agua contra incendios y procesos industriales en edificaciones del Caribe colombiano.</p>
+          <ul class="svc-features" role="list">
+            <li><span class="svc-check" aria-hidden="true">✓</span>Bombas centrífugas, sumergibles y de presión</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Sistemas de presión constante con variador de frecuencia</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Redes contra incendios con bomba jockey</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Tratamiento y reúso de aguas grises</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Cumplimiento RAS 2000 y NTC</li>
+          </ul>
+          <div class="svc-specs">
+            <div class="svc-spec">
+              <div class="svc-spec-label">Caudal</div>
+              <div class="svc-spec-value">0.5 – 500 L/s</div>
+            </div>
+            <div class="svc-spec">
+              <div class="svc-spec-label">Presión</div>
+              <div class="svc-spec-value">Hasta 120 PSI</div>
+            </div>
+            <div class="svc-spec">
+              <div class="svc-spec-label">Normas</div>
+              <div class="svc-spec-value">RAS 2000 · NFPA 20</div>
+            </div>
+          </div>
+          <a href="aircleaner-solicitar.html" class="svc-card-link">
+            Solicitar diagnóstico
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- ── Card 04: Incendios ── -->
+      <article class="svc-card reveal reveal-delay-2" id="incendios" aria-labelledby="svc4-title">
+        <div class="svc-card-img bg-incendios">
+          <div class="svc-card-img-overlay"></div>
+          <span class="svc-card-number">04</span>
+          <div class="svc-card-icon-wrap">
+            <svg width="96" height="96" viewBox="0 0 38 38" fill="none">
+              <path d="M19 34C19 34 7 28 7 18C7 11 12 6 19 4C19 4 16 10 20 14C22 16 25 14 25 11C28 14 31 18 31 22C31 28 25 34 19 34Z" stroke="white" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+              <path d="M19 30C16 28 13 25 13 22C13 20 14.5 19 16 20C16 17 17.5 15 19 15C20.5 17 21 20 21 22C22.5 21 24 22 24 24C24 27 21.5 30 19 30Z" stroke="white" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>
+        </div>
+        <div class="svc-card-body">
+          <div class="svc-card-tl"></div>
+          <h2 id="svc4-title">Sistemas de protección contra incendios</h2>
+          <p>Diseño e instalación de redes contra incendios, sistemas de rociadores automáticos, extintores y detección de humo para edificios industriales, comerciales y hospitalarios. Cumplimiento NFPA y regulación colombiana.</p>
+          <ul class="svc-features" role="list">
+            <li><span class="svc-check" aria-hidden="true">✓</span>Redes húmedas y secas contra incendios</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Rociadores automáticos (sprinklers)</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Detectores de humo y calor</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Gabinetes y extintores certificados</li>
+            <li><span class="svc-check" aria-hidden="true">✓</span>Pruebas hidrostáticas y certificación final</li>
+          </ul>
+          <div class="svc-specs">
+            <div class="svc-spec">
+              <div class="svc-spec-label">Normas</div>
+              <div class="svc-spec-value">NFPA 13 · NFPA 20 · NSR-10</div>
+            </div>
+            <div class="svc-spec">
+              <div class="svc-spec-label">Prueba hidrostática</div>
+              <div class="svc-spec-value">200 PSI</div>
+            </div>
+            <div class="svc-spec">
+              <div class="svc-spec-label">Certificación</div>
+              <div class="svc-spec-value">Cuerpo de Bomberos</div>
+            </div>
+          </div>
+          <a href="aircleaner-solicitar.html" class="svc-card-link">
+            Solicitar diagnóstico
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="#0493D9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ TESTIMONIALS ═══════════════════════════════ -->
+<section class="testimonials-section" aria-labelledby="testi-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Clientes que confían</span>
+      <h2 class="section-title" id="testi-title">Resultados reales para empresas reales</h2>
+      <p class="section-desc">Lo que dicen los responsables de infraestructura y mantenimiento que trabajan con nosotros.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="tcard reveal reveal-delay-1">
+        <div class="tcard-stars"><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span></div>
+        <p class="tcard-quote">AirCleaner respondió a las 6 horas de contactarlos. Diagnosticaron el problema en el sistema de refrigeración y lo resolvieron sin afectar la operación. El informe fue impecable.</p>
+        <div class="tcard-sep"></div>
+        <div class="tcard-author">
+          <div class="tcard-avatar">JM</div>
+          <div>
+            <div class="tcard-name">Juan Morales</div>
+            <div class="tcard-role">Gerente de Mantenimiento · Planta Caribe</div>
+            <span class="tcard-service">Refrigeración Industrial</span>
+          </div>
+        </div>
       </div>
-      <!-- Col 2 -->
-      <div class="why-card reveal reveal-delay-2">
-        <svg class="why-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-          <rect x="10" y="14" width="28" height="22" rx="3" stroke="#39DBC4" stroke-width="2"/>
-          <path d="M18 14 L18 10 M30 14 L30 10" stroke="#39DBC4" stroke-width="2" stroke-linecap="round"/>
-          <path d="M16 24 L21 29 L32 20" stroke="#39DBC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <h3>Respaldo certificado</h3>
-        <p>Técnicos certificados en ASHRAE, NFPA y RETIE. Todos nuestros proyectos cuentan con documentación técnica, memorias de cálculo y certificados de instalación entregados al cliente.</p>
+      <div class="tcard reveal reveal-delay-2">
+        <div class="tcard-stars"><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span></div>
+        <p class="tcard-quote">Llevábamos dos años con fallas recurrentes en climatización. AirCleaner encontró la causa raíz y desde la intervención no hemos vuelto a tener incidencias. Ahorramos un 27% en energía.</p>
+        <div class="tcard-sep"></div>
+        <div class="tcard-author">
+          <div class="tcard-avatar">LC</div>
+          <div>
+            <div class="tcard-name">Laura Cifuentes</div>
+            <div class="tcard-role">Directora de Infraestructura · Torre Empresarial</div>
+            <span class="tcard-service">Climatización HVAC</span>
+          </div>
+        </div>
       </div>
-      <!-- Col 3 -->
-      <div class="why-card reveal reveal-delay-3">
-        <svg class="why-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-          <circle cx="24" cy="22" r="10" stroke="#39DBC4" stroke-width="2"/>
-          <path d="M16 30 C12 34, 10 40, 10 40 L24 36 L38 40 C38 40, 36 34, 32 30" stroke="#39DBC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="24" cy="22" r="3" fill="#39DBC4"/>
-        </svg>
-        <h3>Cobertura regional</h3>
-        <p>Presencia activa en Barranquilla, Cartagena, Santa Marta y todo el Caribe colombiano. Atención de emergencias disponible 24/7 con tiempos de respuesta garantizados.</p>
+      <div class="tcard reveal reveal-delay-3">
+        <div class="tcard-stars"><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span></div>
+        <p class="tcard-quote">Proceso profesional de principio a fin: diagnóstico, propuesta detallada, ejecución puntual y seguimiento. El sistema de incendios quedó certificado NFPA sin ningún contratiempo.</p>
+        <div class="tcard-sep"></div>
+        <div class="tcard-author">
+          <div class="tcard-avatar">RV</div>
+          <div>
+            <div class="tcard-name">Rodrigo Vargas</div>
+            <div class="tcard-role">Administrador · Hospital Universitario del Caribe</div>
+            <span class="tcard-service">Protección Contra Incendios</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ══════════════════ CTA BANNER ══════════════════ -->
-<section class="cta-banner" aria-labelledby="cta-title">
-  <h2 id="cta-title" class="reveal">¿Listo para proteger la continuidad de su operación?</h2>
-  <p class="reveal reveal-delay-1">Solicite un diagnóstico técnico gratuito. Respuesta en 48 horas hábiles.</p>
-  <a href="aircleaner-solicitar.html" class="cta-banner-btn reveal reveal-delay-2">Solicitar diagnóstico</a>
+<!-- ═══════════════════════════════ HOW IT WORKS ═══════════════════════════════ -->
+<section class="process-section" aria-labelledby="process-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow" style="color:rgba(255,255,255,.35)">Nuestro proceso</span>
+      <h2 class="section-title" id="process-title">Cómo trabajamos</h2>
+      <p class="section-desc">Cuatro pasos que convierten un problema técnico en un sistema funcionando correctamente.</p>
+    </div>
+    <div class="process-grid">
+      <div class="process-card reveal reveal-delay-1">
+        <div class="process-num">01</div>
+        <h3>Contacto inicial</h3>
+        <p>Llame, escriba por WhatsApp o complete el formulario. Un ingeniero le responde dentro de las 48 horas hábiles siguientes para coordinar la visita.</p>
+      </div>
+      <div class="process-card reveal reveal-delay-2">
+        <div class="process-num">02</div>
+        <h3>Diagnóstico en sitio</h3>
+        <p>Nuestro equipo visita sus instalaciones, evalúa el estado técnico de los sistemas y documenta hallazgos con instrumentos calibrados. Sin costo.</p>
+      </div>
+      <div class="process-card reveal reveal-delay-3">
+        <div class="process-num">03</div>
+        <h3>Propuesta y aprobación</h3>
+        <p>Entregamos un informe técnico con causas, soluciones, materiales, cronograma y presupuesto detallado. Usted aprueba antes de comenzar.</p>
+      </div>
+      <div class="process-card reveal reveal-delay-4">
+        <div class="process-num">04</div>
+        <h3>Ejecución y seguimiento</h3>
+        <p>El mismo equipo que diagnosticó ejecuta el trabajo y entrega documentación técnica completa. Programamos mantenimiento preventivo para garantizar continuidad.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 
-<!-- ══════════════════ FOOTER ══════════════════ -->
+<!-- ═══════════════════════════════ CTA BANNER ═══════════════════════════════ -->
+<section class="cta-section" aria-labelledby="cta-title">
+  <h2 id="cta-title" class="reveal">¿Listo para proteger la continuidad de su operación?</h2>
+  <p class="reveal reveal-delay-1">Solicite un diagnóstico técnico gratuito. Respuesta garantizada en 48 horas hábiles.</p>
+  <div class="cta-buttons reveal reveal-delay-2">
+    <a href="aircleaner-solicitar.html" class="btn-white">Solicitar diagnóstico</a>
+    <a href="aircleaner-contacto.html" class="btn-outline-white">+57 300 123 4567</a>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
 <footer class="footer" aria-label="Pie de página">
-  <!-- Watermark -->
-  <svg class="footer-watermark" viewBox="0 0 320 320" fill="none" aria-hidden="true">
-    <rect x="133" y="133" width="54" height="54" rx="8" fill="white"/>
-    <path d="M160 133 C148 80, 72 58, 62 88 C52 118, 120 133, 160 133Z" fill="white" opacity="0.9"/>
-    <path d="M187 160 C240 148, 262 72, 232 62 C202 52, 187 120, 187 160Z" fill="white" opacity="0.75"/>
-    <path d="M187 187 C240 240, 228 296, 198 288 C168 280, 174 218, 187 187Z" fill="white" opacity="0.60"/>
-    <path d="M133 187 C80 240, 92 296, 122 288 C152 280, 146 218, 133 187Z" fill="white" opacity="0.45"/>
-    <path d="M133 160 C80 172, 58 248, 88 258 C118 268, 133 200, 133 160Z" fill="white" opacity="0.30"/>
-  </svg>
+  <img src="mp7h2oze-isotipo.png" aria-hidden="true" class="footer-watermark" style="object-fit:contain;">
 
   <div class="container">
     <div class="footer-grid">
-      <!-- Brand col -->
       <div class="footer-col">
-        <div class="footer-brand-logo">
-          <svg width="32" height="32" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-            <rect x="14" y="14" width="8" height="8" rx="2" fill="#0493D9"/>
-            <path d="M18 14 C16 8, 10 6, 9 9 C8 12, 13 14, 18 14Z" fill="#0493D9" opacity="0.85"/>
-            <path d="M22 18 C28 16, 30 10, 27 9 C24 8, 22 13, 22 18Z" fill="#0493D9" opacity="0.70"/>
-            <path d="M22 22 C26 26, 24 32, 21 31 C18 30, 19 25, 22 22Z" fill="#0493D9" opacity="0.55"/>
-            <path d="M14 22 C10 28, 12 33, 15 32 C18 31, 17 26, 14 22Z" fill="#0493D9" opacity="0.40"/>
-            <path d="M14 18 C8 20, 6 26, 9 27 C12 28, 14 23, 14 18Z" fill="#0493D9" opacity="0.25"/>
-          </svg>
-          <span class="nav-logo-text"><span class="air">Air</span><span class="cleaner">Cleaner</span></span>
+        <div class="footer-logo-wrap" style="display:flex;align-items:center;gap:10px;">
+          <img src="mp7gw2yt-isotipo.png" alt="" style="height:44px;width:44px;object-fit:contain;flex-shrink:0;">
+          <span class="nav-logo-text"><span class="air">Air</span><span class="cleaner" style="color:var(--white);">Cleaner</span></span>
         </div>
         <p class="footer-tagline">Gestión técnica integral de sistemas HVAC, refrigeración, bombeo e incendios para el Caribe colombiano.</p>
         <div class="footer-socials">
-          <!-- LinkedIn -->
           <a href="#" class="social-link" aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="2" width="20" height="20" rx="3"/>
               <path d="M7 10v7M7 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/>
             </svg>
           </a>
-          <!-- Instagram -->
           <a href="#" class="social-link" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="2" width="20" height="20" rx="5"/>
@@ -1150,7 +1233,6 @@
               <circle cx="17.5" cy="6.5" r="0.5" fill="white"/>
             </svg>
           </a>
-          <!-- WhatsApp -->
           <a href="https://wa.me/573001234567" class="social-link" aria-label="WhatsApp">
             <svg viewBox="0 0 24 24" fill="white">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -1159,7 +1241,6 @@
         </div>
       </div>
 
-      <!-- Contacto col -->
       <div class="footer-col">
         <p class="footer-col-title">Contacto</p>
         <address>
@@ -1171,7 +1252,6 @@
         </address>
       </div>
 
-      <!-- Horario col -->
       <div class="footer-col">
         <p class="footer-col-title">Horario</p>
         <p>
@@ -1182,7 +1262,6 @@
       </div>
     </div>
 
-    <!-- Footer bar -->
     <div class="footer-bar">
       <p>© 2026 AirCleaner S.A.S. Todos los derechos reservados.</p>
       <nav class="footer-bar-links" aria-label="Vínculos legales">
@@ -1194,7 +1273,7 @@
 </footer>
 
 
-<!-- ══════════════════ WhatsApp FAB ══════════════════ -->
+<!-- ═══════════════════════════════ WhatsApp FAB ═══════════════════════════════ -->
 <a href="https://wa.me/573001234567?text=Hola%2C%20quisiera%20solicitar%20un%20diagn%C3%B3stico%20t%C3%A9cnico."
    class="whatsapp-fab"
    aria-label="Contactar por WhatsApp"
@@ -1206,7 +1285,7 @@
 </a>
 
 
-<!-- ══════════════════ JS ══════════════════ -->
+<!-- ═══════════════════════════════ JS ═══════════════════════════════ -->
 <script>
   // ── Nav scroll behavior ──
   const nav = document.getElementById('nav');
@@ -1229,7 +1308,6 @@
     hamburger.setAttribute('aria-expanded', String(isOpen));
     document.body.style.overflow = isOpen ? 'hidden' : '';
   });
-  // Close overlay on link click
   navOverlay.querySelectorAll('a').forEach(function (link) {
     link.addEventListener('click', function () {
       navOverlay.classList.remove('open');
@@ -1238,7 +1316,6 @@
       document.body.style.overflow = '';
     });
   });
-  // Close on Escape
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && navOverlay.classList.contains('open')) {
       navOverlay.classList.remove('open');
@@ -1259,10 +1336,9 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
     revealElements.forEach(function (el) { observer.observe(el); });
   } else {
-    // Fallback: show all immediately
     revealElements.forEach(function (el) { el.classList.add('visible'); });
   }
 </script>

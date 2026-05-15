@@ -1,925 +1,492 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solicitar Diagnóstico – AirCleaner</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Solicitar Diagnóstico — AirCleaner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --blue: #0493D9;
-  --dblue: #014778;
-  --navy: #01092D;
-  --teal: #39DBC4;
-  --white: #FFFFFF;
-  --gbg: #F4F6F9;
-  --gborder: #DDE5EF;
-  --gmuted: #5A7186;
-  --fd: 'DM Sans', system-ui, sans-serif;
-  --fb: 'Outfit', system-ui, sans-serif;
-  --fm: ui-monospace, 'JetBrains Mono', Menlo, monospace;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0493D9;--dblue:#014778;--navy:#01092D;--teal:#39DBC4;
+  --white:#FFFFFF;--gbg:#F4F6F9;--gborder:#DDE5EF;--gmuted:#5A7186;
+  --fd:'DM Sans',system-ui,sans-serif;
+  --fb:'Outfit',system-ui,sans-serif;
+  --radius:12px;--shadow:0 4px 24px rgba(1,9,45,.12);
 }
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);color:var(--navy);background:var(--gbg);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: var(--fb);
-  font-weight: 300;
-  color: var(--navy);
-  background: var(--gbg);
-  overflow-x: hidden;
-}
-
-/* ── NAV ── */
-nav {
+/* ── Nav ── */
+.nav {
   position: fixed;
   top: 0; left: 0; right: 0;
+  z-index: 999;
   height: 72px;
-  z-index: 1000;
-  background: transparent;
-  transition: background .3s, backdrop-filter .3s;
-}
-nav.scrolled {
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
   background: rgba(1,9,45,.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06);
+  transition: background 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
 }
-nav.light:not(.scrolled) {
-  background: rgba(255,255,255,.97);
-  box-shadow: 0 1px 0 var(--gborder);
+.nav.scrolled {
+  background: rgba(1,9,45,.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06);
 }
 .nav-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 .nav-logo {
   display: flex;
   align-items: center;
   gap: 10px;
-  text-decoration: none;
   flex-shrink: 0;
+  text-decoration: none;
 }
-.nav-logo svg { width: 36px; height: 36px; }
-.logo-text {
-  font-family: var(--fd);
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -.3px;
-  line-height: 1;
-}
-.logo-air { color: var(--blue); }
-nav:not(.scrolled) .logo-cleaner { color: var(--dblue); }
-nav.scrolled .logo-cleaner { color: var(--white); }
-nav.light:not(.scrolled) .logo-cleaner { color: var(--dblue); }
-
+.nav-logo-text { font-family: var(--fd); font-size: 20px; font-weight: 600; line-height: 1; letter-spacing: -.02em; }
+.nav-logo-text .air { color: var(--blue); }
+.nav-logo-text .cleaner { color: var(--white); }
+.nav.scrolled .nav-logo-text .cleaner { color: var(--white); }
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 36px;
   list-style: none;
 }
 .nav-links a {
-  font-family: var(--fb);
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(255,255,255,.72);
+  transition: color 0.2s;
+  position: relative;
   text-decoration: none;
-  transition: color .2s;
 }
-nav:not(.scrolled) .nav-links a { color: var(--navy); }
-nav.scrolled .nav-links a { color: rgba(255,255,255,.8); }
-nav.light:not(.scrolled) .nav-links a { color: var(--navy); }
-.nav-links a:hover { color: var(--blue) !important; }
-.nav-links a.active { color: var(--blue) !important; font-weight: 500; }
-
+.nav.scrolled .nav-links a { color: rgba(255,255,255,.72); }
+.nav-links a:hover { color: var(--blue); }
+.nav.scrolled .nav-links a:hover { color: var(--white); }
+.nav-links a.active { color: var(--blue); }
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 2px;
+  background: var(--blue);
+  border-radius: 1px;
+}
+.nav.scrolled .nav-links a.active { color: var(--blue); }
 .nav-cta {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 22px;
   background: var(--blue);
   color: var(--white) !important;
-  padding: 9px 20px;
-  border-radius: 6px;
-  font-weight: 500 !important;
   font-size: 14px;
-  text-decoration: none;
-  transition: background .2s, transform .15s;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background 0.2s, transform 0.15s;
   white-space: nowrap;
+  text-decoration: none;
 }
-.nav-cta:hover { background: var(--dblue) !important; color: var(--white) !important; transform: translateY(-1px); }
-
-.hamburger {
+.nav-cta:hover { background: #0280c2; transform: translateY(-1px); }
+.nav-hamburger {
   display: none;
   flex-direction: column;
   gap: 5px;
-  cursor: pointer;
-  padding: 4px;
   background: none;
   border: none;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
 }
-.hamburger span {
+.nav-hamburger span {
   display: block;
   width: 24px;
   height: 2px;
-  background: var(--navy);
+  background: rgba(255,255,255,.85);
   border-radius: 2px;
-  transition: all .3s;
+  transition: transform 0.25s, opacity 0.25s, background 0.25s;
 }
-nav.scrolled .hamburger span { background: var(--white); }
-
-.mobile-overlay {
+.nav.scrolled .nav-hamburger span { background: var(--white); }
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.nav-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(1,9,45,.97);
-  z-index: 999;
+  z-index: 998;
+  background: var(--navy);
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 32px;
+  gap: 40px;
 }
-.mobile-overlay.open { display: flex; }
-.mobile-overlay a {
+.nav-overlay.open { display: flex; }
+.nav-overlay a {
   font-family: var(--fd);
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--white);
-  text-decoration: none;
-  transition: color .2s;
-}
-.mobile-overlay a:hover { color: var(--teal); }
-.mobile-overlay a.active { color: var(--teal); }
-.mobile-close {
-  position: absolute;
-  top: 22px;
-  right: 24px;
-  background: none;
-  border: none;
-  color: var(--white);
   font-size: 32px;
-  cursor: pointer;
-  line-height: 1;
+  font-weight: 600;
+  color: rgba(255,255,255,.8);
+  transition: color 0.2s;
+  text-decoration: none;
 }
-
+.nav-overlay a:hover { color: var(--white); }
+.nav-overlay a.active { color: var(--blue); }
+.nav-overlay .nav-cta {
+  font-size: 16px;
+  height: 52px;
+  padding: 0 32px;
+  margin-top: 8px;
+}
 @media (max-width: 860px) {
+  .nav { padding: 0 24px; }
   .nav-links, .nav-cta { display: none; }
-  .hamburger { display: flex; }
+  .nav-hamburger { display: flex; }
 }
 
 /* ── HERO ── */
-.hero {
-  background: var(--navy);
-  height: 300px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-.hero-watermark {
-  position: absolute;
-  right: -60px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 380px;
-  height: 380px;
-  opacity: .038;
-  animation: spinTurbine 18s linear infinite;
-}
-@keyframes spinTurbine {
-  from { transform: translateY(-50%) rotate(0deg); }
-  to { transform: translateY(-50%) rotate(360deg); }
-}
-.hero-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  padding-top: 72px;
-  width: 100%;
-  position: relative;
-  z-index: 1;
-}
-.hero-eyebrow {
-  font-family: var(--fb);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--teal);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-.hero h1 {
-  font-family: var(--fd);
-  font-size: 52px;
-  font-weight: 700;
-  color: var(--white);
-  line-height: 1.1;
-  margin-bottom: 18px;
-}
-.hero-line {
-  width: 56px;
-  height: 3px;
-  background: var(--blue);
-  border-radius: 2px;
-  margin-bottom: 18px;
-}
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--fb);
-  font-size: 13px;
-  color: rgba(255,255,255,.5);
-}
-.breadcrumb a { color: rgba(255,255,255,.6); text-decoration: none; transition: color .2s; }
-.breadcrumb a:hover { color: var(--teal); }
-.breadcrumb span { color: rgba(255,255,255,.35); }
-.breadcrumb .current { color: rgba(255,255,255,.8); }
+.hero{min-height:340px;background:linear-gradient(135deg,var(--navy) 0%,#021640 60%,var(--dblue) 100%);display:flex;align-items:center;position:relative;overflow:hidden;padding:100px 5vw 56px}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230493D9' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-wm{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:420px;height:420px;opacity:.04;animation:spin 22s linear infinite;object-fit:contain}
+@keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
+.hero-content{position:relative;z-index:1;max-width:1280px;width:100%;margin:0 auto}
+.hero-eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+.hero h1{font-family:var(--fd);font-size:clamp(2rem,5vw,3rem);font-weight:700;color:var(--white);letter-spacing:-.02em;line-height:1.1;margin-bottom:16px}
+.hero-line{width:52px;height:3px;background:var(--blue);border-radius:2px;margin-bottom:18px}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:.8rem;color:rgba(255,255,255,.5)}
+.breadcrumb a{color:rgba(255,255,255,.6);transition:color .2s}
+.breadcrumb a:hover{color:var(--teal)}
+.breadcrumb .sep{color:rgba(255,255,255,.3)}
 
-@media (max-width: 640px) {
-  .hero h1 { font-size: 32px; }
-  .hero { height: auto; padding: 100px 0 48px; }
-}
+/* ── SOCIAL PROOF BAR ── */
+.proof-bar{background:var(--white);border-bottom:1px solid var(--gborder);padding:20px 5vw}
+.proof-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap}
+.proof-item{display:flex;align-items:center;gap:10px}
+.proof-item svg{flex-shrink:0}
+.proof-text{font-size:.85rem;color:var(--gmuted);line-height:1.3}
+.proof-text strong{display:block;color:var(--navy);font-weight:600;font-size:.9rem}
+.proof-stars{color:#f59e0b;font-size:1rem;letter-spacing:1px}
+.proof-divider{width:1px;height:36px;background:var(--gborder)}
+@media(max-width:640px){.proof-divider{display:none}.proof-inner{gap:20px}}
 
 /* ── PROCESS STRIP ── */
-.process-strip {
-  background: var(--white);
-  border-bottom: 1px solid var(--gborder);
-  padding: 0;
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-}
-.process-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  flex-wrap: wrap;
-}
-.process-step {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 18px 0;
-}
-.step-num {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--blue);
-  color: var(--white);
-  font-family: var(--fd);
-  font-size: 12px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.step-label {
-  font-family: var(--fb);
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--navy);
-  white-space: nowrap;
-}
-.step-arrow {
-  color: var(--teal);
-  font-size: 18px;
-  padding: 0 16px;
-  font-weight: 300;
-  line-height: 1;
-}
+.process-strip{background:var(--dblue);padding:0}
+.process-inner{max-width:1280px;margin:0 auto;padding:0 5vw;display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+.process-step{display:flex;align-items:center;gap:10px;padding:20px 0}
+.step-num{width:30px;height:30px;border-radius:50%;background:var(--blue);color:var(--white);font-family:var(--fd);font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-label{font-size:.85rem;font-weight:500;color:rgba(255,255,255,.9);white-space:nowrap}
+.step-arrow{color:var(--teal);font-size:1.1rem;padding:0 16px;line-height:1}
+@media(max-width:700px){.process-inner{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start}.step-arrow{padding:0 8px}}
 
-@media (max-width: 768px) {
-  .process-inner { gap: 0; justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
-  .step-label { font-size: 12px; }
-  .step-arrow { padding: 0 8px; }
-}
-
-/* ── MAIN CONTENT ── */
-.main-content {
-  background: var(--gbg);
-  padding: 96px 0;
-}
-.content-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: grid;
-  grid-template-columns: 38% 62%;
-  gap: 48px;
-  align-items: start;
-}
+/* ── MAIN SECTION ── */
+.main-section{padding:72px 5vw 80px;background:var(--gbg)}
+.main-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:38% 62%;gap:48px;align-items:start}
 
 /* ── INFO PANEL ── */
-.info-panel { padding-right: 16px; }
-.info-panel h2 {
-  font-family: var(--fd);
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--navy);
-  line-height: 1.2;
-  margin-bottom: 10px;
-}
-.teal-underline {
-  width: 40px;
-  height: 3px;
-  background: var(--teal);
-  border-radius: 2px;
-  margin-bottom: 20px;
-}
-.info-panel p {
-  font-family: var(--fb);
-  font-size: 15px;
-  font-weight: 300;
-  color: var(--gmuted);
-  line-height: 1.7;
-  margin-bottom: 24px;
-}
-.features-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 28px;
-}
-.features-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-family: var(--fb);
-  font-size: 14px;
-  font-weight: 300;
-  color: var(--navy);
-  line-height: 1.5;
-}
-.features-list li .check {
-  color: var(--teal);
-  font-size: 15px;
-  font-weight: 700;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.info-separator {
-  border: none;
-  border-top: 1px solid var(--gborder);
-  margin: 28px 0;
-}
-.contact-heading {
-  font-family: var(--fb);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--gmuted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 16px;
-}
-.whatsapp-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #25D366;
-  color: var(--white);
-  padding: 11px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-family: var(--fb);
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 14px;
-  transition: background .2s, transform .15s;
-}
-.whatsapp-btn:hover { background: #1da851; transform: translateY(-1px); }
-.whatsapp-icon { width: 18px; height: 18px; }
-.contact-links {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 14px;
-}
-.contact-links a {
-  font-family: var(--fb);
-  font-size: 14px;
-  font-weight: 300;
-  color: var(--blue);
-  text-decoration: none;
-  transition: color .2s;
-}
-.contact-links a:hover { color: var(--dblue); }
-.schedule-note {
-  font-family: var(--fb);
-  font-size: 12px;
-  font-weight: 300;
-  color: var(--gmuted);
-  line-height: 1.5;
-}
+.info-panel{}
+.info-panel h2{font-family:var(--fd);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:10px}
+.teal-line{width:40px;height:3px;background:var(--teal);border-radius:2px;margin-bottom:20px}
+.info-panel>p{font-size:.95rem;color:var(--gmuted);line-height:1.7;margin-bottom:24px}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.check-list li{display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--navy);line-height:1.5}
+.check-list .ck{color:var(--teal);font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* Mini stats in panel */
+.panel-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.panel-stat{background:var(--white);border:1px solid var(--gborder);border-radius:10px;padding:16px 12px;text-align:center}
+.panel-stat-num{font-family:var(--fd);font-size:1.5rem;font-weight:700;color:var(--blue);line-height:1}
+.panel-stat-label{font-size:.72rem;color:var(--gmuted);margin-top:4px}
+
+.info-sep{border:none;border-top:1px solid var(--gborder);margin:24px 0}
+.contact-heading{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gmuted);margin-bottom:14px}
+.wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:var(--white);padding:11px 20px;border-radius:6px;font-size:.9rem;font-weight:500;margin-bottom:14px;transition:background .2s,transform .15s}
+.wa-btn:hover{background:#1da851;transform:translateY(-1px)}
+.wa-btn svg{width:18px;height:18px;fill:var(--white);flex-shrink:0}
+.contact-links{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.contact-links a{font-size:.88rem;color:var(--blue);transition:color .2s}
+.contact-links a:hover{color:var(--dblue)}
+.schedule-note{font-size:.78rem;color:var(--gmuted);line-height:1.5}
 
 /* ── FORM CARD ── */
-.form-card {
-  background: var(--white);
-  border-radius: 16px;
-  box-shadow: 0 4px 6px -1px rgba(1,9,45,.06), 0 12px 40px -8px rgba(1,9,45,.12);
-  padding: 40px;
-}
-.form-section-label {
-  font-family: var(--fd);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--gmuted);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--gborder);
-}
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.form-group.full-width {
-  grid-column: 1 / -1;
-}
-.form-group label {
-  font-family: var(--fb);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--navy);
-}
-.form-group label .req {
-  color: var(--blue);
-  margin-left: 2px;
-}
-.form-group input,
-.form-group select,
-.form-group textarea {
-  font-family: var(--fb);
-  font-size: 14px;
-  font-weight: 300;
-  color: var(--navy);
-  background: var(--gbg);
-  border: 1.5px solid var(--gborder);
-  border-radius: 6px;
-  padding: 10px 14px;
-  outline: none;
-  transition: border-color .2s, box-shadow .2s, background .2s;
-  width: 100%;
-  appearance: none;
-  -webkit-appearance: none;
-}
-.form-group select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A7186' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px;
-}
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(4,147,217,.11);
-  background: var(--white);
-}
-.form-group input.error,
-.form-group select.error,
-.form-group textarea.error {
-  border-color: #e53935;
-  box-shadow: 0 0 0 3px rgba(229,57,53,.09);
-}
-.form-group textarea {
-  height: 120px;
-  resize: vertical;
-  line-height: 1.6;
-}
-.error-msg {
-  font-family: var(--fb);
-  font-size: 12px;
-  font-weight: 400;
-  color: #e53935;
-  display: none;
-}
-.error-msg.visible { display: block; }
+.form-card{background:var(--white);border-radius:16px;box-shadow:0 4px 6px -1px rgba(1,9,45,.06),0 12px 40px -8px rgba(1,9,45,.12);padding:40px}
+.form-section-label{font-family:var(--fd);font-size:.78rem;font-weight:700;color:var(--gmuted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--gborder)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:.82rem;font-weight:600;color:var(--navy)}
+.form-group label .req{color:var(--blue);margin-left:2px}
+.form-group input,.form-group select,.form-group textarea{font-family:var(--fb);font-size:.9rem;color:var(--navy);background:var(--gbg);border:1.5px solid var(--gborder);border-radius:6px;padding:10px 14px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;width:100%;appearance:none;-webkit-appearance:none}
+.form-group select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A7186' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(4,147,217,.11);background:var(--white)}
+.form-group input.error,.form-group select.error,.form-group textarea.error{border-color:#e53935;box-shadow:0 0 0 3px rgba(229,57,53,.09)}
+.form-group textarea{height:120px;resize:vertical;line-height:1.6}
+.error-msg{font-size:.76rem;color:#e53935;display:none}
+.error-msg.visible{display:block}
+.radio-group{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.radio-label{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:.85rem;color:var(--navy);white-space:nowrap}
+.radio-label input[type="radio"]{width:16px;height:16px;border:1.5px solid var(--gborder);border-radius:50%;appearance:none;-webkit-appearance:none;background:var(--gbg);cursor:pointer;transition:border-color .2s,background .2s;flex-shrink:0}
+.radio-label input[type="radio"]:checked{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 3px var(--white)}
+.form-spacer{margin-bottom:24px}
+.submit-btn{width:100%;height:52px;background:var(--blue);color:var(--white);border:none;border-radius:6px;font-family:var(--fb);font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s,transform .15s,opacity .2s;margin-bottom:14px;letter-spacing:.02em}
+.submit-btn:hover:not(:disabled){background:var(--dblue);transform:translateY(-1px)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed}
+.privacy-note{font-size:.76rem;color:var(--gmuted);text-align:center;line-height:1.5}
+.privacy-note a{color:var(--blue)}
+.privacy-note a:hover{text-decoration:underline}
 
-.radio-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 4px;
-}
-.radio-label {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  cursor: pointer;
-  font-family: var(--fb);
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--navy);
-  white-space: nowrap;
-}
-.radio-label input[type="radio"] {
-  width: 16px;
-  height: 16px;
-  border: 1.5px solid var(--gborder);
-  border-radius: 50%;
-  appearance: none;
-  -webkit-appearance: none;
-  background: var(--gbg);
-  cursor: pointer;
-  transition: border-color .2s, background .2s;
-  flex-shrink: 0;
-  position: relative;
-}
-.radio-label input[type="radio"]:checked {
-  border-color: var(--blue);
-  background: var(--blue);
-  box-shadow: inset 0 0 0 3px var(--white);
-}
+/* Success */
+.success-state{display:none;text-align:center;padding:48px 24px}
+.success-state.visible{display:block}
+.success-icon{width:64px;height:64px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;color:#2e7d32}
+.success-state h3{font-family:var(--fd);font-size:1.6rem;font-weight:700;color:var(--navy);margin-bottom:12px}
+.success-state p{font-size:.95rem;color:var(--gmuted);line-height:1.6;margin-bottom:24px;max-width:360px;margin-left:auto;margin-right:auto}
+.success-back{font-size:.88rem;color:var(--blue);border:1.5px solid var(--blue);padding:9px 22px;border-radius:6px;transition:background .2s,color .2s}
+.success-back:hover{background:var(--blue);color:var(--white)}
 
-.form-section-spacer { margin-bottom: 24px; }
+@media(max-width:960px){.main-inner{grid-template-columns:1fr;gap:40px}}
+@media(max-width:640px){.main-section{padding:48px 5vw 64px}.form-card{padding:24px}.form-grid{grid-template-columns:1fr}}
 
-.submit-btn {
-  width: 100%;
-  height: 52px;
-  background: var(--blue);
-  color: var(--white);
-  border: none;
-  border-radius: 4px;
-  font-family: var(--fb);
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background .2s, transform .15s, opacity .2s;
-  margin-bottom: 14px;
-  letter-spacing: .2px;
-}
-.submit-btn:hover:not(:disabled) { background: var(--dblue); transform: translateY(-1px); }
-.submit-btn:disabled { opacity: .5; cursor: not-allowed; }
+/* ── TEAM / STORY SECTION ── */
+.team-section{background:var(--white);padding:80px 5vw;border-top:1px solid var(--gborder)}
+.team-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.section-label{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.team-copy h2{font-family:var(--fd);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--navy);letter-spacing:-.02em;margin-bottom:16px}
+.team-copy p{font-size:.95rem;color:var(--gmuted);line-height:1.75;margin-bottom:20px}
+.team-copy p:last-child{margin-bottom:0}
+.team-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.team-stat{background:var(--gbg);border-radius:12px;padding:24px 20px;text-align:center;border:1px solid var(--gborder)}
+.team-stat-num{font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--blue);line-height:1}
+.team-stat-sub{font-size:.78rem;font-weight:600;color:var(--teal);margin-bottom:4px}
+.team-stat-label{font-size:.8rem;color:var(--gmuted);margin-top:4px}
+@media(max-width:860px){.team-inner{grid-template-columns:1fr;gap:40px}}
+@media(max-width:600px){.team-stats{grid-template-columns:1fr}}
 
-.privacy-note {
-  font-family: var(--fb);
-  font-size: 12px;
-  font-weight: 300;
-  color: var(--gmuted);
-  text-align: center;
-  line-height: 1.5;
-}
-.privacy-note a { color: var(--blue); text-decoration: none; }
-.privacy-note a:hover { text-decoration: underline; }
-
-/* ── SUCCESS STATE ── */
-.success-state {
-  display: none;
-  text-align: center;
-  padding: 48px 24px;
-}
-.success-state.visible { display: block; }
-.success-icon {
-  width: 64px;
-  height: 64px;
-  background: #e8f5e9;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
-  font-size: 28px;
-  color: #2e7d32;
-}
-.success-state h3 {
-  font-family: var(--fd);
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 12px;
-}
-.success-state p {
-  font-family: var(--fb);
-  font-size: 15px;
-  font-weight: 300;
-  color: var(--gmuted);
-  line-height: 1.6;
-  margin-bottom: 24px;
-  max-width: 380px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.success-back {
-  font-family: var(--fb);
-  font-size: 14px;
-  color: var(--blue);
-  text-decoration: none;
-  border: 1.5px solid var(--blue);
-  padding: 9px 22px;
-  border-radius: 6px;
-  transition: background .2s, color .2s;
-}
-.success-back:hover { background: var(--blue); color: var(--white); }
-
-@media (max-width: 960px) {
-  .content-inner { grid-template-columns: 1fr; gap: 40px; }
-  .info-panel { padding-right: 0; }
-}
-@media (max-width: 640px) {
-  .main-content { padding: 56px 0; }
-  .form-card { padding: 24px; }
-  .form-grid { grid-template-columns: 1fr; }
-  .info-panel h2 { font-size: 26px; }
-}
+/* ── SERVICE AREAS ── */
+.areas-section{background:var(--navy);padding:72px 5vw}
+.areas-inner{max-width:1280px;margin:0 auto}
+.areas-inner .section-label{color:var(--teal)}
+.areas-inner h2{font-family:var(--fd);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--white);letter-spacing:-.02em;margin-bottom:10px}
+.areas-inner>p{color:rgba(255,255,255,.65);font-size:.95rem;margin-bottom:48px;max-width:560px}
+.areas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.area-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:24px 20px;transition:background .2s,border-color .2s}
+.area-card:hover{background:rgba(4,147,217,.12);border-color:rgba(4,147,217,.35)}
+.area-card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.area-icon{width:36px;height:36px;background:rgba(4,147,217,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.area-icon svg{width:18px;height:18px;fill:var(--teal)}
+.area-city{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--white)}
+.area-dept{font-size:.78rem;color:rgba(255,255,255,.5);margin-bottom:10px}
+.area-tags{display:flex;flex-wrap:wrap;gap:6px}
+.area-tag{font-size:.7rem;font-weight:600;color:var(--teal);background:rgba(57,219,196,.12);padding:2px 8px;border-radius:100px}
+@media(max-width:860px){.areas-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.areas-grid{grid-template-columns:1fr}}
 
 /* ── TESTIMONIALS ── */
-.testimonials {
-  background: var(--white);
-  padding: 80px 0;
-  border-top: 1px solid var(--gborder);
-}
-.testimonials-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-.section-eyebrow {
-  font-family: var(--fb);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--teal);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-bottom: 40px;
-  text-align: center;
-}
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-.testimonial-card {
-  border: 1.5px solid var(--gborder);
-  border-radius: 12px;
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  transition: box-shadow .2s, border-color .2s;
-}
-.testimonial-card:hover {
-  box-shadow: 0 4px 24px rgba(1,9,45,.08);
-  border-color: rgba(4,147,217,.25);
-}
-.testimonial-quote {
-  font-family: var(--fb);
-  font-size: 14px;
-  font-weight: 300;
-  color: var(--gmuted);
-  line-height: 1.7;
-  flex: 1;
-  font-style: italic;
-}
-.testimonial-quote::before { content: '\201C'; color: var(--teal); font-size: 20px; font-weight: 700; font-style: normal; }
-.testimonial-author {
-  border-top: 1px solid var(--gborder);
-  padding-top: 14px;
-}
-.author-name {
-  font-family: var(--fd);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 2px;
-}
-.author-role {
-  font-family: var(--fb);
-  font-size: 12px;
-  font-weight: 300;
-  color: var(--gmuted);
-  line-height: 1.4;
-}
+.testimonials{background:var(--gbg);padding:80px 5vw;border-top:1px solid var(--gborder)}
+.testimonials-inner{max-width:1280px;margin:0 auto}
+.section-header{margin-bottom:48px}
+.section-header h2{font-family:var(--fd);font-size:clamp(1.5rem,2.8vw,2rem);font-weight:700;color:var(--navy);letter-spacing:-.02em;margin-bottom:8px}
+.section-header p{color:var(--gmuted);font-size:.95rem}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.tcard{background:var(--white);border:1.5px solid var(--gborder);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column;gap:16px;transition:box-shadow .2s,border-color .2s}
+.tcard:hover{box-shadow:var(--shadow);border-color:rgba(4,147,217,.25)}
+.tcard-stars{color:#f59e0b;font-size:.9rem;letter-spacing:2px}
+.tcard-quote{font-size:.9rem;color:var(--gmuted);line-height:1.7;flex:1;font-style:italic}
+.tcard-quote::before{content:'\201C';color:var(--teal);font-size:1.2rem;font-weight:700;font-style:normal}
+.tcard-author{border-top:1px solid var(--gborder);padding-top:14px}
+.tcard-name{font-family:var(--fd);font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:2px}
+.tcard-role{font-size:.78rem;color:var(--gmuted);line-height:1.4}
+@media(max-width:860px){.tgrid{grid-template-columns:1fr;max-width:500px}}
 
-@media (max-width: 900px) {
-  .testimonials-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
-}
-
-/* ── FOOTER ── */
-footer {
+/* ── Footer ── */
+.footer {
   background: var(--dblue);
-  padding: 64px 0 0;
-  color: var(--white);
+  position: relative;
+  overflow: hidden;
+  padding: 72px 0 0;
 }
-.footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
+.footer-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr;
-  gap: 48px;
-  padding-bottom: 48px;
-  border-bottom: 1px solid rgba(255,255,255,.12);
+  gap: 56px;
+  padding-bottom: 56px;
 }
-.footer-brand { display: flex; flex-direction: column; gap: 14px; }
-.footer-brand .brand-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-}
-.footer-brand .brand-logo svg { width: 32px; height: 32px; }
-.footer-brand .brand-logo .logo-text { color: var(--white); font-family: var(--fd); font-size: 18px; font-weight: 700; }
-.footer-brand .brand-logo .logo-air { color: var(--blue); }
-.footer-tagline {
-  font-family: var(--fb);
-  font-size: 13px;
-  font-weight: 300;
-  color: rgba(255,255,255,.6);
-  line-height: 1.6;
-  max-width: 260px;
-}
-.footer-col h4 {
-  font-family: var(--fd);
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255,255,255,.5);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.footer-logo-wrap {
   margin-bottom: 16px;
 }
-.footer-col p,
-.footer-col address {
-  font-family: var(--fb);
-  font-size: 13px;
-  font-weight: 300;
-  color: rgba(255,255,255,.7);
+.footer-tagline {
+  font-size: 14px;
+  color: rgba(255,255,255,.50);
+  line-height: 1.7;
+  margin-bottom: 28px;
+  max-width: 280px;
+}
+.footer-socials { display: flex; gap: 12px; }
+.social-link {
+  width: 36px; height: 36px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.08);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s;
+  text-decoration: none;
+}
+.social-link:hover { background: rgba(255,255,255,.16); }
+.footer-socials a { display: flex !important; width: 36px; height: 36px; border-radius: 6px; background: rgba(255,255,255,.08); align-items: center; justify-content: center; flex-shrink: 0; }
+.footer-socials a:hover { background: rgba(255,255,255,.16); }
+.footer-socials a svg { width: 16px; height: 16px; flex-shrink: 0; }
+.footer-col-title {
+  font-family: var(--fm);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 20px;
+}
+.footer-col p, .footer-col address {
+  font-size: 14px;
+  color: rgba(255,255,255,.55);
   line-height: 1.8;
   font-style: normal;
 }
 .footer-col a {
-  color: rgba(255,255,255,.7);
-  text-decoration: none;
+  color: rgba(255,255,255,.55);
   transition: color .2s;
+  text-decoration: none;
   display: block;
 }
 .footer-col a:hover { color: var(--white); }
-.footer-col a.teal-link { color: var(--teal); }
-.footer-col a.teal-link:hover { color: #5ee8d4; }
+.footer-col a.teal { color: var(--teal); }
+.footer-col a.teal:hover { color: #5ee8d6; }
 .footer-bar {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 18px 24px;
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding: 20px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
 }
-.footer-bar-text {
-  font-family: var(--fb);
-  font-size: 12px;
-  font-weight: 300;
-  color: rgba(255,255,255,.4);
-}
-.footer-bar-links {
-  display: flex;
-  gap: 20px;
-}
-.footer-bar-links a {
-  font-family: var(--fb);
-  font-size: 12px;
-  font-weight: 300;
-  color: rgba(255,255,255,.4);
-  text-decoration: none;
-  transition: color .2s;
-}
-.footer-bar-links a:hover { color: rgba(255,255,255,.8); }
-
-@media (max-width: 768px) {
-  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
-  .footer-bar { flex-direction: column; align-items: flex-start; }
+.footer-bar p { font-size: 13px; color: rgba(255,255,255,.30); }
+.footer-bar-links { display: flex; gap: 24px; }
+.footer-bar-links a { font-size: 13px; color: rgba(255,255,255,.30); transition: color .2s; text-decoration: none; }
+.footer-bar-links a:hover { color: rgba(255,255,255,.60); }
+@media (max-width: 860px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer { padding: 56px 0 0; }
 }
 
 /* ── WHATSAPP FAB ── */
-.fab-wa {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  width: 56px;
-  height: 56px;
-  background: #25D366;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 900;
-  text-decoration: none;
-  box-shadow: 0 4px 16px rgba(37,211,102,.4);
-  transition: transform .2s, box-shadow .2s;
-}
-.fab-wa::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: #25D366;
-  animation: fabPulse 2.4s ease-out infinite;
-}
-@keyframes fabPulse {
-  0% { transform: scale(1); opacity: .6; }
-  70% { transform: scale(1.55); opacity: 0; }
-  100% { transform: scale(1.55); opacity: 0; }
-}
-.fab-wa:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(37,211,102,.55); }
-.fab-wa svg { position: relative; z-index: 1; width: 28px; height: 28px; fill: var(--white); }
+.wa-fab{position:fixed;bottom:28px;right:28px;z-index:90;background:#25D366;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.45);animation:pulse 2.5s infinite;transition:transform .2s}
+.wa-fab:hover{transform:scale(1.1);animation:none}
+.wa-fab svg{width:28px;height:28px;fill:var(--white)}
+@keyframes pulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.45)}50%{box-shadow:0 4px 32px rgba(37,211,102,.7),0 0 0 8px rgba(37,211,102,.12)}}
 
 /* ── SCROLL REVEAL ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .55s ease, transform .55s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="mainNav">
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav class="nav" id="nav" aria-label="Navegación principal">
   <div class="nav-inner">
-    <a href="aircleaner-landing.html" class="nav-logo">
-      <svg viewBox="-52 -52 104 104" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <g fill="#0493D9">
-          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(0)"/>
-          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(72)"/>
-          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(144)"/>
-          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(216)"/>
-          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(288)"/>
-        </g>
-        <rect x="-5" y="-5" width="10" height="10" rx="2" fill="#014778"/>
-      </svg>
-      <span class="logo-text"><span class="logo-air">Air</span><span class="logo-cleaner">Cleaner</span></span>
+    <a href="aircleaner-landing.html" class="nav-logo" aria-label="AirCleaner — Inicio">
+      <img src="mp7f4gt1-isotipo.png" alt="AirCleaner" style="height:40px;width:40px;object-fit:contain;flex-shrink:0;">
+      <span class="nav-logo-text"><span class="air">Air</span><span class="cleaner">Cleaner</span></span>
     </a>
-    <ul class="nav-links">
+    <ul class="nav-links" role="list">
       <li><a href="aircleaner-servicios.html">Servicios</a></li>
       <li><a href="aircleaner-galeria.html">Galería</a></li>
       <li><a href="aircleaner-solicitar.html" class="active">Solicitar</a></li>
       <li><a href="aircleaner-contacto.html">Contacto</a></li>
     </ul>
-    <a href="#form" class="nav-cta">Solicitar diagnóstico</a>
-    <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+    <a href="aircleaner-solicitar.html" class="nav-cta">Solicitar diagnóstico</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-overlay">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<!-- MOBILE OVERLAY -->
-<div class="mobile-overlay" id="mobileOverlay" role="dialog" aria-modal="true">
-  <button class="mobile-close" id="mobileClose" aria-label="Cerrar menú">&times;</button>
+<!-- Mobile overlay -->
+<div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Menú de navegación">
   <a href="aircleaner-servicios.html">Servicios</a>
   <a href="aircleaner-galeria.html">Galería</a>
   <a href="aircleaner-solicitar.html" class="active">Solicitar</a>
   <a href="aircleaner-contacto.html">Contacto</a>
-  <a href="#form" class="nav-cta" style="margin-top:8px;">Solicitar diagnóstico</a>
+  <a href="aircleaner-solicitar.html" class="nav-cta">Solicitar diagnóstico</a>
 </div>
 
 <!-- HERO -->
 <section class="hero">
-  <svg class="hero-watermark" viewBox="-52 -52 104 104" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <g fill="white">
-      <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(0)"/>
-      <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(72)"/>
-      <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(144)"/>
-      <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(216)"/>
-      <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(288)"/>
-    </g>
-    <rect x="-5" y="-5" width="10" height="10" rx="2" fill="white"/>
-  </svg>
-  <div class="hero-inner">
+  <img src="mp7f4gt1-isotipo.png" class="hero-wm" alt="" aria-hidden="true">
+  <div class="hero-content">
     <div class="hero-eyebrow">Sin costo · Sin compromiso</div>
-    <h1>Solicitar diagnóstico<br>técnico gratuito</h1>
+    <h1>Solicitar diagnóstico<br/>técnico gratuito</h1>
     <div class="hero-line"></div>
-    <nav class="breadcrumb" aria-label="Ruta de navegación">
+    <div class="breadcrumb">
       <a href="aircleaner-landing.html">Inicio</a>
-      <span aria-hidden="true">/</span>
-      <span class="current">Solicitar servicio</span>
-    </nav>
+      <span class="sep">›</span>
+      <span>Solicitar servicio</span>
+    </div>
   </div>
 </section>
+
+<!-- SOCIAL PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-inner">
+    <div class="proof-item">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      <div class="proof-text">
+        <span class="proof-stars">★★★★★</span>
+        <strong>4.9 / 5.0</strong>
+        Calificación Google
+      </div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--teal)"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="var(--teal)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="proof-text">
+        <strong>+200 proyectos</strong>
+        Completados en el Caribe
+      </div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <div class="proof-text">
+        <strong>48 h hábiles</strong>
+        Tiempo de respuesta garantizado
+      </div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--dblue)" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <div class="proof-text">
+        <strong>Ingenieros certificados</strong>
+        RETIE · ICONTEC · NFPA
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- PROCESS STRIP -->
 <div class="process-strip">
@@ -928,17 +495,17 @@ footer {
       <div class="step-num">1</div>
       <span class="step-label">Recibimos su solicitud</span>
     </div>
-    <span class="step-arrow" aria-hidden="true">→</span>
+    <span class="step-arrow">→</span>
     <div class="process-step">
       <div class="step-num">2</div>
       <span class="step-label">Asignamos un ingeniero</span>
     </div>
-    <span class="step-arrow" aria-hidden="true">→</span>
+    <span class="step-arrow">→</span>
     <div class="process-step">
       <div class="step-num">3</div>
-      <span class="step-label">Visita técnica (48h)</span>
+      <span class="step-label">Visita técnica (48 h)</span>
     </div>
-    <span class="step-arrow" aria-hidden="true">→</span>
+    <span class="step-arrow">→</span>
     <div class="process-step">
       <div class="step-num">4</div>
       <span class="step-label">Entregamos informe</span>
@@ -946,74 +513,90 @@ footer {
   </div>
 </div>
 
-<!-- MAIN CONTENT -->
-<section class="main-content">
-  <div class="content-inner">
+<!-- MAIN SECTION: INFO + FORM -->
+<section class="main-section" id="form-section">
+  <div class="main-inner">
 
     <!-- INFO PANEL -->
     <aside class="info-panel reveal">
       <h2>¿Qué incluye el diagnóstico?</h2>
-      <div class="teal-underline"></div>
-      <p>Nuestros ingenieros certificados realizan una evaluación presencial del estado actual de sus sistemas. El informe resultante detalla hallazgos, riesgos identificados y un plan de acción priorizado.</p>
-      <ul class="features-list">
-        <li><span class="check" aria-hidden="true">✓</span> Evaluación técnica presencial sin costo</li>
-        <li><span class="check" aria-hidden="true">✓</span> Informe escrito con hallazgos y recomendaciones</li>
-        <li><span class="check" aria-hidden="true">✓</span> Respuesta y agendamiento en 48 horas hábiles</li>
-        <li><span class="check" aria-hidden="true">✓</span> Sin compromiso de contratación posterior</li>
-        <li><span class="check" aria-hidden="true">✓</span> Ingenieros certificados y con experiencia en campo</li>
+      <div class="teal-line"></div>
+      <p>Nuestros ingenieros certificados realizan una evaluación presencial del estado actual de sus sistemas. El informe detalla hallazgos, riesgos y un plan de acción priorizado.</p>
+
+      <ul class="check-list">
+        <li><span class="ck">✓</span> Evaluación técnica presencial sin costo</li>
+        <li><span class="ck">✓</span> Informe escrito con hallazgos y recomendaciones</li>
+        <li><span class="ck">✓</span> Agendamiento confirmado en 48 horas hábiles</li>
+        <li><span class="ck">✓</span> Sin compromiso de contratación posterior</li>
+        <li><span class="ck">✓</span> Cobertura en 6 ciudades del Caribe colombiano</li>
       </ul>
-      <hr class="info-separator">
+
+      <div class="panel-stats">
+        <div class="panel-stat">
+          <div class="panel-stat-num">18+</div>
+          <div class="panel-stat-label">Años de experiencia</div>
+        </div>
+        <div class="panel-stat">
+          <div class="panel-stat-num">+200</div>
+          <div class="panel-stat-label">Proyectos ejecutados</div>
+        </div>
+        <div class="panel-stat">
+          <div class="panel-stat-num">6</div>
+          <div class="panel-stat-label">Ciudades Caribe</div>
+        </div>
+      </div>
+
+      <hr class="info-sep"/>
       <div class="contact-heading">¿Prefiere contacto directo?</div>
-      <a href="https://wa.me/573001234567" class="whatsapp-btn" target="_blank" rel="noopener">
-        <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="white">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
+      <a href="https://wa.me/573001234567" class="wa-btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Escribir al WhatsApp
       </a>
       <div class="contact-links">
         <a href="tel:+573001234567">+57 300 123 4567</a>
         <a href="mailto:contacto@aircleaner.com.co">contacto@aircleaner.com.co</a>
       </div>
-      <p class="schedule-note">Atención lunes a viernes 7am–6pm · Emergencias 24/7</p>
+      <p class="schedule-note">Atención lunes a viernes 7 am–6 pm · Emergencias 24 / 7</p>
     </aside>
 
     <!-- FORM CARD -->
-    <div class="form-card reveal" style="transition-delay:.12s">
+    <div class="form-card reveal" id="form-anchor" style="transition-delay:.12s">
       <div id="formWrapper">
-        <form id="form" novalidate>
+        <form id="solicitudForm" novalidate>
+
           <div class="form-section-label">Datos de la empresa</div>
           <div class="form-grid">
             <div class="form-group">
               <label for="empresa">Empresa <span class="req">*</span></label>
-              <input type="text" id="empresa" name="empresa" placeholder="Razón social" required autocomplete="organization">
+              <input type="text" id="empresa" name="empresa" placeholder="Razón social" required autocomplete="organization"/>
               <span class="error-msg" id="err-empresa">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
               <label for="nit">NIT</label>
-              <input type="text" id="nit" name="nit" placeholder="900.123.456-7" autocomplete="off">
+              <input type="text" id="nit" name="nit" placeholder="900.123.456-7" autocomplete="off"/>
             </div>
             <div class="form-group">
               <label for="contacto">Nombre del contacto <span class="req">*</span></label>
-              <input type="text" id="contacto" name="contacto" placeholder="Nombre completo" required autocomplete="name">
+              <input type="text" id="contacto" name="contacto" placeholder="Nombre completo" required autocomplete="name"/>
               <span class="error-msg" id="err-contacto">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
               <label for="cargo">Cargo</label>
-              <input type="text" id="cargo" name="cargo" placeholder="Gerente de Mantenimiento" autocomplete="organization-title">
+              <input type="text" id="cargo" name="cargo" placeholder="Gerente de Mantenimiento" autocomplete="organization-title"/>
             </div>
             <div class="form-group">
               <label for="correo">Correo corporativo <span class="req">*</span></label>
-              <input type="email" id="correo" name="correo" placeholder="nombre@empresa.com.co" required autocomplete="email">
+              <input type="email" id="correo" name="correo" placeholder="nombre@empresa.com.co" required autocomplete="email"/>
               <span class="error-msg" id="err-correo">Ingrese un correo electrónico válido.</span>
             </div>
             <div class="form-group">
               <label for="telefono">Teléfono <span class="req">*</span></label>
-              <input type="tel" id="telefono" name="telefono" placeholder="+57 300 000 0000" required autocomplete="tel">
+              <input type="tel" id="telefono" name="telefono" placeholder="+57 300 000 0000" required autocomplete="tel"/>
               <span class="error-msg" id="err-telefono">Este campo es obligatorio.</span>
             </div>
           </div>
 
-          <div class="form-section-spacer"></div>
+          <div class="form-spacer"></div>
           <div class="form-section-label">Sistema a evaluar</div>
           <div class="form-grid">
             <div class="form-group">
@@ -1037,29 +620,22 @@ footer {
                 <option value="santamarta">Santa Marta</option>
                 <option value="valledupar">Valledupar</option>
                 <option value="monteria">Montería</option>
+                <option value="sincelejo">Sincelejo</option>
                 <option value="otra">Otra ciudad del Caribe</option>
               </select>
               <span class="error-msg" id="err-ciudad">Seleccione una ciudad.</span>
             </div>
-            <div class="form-group full-width">
+            <div class="form-group full">
               <label for="descripcion">Descripción de la necesidad</label>
               <textarea id="descripcion" name="descripcion" placeholder="Describa la situación actual, síntomas observados o requerimiento específico…"></textarea>
             </div>
-            <div class="form-group full-width">
+            <div class="form-group full">
               <label>¿Cuándo necesita el diagnóstico?</label>
               <div class="radio-group">
-                <label class="radio-label">
-                  <input type="radio" name="urgencia" value="inmediato"> Lo antes posible
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="urgencia" value="2semanas"> En las próximas 2 semanas
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="urgencia" value="mes"> En el próximo mes
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="urgencia" value="consulta"> Solo estoy consultando
-                </label>
+                <label class="radio-label"><input type="radio" name="urgencia" value="inmediato"/> Lo antes posible</label>
+                <label class="radio-label"><input type="radio" name="urgencia" value="2semanas"/> En las próximas 2 semanas</label>
+                <label class="radio-label"><input type="radio" name="urgencia" value="mes"/> En el próximo mes</label>
+                <label class="radio-label"><input type="radio" name="urgencia" value="consulta"/> Solo estoy consultando</label>
               </div>
             </div>
           </div>
@@ -1071,9 +647,8 @@ footer {
         </form>
       </div>
 
-      <!-- SUCCESS STATE -->
       <div class="success-state" id="successState">
-        <div class="success-icon" aria-hidden="true">✓</div>
+        <div class="success-icon">✓</div>
         <h3>Solicitud recibida</h3>
         <p>Nos pondremos en contacto dentro de las próximas 48 horas hábiles. Revise su correo corporativo.</p>
         <a href="aircleaner-landing.html" class="success-back">Volver al inicio</a>
@@ -1083,211 +658,338 @@ footer {
   </div>
 </section>
 
+<!-- TEAM / STORY SECTION -->
+<section class="team-section">
+  <div class="team-inner">
+    <div class="team-copy reveal">
+      <div class="section-label">Quiénes somos</div>
+      <h2>Somos sus vecinos en el Caribe</h2>
+      <p>AirCleaner nació en Barranquilla hace más de 18 años, cuando dos ingenieros mecánicos decidieron que la región Caribe merecía un servicio de mantenimiento industrial de talla mundial, sin tener que esperar técnicos de Bogotá.</p>
+      <p>Hoy somos un equipo de 35 profesionales certificados, con presencia permanente en 6 ciudades y contratos con hospitales, hoteles, plantas de producción y centros comerciales que confían en nosotros para mantener sus sistemas funcionando.</p>
+      <p>Cuando usted llama, un ingeniero de su misma ciudad responde.</p>
+    </div>
+    <div class="team-stats reveal" style="transition-delay:.15s">
+      <div class="team-stat">
+        <div class="team-stat-num">18+</div>
+        <div class="team-stat-sub">años</div>
+        <div class="team-stat-label">En el mercado Caribe</div>
+      </div>
+      <div class="team-stat">
+        <div class="team-stat-num">35</div>
+        <div class="team-stat-sub">ingenieros</div>
+        <div class="team-stat-label">Certificados en campo</div>
+      </div>
+      <div class="team-stat">
+        <div class="team-stat-num">+200</div>
+        <div class="team-stat-sub">proyectos</div>
+        <div class="team-stat-label">Completados con éxito</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE AREAS -->
+<section class="areas-section">
+  <div class="areas-inner">
+    <div class="section-label reveal">Cobertura</div>
+    <h2 class="reveal">Presencia en toda la región Caribe</h2>
+    <p class="reveal">Con ingenieros residentes en cada ciudad, garantizamos respuesta en 48 horas sin costos de desplazamiento adicionales.</p>
+    <div class="areas-grid">
+
+      <div class="area-card reveal">
+        <div class="area-card-top">
+          <div class="area-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div class="area-city">Barranquilla</div>
+        </div>
+        <div class="area-dept">Atlántico — Sede principal</div>
+        <div class="area-tags">
+          <span class="area-tag">HVAC</span>
+          <span class="area-tag">Refrigeración</span>
+          <span class="area-tag">Bombeo</span>
+          <span class="area-tag">Incendios</span>
+        </div>
+      </div>
+
+      <div class="area-card reveal" style="transition-delay:.06s">
+        <div class="area-card-top">
+          <div class="area-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div class="area-city">Cartagena</div>
+        </div>
+        <div class="area-dept">Bolívar</div>
+        <div class="area-tags">
+          <span class="area-tag">HVAC</span>
+          <span class="area-tag">Refrigeración</span>
+          <span class="area-tag">Bombeo</span>
+          <span class="area-tag">Incendios</span>
+        </div>
+      </div>
+
+      <div class="area-card reveal" style="transition-delay:.12s">
+        <div class="area-card-top">
+          <div class="area-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div class="area-city">Santa Marta</div>
+        </div>
+        <div class="area-dept">Magdalena</div>
+        <div class="area-tags">
+          <span class="area-tag">HVAC</span>
+          <span class="area-tag">Refrigeración</span>
+          <span class="area-tag">Bombeo</span>
+        </div>
+      </div>
+
+      <div class="area-card reveal" style="transition-delay:.18s">
+        <div class="area-card-top">
+          <div class="area-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div class="area-city">Valledupar</div>
+        </div>
+        <div class="area-dept">Cesar</div>
+        <div class="area-tags">
+          <span class="area-tag">HVAC</span>
+          <span class="area-tag">Refrigeración</span>
+          <span class="area-tag">Bombeo</span>
+        </div>
+      </div>
+
+      <div class="area-card reveal" style="transition-delay:.24s">
+        <div class="area-card-top">
+          <div class="area-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div class="area-city">Montería</div>
+        </div>
+        <div class="area-dept">Córdoba</div>
+        <div class="area-tags">
+          <span class="area-tag">HVAC</span>
+          <span class="area-tag">Bombeo</span>
+          <span class="area-tag">Incendios</span>
+        </div>
+      </div>
+
+      <div class="area-card reveal" style="transition-delay:.30s">
+        <div class="area-card-top">
+          <div class="area-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div class="area-city">Sincelejo</div>
+        </div>
+        <div class="area-dept">Sucre</div>
+        <div class="area-tags">
+          <span class="area-tag">HVAC</span>
+          <span class="area-tag">Bombeo</span>
+          <span class="area-tag">Refrigeración</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- TESTIMONIALS -->
 <section class="testimonials">
   <div class="testimonials-inner">
-    <div class="section-eyebrow">Lo que dicen nuestros clientes</div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card reveal">
-        <p class="testimonial-quote">Llevan más de 5 años gestionando nuestros sistemas de climatización. El modelo preventivo nos ha ahorrado paradas no programadas y costos de emergencia.</p>
-        <div class="testimonial-author">
-          <div class="author-name">Ing. Carlos Rondón</div>
-          <div class="author-role">Gerente de Mantenimiento<br>Centro Comercial Buenavista</div>
+    <div class="section-header reveal">
+      <div class="section-label">Testimonios</div>
+      <h2>Lo que dicen nuestros clientes</h2>
+      <p>Más de 200 empresas en el Caribe confían en AirCleaner para mantener sus sistemas operando.</p>
+    </div>
+    <div class="tgrid">
+      <div class="tcard reveal">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-quote">Llevan más de 5 años gestionando nuestros sistemas de climatización. El modelo preventivo nos ha ahorrado paradas no programadas y costos de emergencia.</p>
+        <div class="tcard-author">
+          <div class="tcard-name">Ing. Carlos Rondón</div>
+          <div class="tcard-role">Gerente de Mantenimiento<br/>Centro Comercial Buenavista</div>
         </div>
       </div>
-      <div class="testimonial-card reveal" style="transition-delay:.1s">
-        <p class="testimonial-quote">El diagnóstico técnico inicial fue determinante para tomar la decisión. El informe fue claro, técnico y sin relleno comercial.</p>
-        <div class="testimonial-author">
-          <div class="author-name">Dra. María Torres</div>
-          <div class="author-role">Directora Administrativa<br>Clínica General del Norte</div>
+      <div class="tcard reveal" style="transition-delay:.1s">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-quote">El diagnóstico técnico inicial fue determinante para tomar la decisión. El informe fue claro, técnico y sin relleno comercial. Exactamente lo que necesitábamos.</p>
+        <div class="tcard-author">
+          <div class="tcard-name">Dra. María Torres</div>
+          <div class="tcard-role">Directora Administrativa<br/>Clínica General del Norte</div>
         </div>
       </div>
-      <div class="testimonial-card reveal" style="transition-delay:.2s">
-        <p class="testimonial-quote">Responden en horas, no en días. Para nosotros, la cadena de frío es crítica y AirCleaner lo entiende así.</p>
-        <div class="testimonial-author">
-          <div class="author-name">Ing. Juan Payares</div>
-          <div class="author-role">Jefe de Planta<br>Planta Procesadora Santa Marta</div>
+      <div class="tcard reveal" style="transition-delay:.2s">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-quote">Responden en horas, no en días. Para nosotros, la cadena de frío es crítica y AirCleaner lo entiende así. No los cambiaría por ningún otro proveedor.</p>
+        <div class="tcard-author">
+          <div class="tcard-name">Ing. Juan Payares</div>
+          <div class="tcard-role">Jefe de Planta<br/>Planta Procesadora Santa Marta</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="aircleaner-landing.html" class="brand-logo">
-        <svg viewBox="-52 -52 104 104" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <g fill="#0493D9">
-            <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(0)"/>
-            <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(72)"/>
-            <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(144)"/>
-            <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(216)"/>
-            <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" transform="rotate(288)"/>
-          </g>
-          <rect x="-5" y="-5" width="10" height="10" rx="2" fill="rgba(255,255,255,.6)"/>
-        </svg>
-        <span class="logo-text"><span class="logo-air">Air</span>Cleaner</span>
-      </a>
-      <p class="footer-tagline">Soluciones técnicas especializadas en mantenimiento preventivo y correctivo de sistemas industriales en la región Caribe colombiana.</p>
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="footer" aria-label="Pie de página">
+  <img src="mp7h2oze-isotipo.png" aria-hidden="true" style="position:absolute;bottom:-60px;right:-60px;width:320px;height:320px;opacity:.04;pointer-events:none;object-fit:contain;">
+  <div class="main-inner" style="max-width:1280px;margin:0 auto;padding:0 5vw;display:block;">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="footer-logo-wrap" style="display:flex;align-items:center;gap:10px;">
+          <img src="mp7gw2yt-isotipo.png" alt="" style="height:44px;width:44px;object-fit:contain;flex-shrink:0;">
+          <span class="nav-logo-text"><span class="air">Air</span><span class="cleaner" style="color:var(--white);">Cleaner</span></span>
+        </div>
+        <p class="footer-tagline">Gestión técnica integral de sistemas HVAC, refrigeración, bombeo e incendios para el Caribe colombiano.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-link" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <rect x="2" y="2" width="20" height="20" rx="3"/>
+              <path d="M7 10v7M7 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/>
+            </svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="white"/>
+            </svg>
+          </a>
+          <a href="https://wa.me/573001234567" class="social-link" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="white" width="16" height="16">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Contacto</p>
+        <address>
+          Cra. 46 #74-50, Piso 3<br>
+          Barranquilla, Atlántico<br>
+          Colombia<br><br>
+          <a href="tel:+573001234567">+57 300 123 4567</a><br>
+          <a href="mailto:info@aircleaner.com.co">info@aircleaner.com.co</a>
+        </address>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Horario</p>
+        <p>
+          Lunes – Viernes<br>7:00 am – 6:00 pm<br><br>
+          Sábados<br>8:00 am – 12:00 pm<br><br>
+          <a href="tel:+573001234567" class="teal">Emergencias 24/7</a>
+        </p>
+      </div>
     </div>
-    <div class="footer-col">
-      <h4>Contacto</h4>
-      <address>
-        Calle 72 # 57-41 Piso 3<br>
-        Barranquilla, Atlántico<br>
-        Colombia<br><br>
-        <a href="tel:+573001234567">+57 300 123 4567</a>
-        <a href="mailto:contacto@aircleaner.com.co">contacto@aircleaner.com.co</a>
-      </address>
-    </div>
-    <div class="footer-col">
-      <h4>Horario</h4>
-      <p>
-        Lunes a viernes: 7am – 6pm<br>
-        Sábado: 8am – 12pm<br>
-        Domingo: Cerrado<br><br>
-      </p>
-      <a href="tel:+573001234567" class="teal-link">Emergencias 24/7</a>
-    </div>
-  </div>
-  <div class="footer-bar">
-    <span class="footer-bar-text">&copy; 2026 AirCleaner S.A.S. Todos los derechos reservados.</span>
-    <div class="footer-bar-links">
-      <a href="#">Política de privacidad</a>
-      <a href="#">Términos de uso</a>
+    <div class="footer-bar">
+      <p>© 2026 AirCleaner S.A.S. Todos los derechos reservados.</p>
+      <nav class="footer-bar-links" aria-label="Vínculos legales">
+        <a href="#">Política de privacidad</a>
+        <a href="#">Términos de uso</a>
+      </nav>
     </div>
   </div>
 </footer>
 
 <!-- WHATSAPP FAB -->
-<a href="https://wa.me/573001234567" class="fab-wa" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-  </svg>
+<a href="https://wa.me/573001234567" class="wa-fab" aria-label="WhatsApp" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
 </a>
 
 <script>
-(function () {
-  'use strict';
-
-  /* ── NAV SCROLL ── */
-  var nav = document.getElementById('mainNav');
-  function onScroll() {
-    if (window.scrollY > 12) {
-      nav.classList.add('scrolled');
-      nav.classList.remove('light');
-    } else {
-      nav.classList.remove('scrolled');
-    }
+// Nav scroll behavior
+const nav = document.getElementById('nav');
+function handleNavScroll() {
+  if (window.scrollY > 20) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+}
+window.addEventListener('scroll', handleNavScroll, { passive: true });
+handleNavScroll();
 
-  /* ── MOBILE MENU ── */
-  var hamburger = document.getElementById('hamburger');
-  var overlay = document.getElementById('mobileOverlay');
-  var closeBtn = document.getElementById('mobileClose');
-  hamburger.addEventListener('click', function () {
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  });
-  function closeMenu() {
-    overlay.classList.remove('open');
+// Mobile hamburger
+const hamburger = document.getElementById('hamburger');
+const navOverlay = document.getElementById('nav-overlay');
+hamburger.addEventListener('click', function () {
+  const isOpen = navOverlay.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', String(isOpen));
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+navOverlay.querySelectorAll('a').forEach(function (link) {
+  link.addEventListener('click', function () {
+    navOverlay.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
-  }
-  closeBtn.addEventListener('click', closeMenu);
-  overlay.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', closeMenu);
   });
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && navOverlay.classList.contains('open')) {
+    navOverlay.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    hamburger.focus();
+  }
+});
 
-  /* ── SCROLL REVEAL ── */
-  var reveals = document.querySelectorAll('.reveal');
-  var revealObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        revealObserver.unobserve(entry.target);
-      }
+  // Scroll reveal
+  var ro = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); ro.unobserve(e.target); }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(function (el) { revealObserver.observe(el); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el){ ro.observe(el); });
 
-  /* ── FORM ── */
-  var form = document.getElementById('form');
+  // Form validation
+  var form = document.getElementById('solicitudForm');
   var submitBtn = document.getElementById('submitBtn');
   var formWrapper = document.getElementById('formWrapper');
   var successState = document.getElementById('successState');
+  var requiredFields = ['empresa','contacto','correo','telefono','sistema','ciudad'];
 
-  var requiredFields = ['empresa', 'contacto', 'correo', 'telefono', 'sistema', 'ciudad'];
+  function isEmailValid(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); }
 
-  function isEmailValid(v) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
-  }
-
-  function validateField(id) {
+  function validateField(id){
     var el = document.getElementById(id);
     var errEl = document.getElementById('err-' + id);
-    var valid = true;
-    if (!el) return true;
+    if(!el) return true;
     el.classList.remove('error');
-    if (errEl) errEl.classList.remove('visible');
-
-    if (id === 'correo') {
-      if (!el.value.trim() || !isEmailValid(el.value)) {
-        el.classList.add('error');
-        if (errEl) errEl.classList.add('visible');
-        valid = false;
-      }
+    if(errEl) errEl.classList.remove('visible');
+    var valid = true;
+    if(id === 'correo'){
+      if(!el.value.trim() || !isEmailValid(el.value)){ el.classList.add('error'); if(errEl) errEl.classList.add('visible'); valid = false; }
     } else {
-      if (!el.value.trim() || el.value === '') {
-        el.classList.add('error');
-        if (errEl) errEl.classList.add('visible');
-        valid = false;
-      }
+      if(!el.value.trim()){ el.classList.add('error'); if(errEl) errEl.classList.add('visible'); valid = false; }
     }
     return valid;
   }
 
-  function checkAllRequired() {
-    var allOk = requiredFields.every(function (id) {
+  function checkAll(){
+    var ok = requiredFields.every(function(id){
       var el = document.getElementById(id);
-      if (!el) return true;
-      if (id === 'correo') return el.value.trim() && isEmailValid(el.value);
+      if(!el) return true;
+      if(id === 'correo') return el.value.trim() && isEmailValid(el.value);
       return el.value.trim() !== '';
     });
-    submitBtn.disabled = !allOk;
+    submitBtn.disabled = !ok;
   }
 
-  requiredFields.forEach(function (id) {
+  requiredFields.forEach(function(id){
     var el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('blur', function () { validateField(id); });
-    el.addEventListener('input', function () {
+    if(!el) return;
+    el.addEventListener('blur', function(){ validateField(id); });
+    el.addEventListener('input', function(){
       el.classList.remove('error');
       var errEl = document.getElementById('err-' + id);
-      if (errEl) errEl.classList.remove('visible');
-      checkAllRequired();
+      if(errEl) errEl.classList.remove('visible');
+      checkAll();
     });
-    el.addEventListener('change', checkAllRequired);
+    el.addEventListener('change', checkAll);
   });
 
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', function(e){
     e.preventDefault();
-    var allValid = requiredFields.every(function (id) { return validateField(id); });
-    if (!allValid) return;
-
+    var allValid = requiredFields.every(function(id){ return validateField(id); });
+    if(!allValid) return;
     submitBtn.textContent = 'Enviando…';
     submitBtn.disabled = true;
-
-    setTimeout(function () {
+    setTimeout(function(){
       formWrapper.style.display = 'none';
       successState.classList.add('visible');
       successState.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 900);
   });
-})();
 </script>
 </body>
 </html>

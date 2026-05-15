@@ -36,6 +36,7 @@
     a { text-decoration: none; color: inherit; }
     button { cursor: pointer; border: none; background: none; font: inherit; }
     img { display: block; max-width: 100%; }
+    select { cursor: pointer; }
 
     /* ── Scroll reveal ── */
     .reveal {
@@ -48,16 +49,20 @@
       transform: translateY(0);
     }
 
-    /* ── NAV ── */
+    /* ── Nav ── */
     .nav {
       position: fixed;
       top: 0; left: 0; right: 0;
+      z-index: 999;
       height: 72px;
-      z-index: 1000;
       display: flex;
       align-items: center;
-      padding: 0 5%;
-      transition: background .3s, backdrop-filter .3s, box-shadow .3s;
+      padding: 0 40px;
+      background: rgba(1,9,45,.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255,255,255,.06);
+      transition: background 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
     }
     .nav.scrolled {
       background: rgba(1,9,45,.96);
@@ -66,99 +71,122 @@
       box-shadow: 0 1px 0 rgba(255,255,255,.06);
     }
     .nav-inner {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: 40px;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
     }
     .nav-logo {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-shrink: 0;
+      text-decoration: none;
     }
-    .nav-logo-text {
-      font-family: var(--fd);
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 1;
-    }
-    .nav-logo-text span:first-child { color: var(--blue); }
-    .nav-logo-text span:last-child  { color: var(--white); }
+    .nav-logo-text { font-family: var(--fd); font-size: 20px; font-weight: 600; line-height: 1; letter-spacing: -.02em; }
+    .nav-logo-text .air { color: var(--blue); }
+    .nav-logo-text .cleaner { color: var(--white); }
+    .nav.scrolled .nav-logo-text .cleaner { color: var(--white); }
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 32px;
-      margin-left: auto;
+      gap: 36px;
       list-style: none;
     }
     .nav-links a {
-      font-family: var(--fb);
       font-size: 14px;
       font-weight: 500;
-      color: rgba(255,255,255,.80);
-      transition: color .2s;
+      letter-spacing: 0.01em;
+      color: rgba(255,255,255,.72);
+      transition: color 0.2s;
+      position: relative;
+      text-decoration: none;
     }
-    .nav-links a:hover,
-    .nav-links a.active { color: var(--white); }
-    .nav-links a.active { border-bottom: 2px solid var(--teal); padding-bottom: 2px; }
+    .nav.scrolled .nav-links a { color: rgba(255,255,255,.72); }
+    .nav-links a:hover { color: var(--blue); }
+    .nav.scrolled .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--blue); }
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 2px;
+      background: var(--blue);
+      border-radius: 1px;
+    }
+    .nav.scrolled .nav-links a.active { color: var(--blue); }
     .nav-cta {
-      margin-left: 24px;
-      padding: 9px 20px;
-      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      height: 44px;
+      padding: 0 22px;
       background: var(--blue);
       color: var(--white) !important;
       font-size: 14px;
       font-weight: 600;
-      transition: background .2s, opacity .2s;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
       white-space: nowrap;
-      flex-shrink: 0;
+      text-decoration: none;
     }
-    .nav-cta:hover { opacity: .88; }
-    .hamburger {
+    .nav-cta:hover { background: #0280c2; transform: translateY(-1px); }
+    .nav-hamburger {
       display: none;
       flex-direction: column;
       gap: 5px;
-      margin-left: auto;
-      padding: 4px;
+      background: none;
+      border: none;
+      padding: 8px;
+      border-radius: 4px;
+      cursor: pointer;
     }
-    .hamburger span {
+    .nav-hamburger span {
       display: block;
       width: 24px;
       height: 2px;
-      background: var(--white);
+      background: rgba(255,255,255,.85);
       border-radius: 2px;
-      transition: transform .3s, opacity .3s;
+      transition: transform 0.25s, opacity 0.25s, background 0.25s;
     }
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    .mobile-overlay {
+    .nav.scrolled .nav-hamburger span { background: var(--white); }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-overlay {
       display: none;
       position: fixed;
       inset: 0;
+      z-index: 998;
       background: var(--navy);
-      z-index: 999;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 32px;
+      gap: 40px;
     }
-    .mobile-overlay.open { display: flex; }
-    .mobile-overlay a {
+    .nav-overlay.open { display: flex; }
+    .nav-overlay a {
       font-family: var(--fd);
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 600;
-      color: var(--white);
+      color: rgba(255,255,255,.8);
+      transition: color 0.2s;
+      text-decoration: none;
     }
-    .mobile-overlay a.active { color: var(--teal); }
+    .nav-overlay a:hover { color: var(--white); }
+    .nav-overlay a.active { color: var(--blue); }
+    .nav-overlay .nav-cta {
+      font-size: 16px;
+      height: 52px;
+      padding: 0 32px;
+      margin-top: 8px;
+    }
 
-    /* ── HERO ── */
+    /* ═══════════════════════════════ HERO ═══════════════════════════════ */
     .hero {
       position: relative;
-      height: 300px;
+      min-height: 320px;
       background: var(--navy);
       display: flex;
       align-items: center;
@@ -166,12 +194,14 @@
     }
     .hero-watermark {
       position: absolute;
-      top: -20px;
-      right: -40px;
-      width: 320px;
-      height: 320px;
+      top: -30px;
+      right: -50px;
+      width: 340px;
+      height: 340px;
       opacity: .038;
       animation: spinSlow 140s linear infinite;
+      pointer-events: none;
+      object-fit: contain;
     }
     @keyframes spinSlow { to { transform: rotate(360deg); } }
     .hero-content {
@@ -181,7 +211,8 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 5%;
-      padding-top: 72px;
+      padding-top: 100px;
+      padding-bottom: 52px;
     }
     .eyebrow {
       font-family: var(--fm);
@@ -193,17 +224,18 @@
     }
     .hero h1 {
       font-family: var(--fd);
-      font-size: 52px;
+      font-size: 56px;
       font-weight: 700;
       color: var(--white);
-      line-height: 1.1;
-      margin-bottom: 16px;
+      line-height: 1.08;
+      margin-bottom: 20px;
     }
-    .hero-line {
+    .teal-rule {
       width: 48px;
       height: 3px;
-      background: var(--blue);
-      margin-bottom: 18px;
+      background: var(--teal);
+      border-radius: 2px;
+      margin-bottom: 22px;
     }
     .breadcrumb {
       display: flex;
@@ -212,26 +244,31 @@
       font-size: 13px;
       color: rgba(255,255,255,.55);
     }
-    .breadcrumb span { color: rgba(255,255,255,.35); }
+    .breadcrumb span.sep { color: rgba(255,255,255,.30); }
     .breadcrumb a { color: rgba(255,255,255,.55); transition: color .2s; }
     .breadcrumb a:hover { color: var(--white); }
     .breadcrumb .current { color: var(--teal); }
 
-    /* ── SECTIONS shared ── */
-    .section { padding: 80px 0; }
+    /* ═══════════════════════════════ SHARED ═══════════════════════════════ */
     .section-inner {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 5%;
     }
-    .section-eyebrow { margin-bottom: 12px; }
+    .section-eyebrow {
+      font-family: var(--fm);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
     .section-h2 {
       font-family: var(--fd);
       font-size: 36px;
       font-weight: 700;
       color: var(--navy);
       line-height: 1.2;
-      margin-bottom: 48px;
     }
     .teal-underline {
       display: inline-block;
@@ -239,222 +276,108 @@
       padding-bottom: 4px;
     }
 
-    /* ── CONTACT CARDS ── */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-    .contact-card {
-      border: 1px solid var(--gborder);
-      border-radius: 12px;
-      padding: 36px 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    /* ═══════════════════════════════ CONTACT INFO BLOCK ═══════════════════ */
+    .contact-info-section {
       background: var(--white);
-      transition: box-shadow .25s, transform .25s;
+      padding: 88px 0;
+      text-align: center;
     }
-    .contact-card:hover {
-      box-shadow: 0 8px 32px rgba(4,147,217,.10);
-      transform: translateY(-3px);
+    .contact-info-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 5%;
     }
-    .card-icon {
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--gbg);
-      border-radius: 10px;
-    }
-    .card-label {
+    .contact-info-label {
       font-family: var(--fm);
       font-size: 11px;
-      letter-spacing: .1em;
+      letter-spacing: .16em;
       text-transform: uppercase;
       color: var(--teal);
-    }
-    .card-main {
-      font-family: var(--fd);
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--navy);
-      line-height: 1.4;
-    }
-    .card-sub {
-      font-size: 14px;
-      color: var(--navy);
-    }
-    .card-note {
-      font-size: 13px;
-      color: var(--gmuted);
-      line-height: 1.5;
-    }
-    .card-cta {
-      margin-top: 6px;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--blue);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: gap .2s;
-    }
-    .card-cta:hover { gap: 8px; }
-    .card-cta-btn {
-      display: inline-block;
-      margin-top: 6px;
-      padding: 10px 22px;
-      border-radius: 7px;
-      background: #25D366;
-      color: var(--white);
-      font-size: 14px;
-      font-weight: 600;
-      transition: opacity .2s;
-    }
-    .card-cta-btn:hover { opacity: .88; }
-
-    /* ── MAP SECTION ── */
-    .map-section { background: var(--gbg); }
-    .map-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: start;
-    }
-    .map-left { display: flex; flex-direction: column; gap: 24px; }
-    .map-left .section-h2 { margin-bottom: 0; }
-    .address-block {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 15px;
-      color: var(--navy);
-      line-height: 1.7;
-      border-left: 3px solid var(--teal);
-      padding-left: 16px;
-    }
-    .hours-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    .hours-table tr td { padding: 6px 0; }
-    .hours-table tr td:first-child { color: var(--gmuted); width: 180px; }
-    .hours-table tr td:last-child  { font-weight: 500; color: var(--navy); }
-    .hours-table tr.closed td:last-child { color: #E53E3E; }
-    .emergency-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(229,62,62,.10);
-      border: 1px solid rgba(229,62,62,.25);
-      color: #C53030;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 999px;
-    }
-    .coverage-note {
-      font-size: 13px;
-      color: var(--gmuted);
-      line-height: 1.7;
-      background: var(--white);
-      border: 1px solid var(--gborder);
-      border-radius: 8px;
-      padding: 14px 16px;
-    }
-    .map-placeholder {
-      height: 400px;
-      background: var(--navy);
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      position: relative;
-      overflow: hidden;
-    }
-    .map-placeholder-turbine {
-      opacity: .20;
-      animation: spinSlow 140s linear infinite;
-    }
-    .map-city {
-      font-family: var(--fd);
-      font-size: 18px;
-      color: var(--white);
-      font-weight: 600;
-    }
-    .map-coords {
-      font-family: var(--fm);
-      font-size: 12px;
-      color: var(--teal);
-    }
-    .map-link {
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--blue);
-      text-align: center;
+      margin-bottom: 20px;
       display: block;
     }
-    .map-link:hover { text-decoration: underline; }
-
-    /* ── COVERAGE CITIES ── */
-    .cities-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .city-card {
-      border: 1px solid var(--gborder);
-      border-radius: 8px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      position: relative;
-      transition: border-color .2s;
-    }
-    .city-card:hover { border-color: var(--blue); }
-    .city-name {
+    .contact-info-h2 {
       font-family: var(--fd);
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 34px;
+      font-weight: 700;
       color: var(--navy);
+      line-height: 1.25;
+      margin-bottom: 18px;
     }
-    .city-dept {
-      font-family: var(--fb);
-      font-size: 12px;
-      font-weight: 300;
+    .contact-info-hours {
+      font-size: 15px;
       color: var(--gmuted);
+      margin-bottom: 40px;
+      letter-spacing: .01em;
     }
-    .city-badge {
+    .contact-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .btn-call {
       display: inline-flex;
       align-items: center;
-      padding: 3px 10px;
-      border-radius: 999px;
-      background: rgba(4,147,217,.12);
-      color: var(--blue);
-      font-size: 11px;
-      font-weight: 600;
-      margin-top: 6px;
-      width: fit-content;
+      gap: 10px;
+      padding: 16px 32px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: var(--white);
+      font-family: var(--fb);
+      font-size: 16px;
+      font-weight: 700;
+      transition: opacity .2s, transform .2s;
+      white-space: nowrap;
+    }
+    .btn-call:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      border-radius: 8px;
+      background: #25D366;
+      color: var(--white);
+      font-family: var(--fb);
+      font-size: 16px;
+      font-weight: 700;
+      transition: opacity .2s, transform .2s;
+      white-space: nowrap;
+    }
+    .btn-wa:hover { opacity: .88; transform: translateY(-1px); }
+    .contact-emergency-note {
+      font-size: 13px;
+      color: var(--gmuted);
+      margin-top: 4px;
     }
 
-    /* ── QUICK FORM ── */
-    .form-section { background: var(--gbg); }
+    /* ═══════════════════════════════ LEAD FORM ═══════════════════════════ */
+    .form-section {
+      background: var(--gbg);
+      padding: 88px 0;
+    }
     .form-inner {
       max-width: 640px;
       margin: 0 auto;
       padding: 0 5%;
-      text-align: center;
     }
-    .form-inner .section-h2 { text-align: left; }
-    .form-inner .eyebrow { text-align: left; }
+    .form-heading-block {
+      margin-bottom: 36px;
+    }
+    .form-heading-block .section-eyebrow {
+      text-align: left;
+    }
+    .form-heading-block .section-h2 {
+      text-align: left;
+      margin-top: 8px;
+    }
     .contact-form {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-top: 8px;
-      text-align: left;
+      gap: 18px;
     }
     .form-field {
       display: flex;
@@ -467,6 +390,7 @@
       color: var(--navy);
     }
     .form-field input,
+    .form-field select,
     .form-field textarea {
       width: 100%;
       padding: 13px 16px;
@@ -478,56 +402,267 @@
       background: var(--white);
       outline: none;
       transition: border-color .2s;
-      resize: vertical;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A7186' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
     }
     .form-field input:focus,
+    .form-field select:focus,
     .form-field textarea:focus { border-color: var(--blue); }
     .form-field input.error,
+    .form-field select.error,
     .form-field textarea.error { border-color: #E53E3E; }
-    .form-field textarea { height: 120px; }
+    .form-field textarea { height: 120px; resize: vertical; }
     .form-submit {
       width: 100%;
-      height: 52px;
+      height: 54px;
       border-radius: 8px;
       background: var(--blue);
       color: var(--white);
       font-family: var(--fb);
-      font-size: 15px;
-      font-weight: 600;
-      transition: opacity .2s;
+      font-size: 16px;
+      font-weight: 700;
+      transition: opacity .2s, transform .2s;
       margin-top: 4px;
     }
-    .form-submit:hover { opacity: .88; }
+    .form-submit:hover { opacity: .88; transform: translateY(-1px); }
+    .form-privacy {
+      text-align: center;
+      font-size: 12px;
+      color: var(--gmuted);
+      margin-top: 6px;
+    }
     .form-success {
       display: none;
       text-align: center;
-      padding: 48px 0;
+      padding: 56px 0;
     }
     .form-success-icon {
-      width: 64px;
-      height: 64px;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
       background: rgba(57,219,196,.15);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 20px;
+      margin: 0 auto 24px;
     }
     .form-success h3 {
       font-family: var(--fd);
-      font-size: 24px;
+      font-size: 26px;
       color: var(--navy);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .form-success p {
       font-size: 15px;
       color: var(--gmuted);
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
-    /* ── FAQ ACCORDION ── */
-    .faq-section { background: var(--white); padding: 72px 0; }
-    .faq-list { display: flex; flex-direction: column; }
+    /* ═══════════════════════════════ SOCIAL PROOF ════════════════════════ */
+    .proof-section {
+      background: var(--white);
+      padding: 72px 0;
+    }
+    .proof-card {
+      max-width: 860px;
+      margin: 0 auto;
+      border: 1px solid var(--gborder);
+      border-radius: 12px;
+      padding: 40px 48px;
+      display: flex;
+      align-items: flex-start;
+      gap: 48px;
+    }
+    .proof-left {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      min-width: 120px;
+    }
+    .google-g {
+      width: 48px;
+      height: 48px;
+    }
+    .proof-stars {
+      font-size: 22px;
+      color: #FBBC05;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+    .proof-rating-label {
+      font-family: var(--fm);
+      font-size: 12px;
+      color: var(--gmuted);
+      text-align: center;
+      letter-spacing: .04em;
+    }
+    .proof-divider {
+      width: 1px;
+      background: var(--gborder);
+      align-self: stretch;
+      flex-shrink: 0;
+    }
+    .proof-right {
+      flex: 1;
+      min-width: 0;
+    }
+    .proof-quote {
+      font-family: var(--fd);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--navy);
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+    .proof-quote::before { content: '\201C'; }
+    .proof-quote::after  { content: '\201D'; }
+    .proof-author {
+      font-size: 13px;
+      color: var(--gmuted);
+    }
+    .proof-author strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════ COVERAGE CITIES ═════════════════════ */
+    .cities-section {
+      background: var(--gbg);
+      padding: 88px 0;
+    }
+    .cities-header {
+      margin-bottom: 12px;
+    }
+    .cities-h2 {
+      font-family: var(--fd);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+      margin: 8px 0 12px;
+    }
+    .cities-sub {
+      font-size: 15px;
+      color: var(--gmuted);
+      line-height: 1.65;
+      max-width: 600px;
+      margin-bottom: 44px;
+    }
+    .cities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .city-card {
+      border: 1px solid var(--gborder);
+      border-radius: 8px;
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: var(--white);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .city-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 16px rgba(4,147,217,.08);
+    }
+    .city-name {
+      font-family: var(--fd);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .city-dept {
+      font-size: 12px;
+      color: var(--gmuted);
+      font-weight: 400;
+    }
+    .city-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(4,147,217,.12);
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 8px;
+      width: fit-content;
+    }
+
+    /* ═══════════════════════════════ PREFER TO CALL CTA ═════════════════ */
+    .call-cta-section {
+      background: var(--white);
+      padding: 80px 0;
+      text-align: center;
+    }
+    .call-cta-card {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 0 5%;
+    }
+    .call-cta-card h3 {
+      font-family: var(--fd);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .call-cta-card p {
+      font-size: 15px;
+      color: var(--gmuted);
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .btn-phone-large {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 40px;
+      border-radius: 8px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--fd);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: .01em;
+      transition: background .2s, transform .2s;
+    }
+    .btn-phone-large:hover {
+      background: var(--dblue);
+      transform: translateY(-2px);
+    }
+
+    /* ═══════════════════════════════ FAQ ACCORDION ═══════════════════════ */
+    .faq-section {
+      background: var(--white);
+      padding: 88px 0;
+      border-top: 1px solid var(--gborder);
+    }
+    .faq-header {
+      margin-bottom: 48px;
+    }
+    .faq-header .section-h2 {
+      margin: 8px 0 10px;
+    }
+    .faq-sub {
+      font-size: 15px;
+      color: var(--gmuted);
+    }
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      max-width: 760px;
+    }
     .faq-item {
       border-bottom: 1px solid var(--gborder);
     }
@@ -567,119 +702,88 @@
     .faq-answer-inner {
       padding: 0 0 22px;
       font-family: var(--fb);
-      font-size: 14px;
-      font-weight: 300;
+      font-size: 15px;
+      font-weight: 400;
       color: var(--gmuted);
       line-height: 1.8;
-      max-width: 700px;
+      max-width: 680px;
     }
 
-    /* ── FOOTER ── */
-    footer {
+    /* ── Footer ── */
+    .footer {
       background: var(--dblue);
-      padding: 64px 0 0;
       position: relative;
       overflow: hidden;
-    }
-    .footer-watermark {
-      position: absolute;
-      bottom: -60px;
-      right: -60px;
-      width: 340px;
-      height: 340px;
-      opacity: .04;
-      animation: spinSlow 140s linear infinite;
+      padding: 72px 0 0;
     }
     .footer-grid {
       display: grid;
       grid-template-columns: 1.4fr 1fr 1fr;
-      gap: 60px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 5%;
+      gap: 56px;
+      padding-bottom: 56px;
     }
-    .footer-brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .footer-logo-wrap {
       margin-bottom: 16px;
-    }
-    .footer-brand-name {
-      font-family: var(--fd);
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--white);
     }
     .footer-tagline {
       font-size: 14px;
-      color: rgba(255,255,255,.55);
-      line-height: 1.6;
-      margin-bottom: 24px;
+      color: rgba(255,255,255,.50);
+      line-height: 1.7;
+      margin-bottom: 28px;
+      max-width: 280px;
     }
-    .social-links {
-      display: flex;
-      gap: 12px;
-    }
+    .footer-socials { display: flex; gap: 12px; }
     .social-link {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255,255,255,.6);
-      transition: border-color .2s, color .2s;
+      width: 36px; height: 36px;
+      border-radius: 6px;
+      background: rgba(255,255,255,.08);
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
+      text-decoration: none;
     }
-    .social-link:hover {
-      border-color: var(--teal);
+    .social-link:hover { background: rgba(255,255,255,.16); }
+    .footer-socials a { display: flex !important; width: 36px; height: 36px; border-radius: 6px; background: rgba(255,255,255,.08); align-items: center; justify-content: center; flex-shrink: 0; }
+    .footer-socials a:hover { background: rgba(255,255,255,.16); }
+    .footer-socials a svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .footer-col-title {
+      font-family: var(--fm);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       color: var(--teal);
-    }
-    .footer-col h4 {
-      font-family: var(--fd);
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--white);
       margin-bottom: 20px;
-      letter-spacing: .04em;
     }
     .footer-col p, .footer-col address {
-      font-size: 13px;
+      font-size: 14px;
       color: rgba(255,255,255,.55);
-      line-height: 2;
+      line-height: 1.8;
       font-style: normal;
     }
     .footer-col a {
       color: rgba(255,255,255,.55);
       transition: color .2s;
+      text-decoration: none;
+      display: block;
     }
-    .footer-col a:hover { color: var(--teal); }
-    .footer-teal { color: var(--teal) !important; font-weight: 600; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-col a.teal { color: var(--teal); }
+    .footer-col a.teal:hover { color: #5ee8d6; }
     .footer-bar {
-      margin-top: 56px;
-      border-top: 1px solid rgba(255,255,255,.08);
-      padding: 20px 5%;
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 20px 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      max-width: 100%;
     }
-    .footer-bar p {
-      font-size: 12px;
-      color: rgba(255,255,255,.35);
+    .footer-bar p { font-size: 13px; color: rgba(255,255,255,.30); }
+    .footer-bar-links { display: flex; gap: 24px; }
+    .footer-bar-links a { font-size: 13px; color: rgba(255,255,255,.30); transition: color .2s; text-decoration: none; }
+    .footer-bar-links a:hover { color: rgba(255,255,255,.60); }
+    @media (max-width: 860px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer { padding: 56px 0 0; }
     }
-    .footer-bar-links {
-      display: flex;
-      gap: 20px;
-    }
-    .footer-bar-links a {
-      font-size: 12px;
-      color: rgba(255,255,255,.35);
-      transition: color .2s;
-    }
-    .footer-bar-links a:hover { color: var(--white); }
 
     /* ── WhatsApp FAB ── */
     .wa-fab {
@@ -700,214 +804,219 @@
     }
     .wa-fab:hover { transform: scale(1.08); animation: none; }
     @keyframes waPulse {
-      0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,.45); }
-      50%       { box-shadow: 0 4px 28px rgba(37,211,102,.75), 0 0 0 10px rgba(37,211,102,.12); }
+      0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,.45); }
+      50%      { box-shadow: 0 4px 28px rgba(37,211,102,.75), 0 0 0 10px rgba(37,211,102,.12); }
     }
 
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .cards-grid { grid-template-columns: 1fr; }
-      .map-grid   { grid-template-columns: 1fr; }
-      .cities-grid { grid-template-columns: repeat(2,1fr); }
-      .footer-grid { grid-template-columns: 1fr; gap: 40px; }
-      .hero h1 { font-size: 38px; }
-      .section-h2 { font-size: 28px; }
-    }
+    /* ═══════════════════════════════ RESPONSIVE ════════════════════════ */
     @media (max-width: 860px) {
+      .nav { padding: 0 24px; }
       .nav-links, .nav-cta { display: none; }
-      .hamburger { display: flex; }
+      .nav-hamburger { display: flex; }
+      .hero h1 { font-size: 40px; }
+      .contact-info-h2 { font-size: 26px; }
+      .proof-card { flex-direction: column; gap: 28px; padding: 32px 28px; }
+      .proof-divider { width: 100%; height: 1px; }
+      .proof-left { flex-direction: row; justify-content: flex-start; min-width: unset; }
+      .cities-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+      .section-h2 { font-size: 28px; }
+      .cities-h2 { font-size: 28px; }
     }
     @media (max-width: 600px) {
-      .cities-grid { grid-template-columns: 1fr 1fr; }
-      .hero h1 { font-size: 32px; }
+      .hero h1 { font-size: 34px; }
+      .cities-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-action-row { flex-direction: column; }
+      .btn-call, .btn-wa { width: 100%; justify-content: center; }
     }
     @media (max-width: 420px) {
       .cities-grid { grid-template-columns: 1fr; }
+      .proof-card { padding: 24px 20px; }
+      .hero h1 { font-size: 30px; }
+      .btn-phone-large { font-size: 17px; padding: 16px 28px; }
     }
   </style>
 </head>
 <body>
 
 <!-- ═══════════════════════════════════════ NAV ═══════════════════════════════════════ -->
-<nav class="nav" id="nav">
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav class="nav" id="nav" aria-label="Navegación principal">
   <div class="nav-inner">
-    <a href="aircleaner-landing.html" class="nav-logo">
-      <svg width="36" height="36" viewBox="-52 -52 104 104" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(0)"/>
-        <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(72)"/>
-        <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(144)"/>
-        <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(216)"/>
-        <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="#0493D9" transform="rotate(288)"/>
-        <rect x="-9" y="-9" width="18" height="18" rx="4" fill="#014778"/>
-      </svg>
-      <span class="nav-logo-text">
-        <span>Air</span><span>Cleaner</span>
-      </span>
+    <a href="aircleaner-landing.html" class="nav-logo" aria-label="AirCleaner — Inicio">
+      <img src="mp7f4gt1-isotipo.png" alt="AirCleaner" style="height:40px;width:40px;object-fit:contain;flex-shrink:0;">
+      <span class="nav-logo-text"><span class="air">Air</span><span class="cleaner">Cleaner</span></span>
     </a>
-    <ul class="nav-links">
+    <ul class="nav-links" role="list">
       <li><a href="aircleaner-servicios.html">Servicios</a></li>
       <li><a href="aircleaner-galeria.html">Galería</a></li>
       <li><a href="aircleaner-solicitar.html">Solicitar</a></li>
       <li><a href="aircleaner-contacto.html" class="active">Contacto</a></li>
     </ul>
     <a href="aircleaner-solicitar.html" class="nav-cta">Solicitar diagnóstico</a>
-    <button class="hamburger" id="hamburger" aria-label="Menú">
+    <button class="nav-hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-overlay">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<!-- Mobile menu overlay -->
-<div class="mobile-overlay" id="mobileOverlay">
+<!-- Mobile overlay -->
+<div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Menú de navegación">
   <a href="aircleaner-servicios.html">Servicios</a>
   <a href="aircleaner-galeria.html">Galería</a>
   <a href="aircleaner-solicitar.html">Solicitar</a>
   <a href="aircleaner-contacto.html" class="active">Contacto</a>
-  <a href="aircleaner-solicitar.html" style="color:var(--teal)">Solicitar diagnóstico →</a>
+  <a href="aircleaner-solicitar.html" class="nav-cta">Solicitar diagnóstico</a>
 </div>
 
 <!-- ═══════════════════════════════════════ HERO ════════════════════════════════════════ -->
-<section class="hero">
-  <!-- Watermark turbine -->
-  <svg class="hero-watermark" viewBox="-52 -52 104 104" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
-    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
-    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
-    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
-    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
-    <rect x="-9" y="-9" width="18" height="18" rx="4" fill="rgba(255,255,255,0.6)"/>
-  </svg>
+<section class="hero" aria-label="Encabezado de página">
+  <img src="mp7f4gt1-isotipo.png" class="hero-watermark" alt="" aria-hidden="true">
 
   <div class="hero-content">
-    <p class="eyebrow">Estamos en el Caribe colombiano</p>
+    <p class="eyebrow">Estamos aquí para ayudarle · Región Caribe</p>
     <h1>Contáctenos</h1>
-    <div class="hero-line"></div>
+    <div class="teal-rule"></div>
     <nav class="breadcrumb" aria-label="Ruta de navegación">
       <a href="aircleaner-landing.html">Inicio</a>
-      <span>/</span>
+      <span class="sep">›</span>
       <span class="current">Contacto</span>
     </nav>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════ CONTACT CHANNELS ════════════════════════════ -->
-<section class="section" style="background:var(--white)">
-  <div class="section-inner">
-    <div class="cards-grid">
+<!-- ═══════════════════════════════════════ CONTACT INFO BLOCK ══════════════════════════ -->
+<section class="contact-info-section">
+  <div class="contact-info-inner reveal">
+    <span class="contact-info-label">Contacto directo</span>
+    <h2 class="contact-info-h2">Respondemos de inmediato, generalmente en menos de 2 horas.</h2>
+    <p class="contact-info-hours">Lun–Vie: 7:00 am – 6:00 pm &nbsp;·&nbsp; Sáb: 8:00 am – 12:00 pm</p>
+    <div class="contact-action-row">
+      <a href="tel:+573001234567" class="btn-call">
+        <!-- Phone icon -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 010 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        Llamar ahora: +57 300 123 4567
+      </a>
+      <a href="https://wa.me/573001234567" target="_blank" rel="noopener" class="btn-wa">
+        <!-- WhatsApp icon -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Escribir por WhatsApp
+      </a>
+    </div>
+    <p class="contact-emergency-note">Emergencias fuera de horario disponibles 24/7</p>
+  </div>
+</section>
 
-      <!-- Card 1: Teléfono -->
-      <div class="contact-card reveal">
-        <div class="card-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 010 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-          </svg>
-        </div>
-        <span class="card-label">Llamada directa</span>
-        <div>
-          <div class="card-main">+57 (5) 123 4567</div>
-          <div class="card-sub" style="margin-top:4px">+57 300 123 4567</div>
-        </div>
-        <p class="card-note">Lunes a viernes 7:00 a.m. – 6:00 p.m.</p>
-        <a href="tel:+5751234567" class="card-cta">Llamar ahora →</a>
+<!-- ═══════════════════════════════════════ LEAD CAPTURE FORM ═══════════════════════════ -->
+<section class="form-section">
+  <div class="form-inner">
+    <div class="form-heading-block reveal">
+      <p class="section-eyebrow">Solicitud técnica</p>
+      <h2 class="section-h2">Solicitar diagnóstico técnico</h2>
+    </div>
+
+    <form class="contact-form reveal" id="contactForm" novalidate>
+
+      <div class="form-field">
+        <label for="nombre">Nombre completo <span style="color:#E53E3E" aria-hidden="true">*</span></label>
+        <input type="text" id="nombre" name="nombre" placeholder="Su nombre completo" autocomplete="name" required />
       </div>
 
-      <!-- Card 2: WhatsApp -->
-      <div class="contact-card reveal" style="border-color:rgba(37,211,102,.25)">
-        <div class="card-icon" style="background:rgba(37,211,102,.1)">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-        </div>
-        <span class="card-label">Mensaje inmediato</span>
-        <div class="card-main">+57 300 123 4567</div>
-        <p class="card-note">Respuesta en menos de 2 horas en horario de atención</p>
-        <a href="https://wa.me/573001234567" target="_blank" rel="noopener" class="card-cta-btn">Abrir WhatsApp →</a>
+      <div class="form-field">
+        <label for="telefono">Teléfono <span style="color:#E53E3E" aria-hidden="true">*</span></label>
+        <input type="tel" id="telefono" name="telefono" placeholder="+57 300 000 0000" autocomplete="tel" required />
       </div>
 
-      <!-- Card 3: Correo -->
-      <div class="contact-card reveal">
-        <div class="card-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0493D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
-        </div>
-        <span class="card-label">Correo corporativo</span>
-        <div class="card-main" style="font-size:15px;word-break:break-all">contacto@aircleaner.com.co</div>
-        <p class="card-note">Respondemos en máximo 24 horas hábiles</p>
-        <a href="mailto:contacto@aircleaner.com.co" class="card-cta">Enviar correo →</a>
+      <div class="form-field">
+        <label for="empresa">Empresa</label>
+        <input type="text" id="empresa" name="empresa" placeholder="Nombre de su empresa" autocomplete="organization" />
       </div>
 
+      <div class="form-field">
+        <label for="cargo">Cargo</label>
+        <input type="text" id="cargo" name="cargo" placeholder="Su cargo o rol" autocomplete="organization-title" />
+      </div>
+
+      <div class="form-field">
+        <label for="correo">Correo electrónico <span style="color:#E53E3E" aria-hidden="true">*</span></label>
+        <input type="email" id="correo" name="correo" placeholder="correo@empresa.com" autocomplete="email" required />
+      </div>
+
+      <div class="form-field">
+        <label for="sistema">Sistema a evaluar <span style="color:#E53E3E" aria-hidden="true">*</span></label>
+        <select id="sistema" name="sistema" required>
+          <option value="" disabled selected>Seleccione un sistema</option>
+          <option value="hvac">Climatización HVAC</option>
+          <option value="refrigeracion">Refrigeración industrial</option>
+          <option value="bombeo">Sistema de bombeo</option>
+          <option value="incendios">Protección contra incendios</option>
+          <option value="multiples">Múltiples sistemas</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="conocio">¿Cómo nos conoció?</label>
+        <select id="conocio" name="conocio">
+          <option value="" disabled selected>Seleccione una opción</option>
+          <option value="google">Google</option>
+          <option value="referido">Referido</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="descripcion">Descripción de la necesidad <span style="color:#E53E3E" aria-hidden="true">*</span></label>
+        <textarea id="descripcion" name="descripcion" placeholder="Cuéntenos qué sistema necesita evaluar, síntomas observados o cualquier detalle relevante…" required></textarea>
+      </div>
+
+      <button type="submit" class="form-submit">Enviar solicitud</button>
+      <p class="form-privacy">Respetamos su privacidad. No enviamos spam.</p>
+
+    </form>
+
+    <!-- Success state (hidden until submit) -->
+    <div class="form-success" id="formSuccess" role="alert" aria-live="polite">
+      <div class="form-success-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#39DBC4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h3>Solicitud enviada</h3>
+      <p>Gracias por contactarnos. Confirmaremos la recepción en máximo 2 horas hábiles y agendaremos la visita técnica.</p>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════ MAP + ADDRESS ═══════════════════════════════ -->
-<section class="section map-section">
+<!-- ═══════════════════════════════════════ SOCIAL PROOF ════════════════════════════════ -->
+<section class="proof-section">
   <div class="section-inner">
-    <div class="map-grid">
+    <div class="proof-card reveal">
 
-      <!-- Left: Address info -->
-      <div class="map-left reveal">
-        <p class="eyebrow section-eyebrow">Oficina principal</p>
-        <h2 class="section-h2" style="margin-bottom:0">
-          <span class="teal-underline">Barranquilla,<br>Atlántico</span>
-        </h2>
-
-        <address class="address-block">
-          <span>Cra. 54 # 75–123, Piso 3</span>
-          <span>Barranquilla, Atlántico</span>
-          <span>Colombia</span>
-        </address>
-
-        <table class="hours-table">
-          <tbody>
-            <tr>
-              <td>Lunes – Viernes</td>
-              <td>7:00 a.m. – 6:00 p.m.</td>
-            </tr>
-            <tr>
-              <td>Sábados</td>
-              <td>8:00 a.m. – 12:00 m.</td>
-            </tr>
-            <tr class="closed">
-              <td>Domingos y festivos</td>
-              <td>Cerrado</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div>
-          <span class="emergency-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
-            Emergencias 24/7 · +57 300 123 4567
-          </span>
-        </div>
-
-        <div class="coverage-note">
-          Atendemos toda la Región Caribe: Barranquilla, Cartagena, Santa Marta, Valledupar, Montería y ciudades intermedias.
-        </div>
+      <!-- Left: Google rating -->
+      <div class="proof-left">
+        <!-- Google G SVG -->
+        <svg class="google-g" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-label="Google" role="img">
+          <path fill="#4285F4" d="M44.5 20H24v8h11.8C34.7 33.9 29.9 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6-6C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"/>
+          <path fill="#34A853" d="M6.3 14.7l7 5.1C15 16.1 19.2 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6-6C34.6 4.1 29.6 2 24 2 16.3 2 9.7 7.4 6.3 14.7z"/>
+          <path fill="#FBBC05" d="M24 46c5.8 0 10.7-1.9 14.3-5.2l-6.6-5.4C29.9 37 27.1 38 24 38c-5.8 0-10.7-3.9-12.5-9.3l-7 5.4C8 40.2 15.4 46 24 46z"/>
+          <path fill="#EA4335" d="M44.5 20H24v8h11.8c-.9 2.6-2.6 4.8-4.9 6.4l6.6 5.4C41.6 36.4 45 31 45 24c0-1.3-.2-2.7-.5-4z"/>
+        </svg>
+        <div class="proof-stars" aria-label="5 estrellas">★★★★★</div>
+        <div class="proof-rating-label">4.9 en Google · 38 reseñas</div>
       </div>
 
-      <!-- Right: Map placeholder -->
-      <div class="reveal">
-        <div class="map-placeholder">
-          <svg class="map-placeholder-turbine" width="80" height="80" viewBox="-52 -52 104 104" fill="none" aria-hidden="true">
-            <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
-            <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
-            <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
-            <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
-            <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
-            <rect x="-9" y="-9" width="18" height="18" rx="4" fill="rgba(255,255,255,0.4)"/>
-          </svg>
-          <span class="map-city">Barranquilla, Atlántico</span>
-          <span class="map-coords">Coordenadas: 10.9685° N, 74.7813° O</span>
-        </div>
-        <a href="https://maps.google.com/?q=Barranquilla,Atlantico,Colombia" target="_blank" rel="noopener" class="map-link">
-          Haga clic para abrir en Google Maps →
-        </a>
+      <div class="proof-divider" aria-hidden="true"></div>
+
+      <!-- Right: Quote -->
+      <div class="proof-right">
+        <p class="proof-quote">AirCleaner diagnosticó el fallo en nuestro sistema de refrigeración en menos de 3 horas. Sin costos ocultos, trabajo impecable.</p>
+        <p class="proof-author"><strong>Carlos M.</strong>, Gerente de Planta · Barranquilla</p>
       </div>
 
     </div>
@@ -915,39 +1024,36 @@
 </section>
 
 <!-- ═══════════════════════════════════════ COVERAGE CITIES ════════════════════════════ -->
-<section class="section" style="background:var(--white); padding:72px 0">
+<section class="cities-section">
   <div class="section-inner">
-    <p class="eyebrow section-eyebrow reveal">Área de cobertura</p>
-    <h2 class="section-h2 reveal">Región Caribe colombiana</h2>
+    <div class="cities-header reveal">
+      <p class="section-eyebrow">Área de cobertura</p>
+      <h2 class="cities-h2">Región Caribe colombiana</h2>
+      <p class="cities-sub">Atendemos dentro de un radio de operación desde Barranquilla. ¿No sabe si llegamos a su ciudad? Llámenos.</p>
+    </div>
 
     <div class="cities-grid">
-      <!-- Barranquilla -->
       <div class="city-card reveal">
         <div class="city-name">Barranquilla</div>
         <div class="city-dept">Atlántico</div>
         <span class="city-badge">Sede principal</span>
       </div>
-      <!-- Cartagena -->
       <div class="city-card reveal">
         <div class="city-name">Cartagena</div>
         <div class="city-dept">Bolívar</div>
       </div>
-      <!-- Santa Marta -->
       <div class="city-card reveal">
         <div class="city-name">Santa Marta</div>
         <div class="city-dept">Magdalena</div>
       </div>
-      <!-- Valledupar -->
       <div class="city-card reveal">
         <div class="city-name">Valledupar</div>
         <div class="city-dept">Cesar</div>
       </div>
-      <!-- Montería -->
       <div class="city-card reveal">
         <div class="city-name">Montería</div>
         <div class="city-dept">Córdoba</div>
       </div>
-      <!-- Sincelejo -->
       <div class="city-card reveal">
         <div class="city-name">Sincelejo</div>
         <div class="city-dept">Sucre</div>
@@ -956,55 +1062,34 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════ QUICK FORM ═════════════════════════════════ -->
-<section class="section form-section">
-  <div class="form-inner">
-    <p class="eyebrow section-eyebrow reveal">¿Prefiere escribirnos?</p>
-    <h2 class="section-h2 reveal">Envíenos un mensaje</h2>
-
-    <form class="contact-form reveal" id="contactForm" novalidate>
-      <div class="form-field">
-        <label for="nombre">Nombre <span style="color:#E53E3E">*</span></label>
-        <input type="text" id="nombre" name="nombre" placeholder="Su nombre completo" required />
-      </div>
-      <div class="form-field">
-        <label for="contacto">Correo o teléfono <span style="color:#E53E3E">*</span></label>
-        <input type="text" id="contacto" name="contacto" placeholder="correo@empresa.com o +57 300 000 0000" required />
-      </div>
-      <div class="form-field">
-        <label for="empresa">Empresa</label>
-        <input type="text" id="empresa" name="empresa" placeholder="Nombre de su empresa (opcional)" />
-      </div>
-      <div class="form-field">
-        <label for="mensaje">Mensaje <span style="color:#E53E3E">*</span></label>
-        <textarea id="mensaje" name="mensaje" placeholder="Cuéntenos en qué podemos ayudarle…" required></textarea>
-      </div>
-      <button type="submit" class="form-submit">Enviar mensaje</button>
-    </form>
-
-    <div class="form-success reveal" id="formSuccess">
-      <div class="form-success-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#39DBC4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-      </div>
-      <h3>Mensaje enviado</h3>
-      <p>Gracias por contactarnos. Le responderemos en máximo 24 horas hábiles a través del medio que nos indicó.</p>
-    </div>
+<!-- ═══════════════════════════════════════ PREFER TO CALL CTA ════════════════════════ -->
+<section class="call-cta-section">
+  <div class="call-cta-card reveal">
+    <h3>¿Prefiere llamar?</h3>
+    <p>Atendemos en vivo en horario de oficina. Llame antes del mediodía para coordinar visita el mismo día o al siguiente.</p>
+    <a href="tel:+573001234567" class="btn-phone-large">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 010 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+      +57 300 123 4567
+    </a>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════ FAQ ACCORDION ══════════════════════════════ -->
 <section class="faq-section">
   <div class="section-inner">
-    <p class="eyebrow section-eyebrow reveal">Preguntas frecuentes</p>
-    <h2 class="section-h2 reveal">Lo que nuestros clientes preguntan</h2>
+    <div class="faq-header reveal">
+      <p class="section-eyebrow">FAQ</p>
+      <h2 class="section-h2">Preguntas frecuentes</h2>
+      <p class="faq-sub">Respuestas directas, sin rodeos.</p>
+    </div>
 
     <div class="faq-list reveal">
 
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Cuánto cuesta el diagnóstico técnico inicial?
+          ¿Cuánto cuesta el diagnóstico técnico?
           <span class="faq-arrow" aria-hidden="true">→</span>
         </button>
         <div class="faq-answer" role="region">
@@ -1016,24 +1101,24 @@
 
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿En cuánto tiempo responden a una solicitud?
+          ¿En cuánto tiempo responden?
           <span class="faq-arrow" aria-hidden="true">→</span>
         </button>
         <div class="faq-answer" role="region">
           <div class="faq-answer-inner">
-            Confirmamos el recibo de su solicitud en máximo 2 horas hábiles y agendamos la visita técnica dentro de las siguientes 48 horas hábiles.
+            Confirmamos el recibo de su solicitud en máximo 2 horas hábiles y agendamos la visita dentro de las 48 horas hábiles siguientes.
           </div>
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          ¿Trabajan solo en Barranquilla?
+          ¿Solo trabajan en Barranquilla?
           <span class="faq-arrow" aria-hidden="true">→</span>
         </button>
         <div class="faq-answer" role="region">
           <div class="faq-answer-inner">
-            No. Cubrimos toda la Región Caribe colombiana: Barranquilla, Cartagena, Santa Marta, Valledupar, Montería, Sincelejo y ciudades intermedias.
+            No. Cubrimos toda la Región Caribe: Barranquilla, Cartagena, Santa Marta, Valledupar, Montería, Sincelejo y ciudades intermedias.
           </div>
         </div>
       </div>
@@ -1045,7 +1130,7 @@
         </button>
         <div class="faq-answer" role="region">
           <div class="faq-answer-inner">
-            Entregamos un informe escrito con hallazgos, riesgos identificados y un plan de acción priorizado. Usted decide si desea continuar con nosotros. No hay ningún compromiso previo.
+            Entregamos un informe escrito con hallazgos, riesgos identificados y un plan de acción priorizado. Usted decide si continúa con nosotros.
           </div>
         </div>
       </div>
@@ -1057,7 +1142,7 @@
         </button>
         <div class="faq-answer" role="region">
           <div class="faq-answer-inner">
-            Sí. Ofrecemos atención de emergencias 24/7 para clientes con contrato de mantenimiento activo. Para nuevas solicitudes urgentes, contáctenos vía WhatsApp.
+            Sí. Ofrecemos atención 24/7 para emergencias en sistemas críticos. Para nuevas solicitudes urgentes, contáctenos por WhatsApp.
           </div>
         </div>
       </div>
@@ -1066,80 +1151,63 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════ FOOTER ════════════════════════════════════ -->
-<footer>
-  <!-- Watermark -->
-  <svg class="footer-watermark" viewBox="-52 -52 104 104" fill="none" aria-hidden="true">
-    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
-    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
-    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
-    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
-    <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
-    <rect x="-9" y="-9" width="18" height="18" rx="4" fill="rgba(255,255,255,0.3)"/>
-  </svg>
-
-  <div class="footer-grid">
-    <!-- Brand -->
-    <div>
-      <div class="footer-brand-logo">
-        <svg width="36" height="36" viewBox="-52 -52 104 104" fill="none" aria-hidden="true">
-          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(0)"/>
-          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(72)"/>
-          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(144)"/>
-          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(216)"/>
-          <path d="M5,-3 C4,-16 9,-30 18,-40 C22,-46 28,-47 32,-42 C36,-36 30,-26 21,-17 C15,-11 9,-6 5,-3Z" fill="white" transform="rotate(288)"/>
-          <rect x="-9" y="-9" width="18" height="18" rx="4" fill="rgba(255,255,255,0.35)"/>
-        </svg>
-        <span class="footer-brand-name">AirCleaner</span>
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="footer" aria-label="Pie de página">
+  <img src="mp7h2oze-isotipo.png" aria-hidden="true" style="position:absolute;bottom:-60px;right:-60px;width:320px;height:320px;opacity:.04;pointer-events:none;object-fit:contain;">
+  <div class="section-inner">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="footer-logo-wrap" style="display:flex;align-items:center;gap:10px;">
+          <img src="mp7gw2yt-isotipo.png" alt="" style="height:44px;width:44px;object-fit:contain;flex-shrink:0;">
+          <span class="nav-logo-text"><span class="air">Air</span><span class="cleaner" style="color:var(--white);">Cleaner</span></span>
+        </div>
+        <p class="footer-tagline">Gestión técnica integral de sistemas HVAC, refrigeración, bombeo e incendios para el Caribe colombiano.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-link" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <rect x="2" y="2" width="20" height="20" rx="3"/>
+              <path d="M7 10v7M7 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/>
+            </svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="white"/>
+            </svg>
+          </a>
+          <a href="https://wa.me/573001234567" class="social-link" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="white" width="16" height="16">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+          </a>
+        </div>
       </div>
-      <p class="footer-tagline">Ingeniería industrial para sistemas de aire y ventilación en el Caribe colombiano.</p>
-      <div class="social-links">
-        <a href="#" class="social-link" aria-label="LinkedIn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
-            <circle cx="4" cy="4" r="2"/>
-          </svg>
-        </a>
-        <a href="#" class="social-link" aria-label="Instagram">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-          </svg>
-        </a>
+      <div class="footer-col">
+        <p class="footer-col-title">Contacto</p>
+        <address>
+          Cra. 46 #74-50, Piso 3<br>
+          Barranquilla, Atlántico<br>
+          Colombia<br><br>
+          <a href="tel:+573001234567">+57 300 123 4567</a><br>
+          <a href="mailto:info@aircleaner.com.co">info@aircleaner.com.co</a>
+        </address>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Horario</p>
+        <p>
+          Lunes – Viernes<br>7:00 am – 6:00 pm<br><br>
+          Sábados<br>8:00 am – 12:00 pm<br><br>
+          <a href="tel:+573001234567" class="teal">Emergencias 24/7</a>
+        </p>
       </div>
     </div>
-
-    <!-- Contacto -->
-    <div class="footer-col">
-      <h4>Contacto</h4>
-      <address>
-        Cra. 54 # 75–123, Piso 3<br>
-        Barranquilla, Atlántico<br>
-        Colombia<br>
-        <a href="tel:+5751234567">+57 (5) 123 4567</a><br>
-        <a href="tel:+573001234567">+57 300 123 4567</a><br>
-        <a href="mailto:contacto@aircleaner.com.co">contacto@aircleaner.com.co</a>
-      </address>
-    </div>
-
-    <!-- Horario -->
-    <div class="footer-col">
-      <h4>Horario</h4>
-      <p>
-        Lun – Vie: 7:00 a.m. – 6:00 p.m.<br>
-        Sábados: 8:00 a.m. – 12:00 m.<br>
-        Domingos: Cerrado<br>
-        <span class="footer-teal">Emergencias 24/7</span>
-      </p>
-    </div>
-  </div>
-
-  <div class="footer-bar">
-    <p>© 2026 AirCleaner · Todos los derechos reservados</p>
-    <div class="footer-bar-links">
-      <a href="#">Política de privacidad</a>
-      <a href="#">Términos</a>
+    <div class="footer-bar">
+      <p>© 2026 AirCleaner S.A.S. Todos los derechos reservados.</p>
+      <nav class="footer-bar-links" aria-label="Vínculos legales">
+        <a href="#">Política de privacidad</a>
+        <a href="#">Términos de uso</a>
+      </nav>
     </div>
   </div>
 </footer>
@@ -1153,36 +1221,44 @@
 
 <!-- ═══════════════════════════════════════ SCRIPTS ════════════════════════════════════ -->
 <script>
-(function () {
-  'use strict';
-
-  /* ── Nav scroll ── */
-  const nav = document.getElementById('nav');
-  function updateNav() {
-    if (window.scrollY > 10) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
+// Nav scroll behavior
+const nav = document.getElementById('nav');
+function handleNavScroll() {
+  if (window.scrollY > 20) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
   }
-  window.addEventListener('scroll', updateNav, { passive: true });
-  updateNav();
+}
+window.addEventListener('scroll', handleNavScroll, { passive: true });
+handleNavScroll();
 
-  /* ── Mobile menu ── */
-  const hamburger = document.getElementById('hamburger');
-  const overlay   = document.getElementById('mobileOverlay');
-  hamburger.addEventListener('click', function () {
-    const isOpen = overlay.classList.toggle('open');
-    hamburger.classList.toggle('open', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+// Mobile hamburger
+const hamburger = document.getElementById('hamburger');
+const navOverlay = document.getElementById('nav-overlay');
+hamburger.addEventListener('click', function () {
+  const isOpen = navOverlay.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', String(isOpen));
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+navOverlay.querySelectorAll('a').forEach(function (link) {
+  link.addEventListener('click', function () {
+    navOverlay.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
   });
-  overlay.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      overlay.classList.remove('open');
-      hamburger.classList.remove('open');
-      document.body.style.overflow = '';
-    });
-  });
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && navOverlay.classList.contains('open')) {
+    navOverlay.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    hamburger.focus();
+  }
+});
 
   /* ── Scroll reveal ── */
   var revealObserver = new IntersectionObserver(function (entries) {
@@ -1192,12 +1268,13 @@
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.10 });
+
   document.querySelectorAll('.reveal').forEach(function (el) {
     revealObserver.observe(el);
   });
 
-  /* ── FAQ Accordion ── */
+  /* ── FAQ Accordion (height animation) ── */
   document.querySelectorAll('.faq-question').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var item   = btn.closest('.faq-item');
@@ -1205,14 +1282,14 @@
       var inner  = item.querySelector('.faq-answer-inner');
       var isOpen = item.classList.contains('open');
 
-      // Close all
+      // Close all open items
       document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
         openItem.classList.remove('open');
         openItem.querySelector('.faq-answer').style.height = '0';
         openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
       });
 
-      // Open clicked (if it was closed)
+      // Open the clicked item if it was closed
       if (!isOpen) {
         item.classList.add('open');
         answer.style.height = inner.offsetHeight + 'px';
@@ -1221,15 +1298,17 @@
     });
   });
 
-  /* ── Quick Form ── */
+  /* ── Lead capture form submission ── */
   var form    = document.getElementById('contactForm');
   var success = document.getElementById('formSuccess');
+
+  var requiredFields = ['nombre', 'telefono', 'correo', 'sistema', 'descripcion'];
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var valid = true;
 
-    ['nombre', 'contacto', 'mensaje'].forEach(function (id) {
+    requiredFields.forEach(function (id) {
       var field = document.getElementById(id);
       if (!field.value.trim()) {
         field.classList.add('error');
@@ -1239,28 +1318,31 @@
       }
     });
 
-    if (!valid) return;
+    if (!valid) {
+      // Scroll to first error
+      var firstError = form.querySelector('.error');
+      if (firstError) {
+        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstError.focus();
+      }
+      return;
+    }
 
-    // Simulate success
+    // Show success state
     form.style.display = 'none';
     success.style.display = 'block';
   });
 
-  // Remove error on input
-  form.querySelectorAll('input, textarea').forEach(function (field) {
+  // Clear error state on user input
+  form.querySelectorAll('input, select, textarea').forEach(function (field) {
     field.addEventListener('input', function () {
+      field.classList.remove('error');
+    });
+    field.addEventListener('change', function () {
       field.classList.remove('error');
     });
   });
 
-  /* ── Active nav link ── */
-  document.querySelectorAll('.nav-links a').forEach(function (link) {
-    if (link.href === window.location.href) {
-      link.classList.add('active');
-    }
-  });
-
-})();
 </script>
 
 </body>
