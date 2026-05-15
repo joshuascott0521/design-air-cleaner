@@ -1,0 +1,74 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1778881744302,
+  "projectRoot": "c:\\Users\\ASUS\\Downloads\\Prototype-·-8_5_2026",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {},
+  "hotPaths": [
+    {
+      "path": "aircleaner-landing.html",
+      "accessCount": 2,
+      "lastAccessed": 1778884491702,
+      "type": "file"
+    },
+    {
+      "path": "aircleaner-servicios.html",
+      "accessCount": 2,
+      "lastAccessed": 1778884493634,
+      "type": "file"
+    },
+    {
+      "path": "aircleaner-galeria.html",
+      "accessCount": 2,
+      "lastAccessed": 1778884495123,
+      "type": "file"
+    },
+    {
+      "path": "aircleaner-contacto.html",
+      "accessCount": 2,
+      "lastAccessed": 1778884496484,
+      "type": "file"
+    },
+    {
+      "path": "aircleaner-solicitar.html",
+      "accessCount": 2,
+      "lastAccessed": 1778884498066,
+      "type": "file"
+    },
+    {
+      "path": "aircleaner-servicios-2.html",
+      "accessCount": 2,
+      "lastAccessed": 1778884499347,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
