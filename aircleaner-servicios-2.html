@@ -21,7 +21,7 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
     body{font-family:var(--fb);color:var(--navy);background:var(--white);-webkit-font-smoothing:antialiased;}
-    a{color:inherit;text-decoration:none;}img,svg{display:block;}ul{list-style:none;}button{cursor:pointer;font-family:inherit;}
+    a{color:inherit;text-decoration:none;}img,svg{display:block;max-width:100%;}ul{list-style:none;}button{cursor:pointer;font-family:inherit;}
     *:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
     .nav{position:fixed;top:0;left:0;right:0;z-index:999;height:72px;display:flex;align-items:center;padding:0 40px;background:rgba(255,255,255,.97);box-shadow:0 1px 0 var(--gborder);transition:background .35s,backdrop-filter .35s,box-shadow .35s;}
     .nav.scrolled{background:rgba(1,9,45,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,255,255,.06);}
@@ -50,7 +50,7 @@
     .nav-overlay a:hover{color:var(--white);}.nav-overlay a.active{color:var(--blue);}
     .nav-overlay .nav-cta{font-size:16px;height:52px;padding:0 32px;margin-top:8px;}
     .page-hero{background:var(--navy);padding:120px 40px 64px;position:relative;overflow:hidden;}
-    .page-hero-wm{position:absolute;top:-60px;right:-80px;width:420px;height:420px;opacity:.04;animation:spin 80s linear infinite;pointer-events:none;}
+    .page-hero-wm{position:absolute;top:-60px;right:-80px;width:min(420px, 40vw);height:min(420px, 40vw);opacity:.04;animation:spin 80s linear infinite;pointer-events:none;}
     @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
     .page-hero-inner{max-width:1280px;margin:0 auto;position:relative;z-index:1;}
     .eyebrow{font-family:var(--fm);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;}
@@ -175,6 +175,10 @@
       .page-hero h1{font-size:32px;}.tb-item{flex-basis:100%;}
       .svc-specs{flex-direction:column;}.svc-spec{flex-basis:100%;padding-right:0;margin-right:0;border-right:none;border-bottom:1px solid var(--gborder);padding-bottom:10px;}
       .svc-spec:last-child{border-bottom:none;padding-bottom:0;}
+      .cta-section { padding: 56px 20px; }
+    }
+    @media (max-width: 480px) {
+      .footer-bar { flex-direction: column; align-items: center; gap: 8px; text-align: center; }
     }
   </style>
 </head>

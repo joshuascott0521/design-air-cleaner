@@ -195,7 +195,7 @@
     .page-hero-watermark {
       position: absolute;
       top: -60px; right: -80px;
-      width: 420px; height: 420px;
+      width: min(420px, 40vw); height: min(420px, 40vw);
       opacity: 0.04;
       animation: spin 80s linear infinite;
       pointer-events: none;
@@ -768,6 +768,12 @@
     @media (max-width: 1024px) {
       .services-grid { gap: 20px; }
       .process-grid  { grid-template-columns: repeat(2,1fr); gap: 28px; }
+      .tb-item { padding: 18px 16px; }
+      .tb-text strong { font-size: 12.5px; }
+      .tb-text span { font-size: 11px; }
+    }
+    @media (max-width: 640px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
     }
     @media (max-width: 860px) {
       .nav { padding: 0 24px; }
@@ -803,6 +809,9 @@
       .svc-specs { flex-direction: column; }
       .svc-spec { flex-basis: 100%; padding-right: 0; margin-right: 0; border-right: none; border-bottom: 1px solid var(--gborder); padding-bottom: 10px; }
       .svc-spec:last-child { border-bottom: none; padding-bottom: 0; }
+    }
+    @media (max-width: 480px) {
+      .footer-bar { flex-direction: column; align-items: center; gap: 8px; text-align: center; }
     }
   </style>
 </head>

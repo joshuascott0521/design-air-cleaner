@@ -163,7 +163,7 @@ a{text-decoration:none;color:inherit}
 /* ── HERO ── */
 .hero{min-height:340px;background:linear-gradient(135deg,var(--navy) 0%,#021640 60%,var(--dblue) 100%);display:flex;align-items:center;position:relative;overflow:hidden;padding:100px 5vw 56px}
 .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230493D9' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
-.hero-wm{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:420px;height:420px;opacity:.04;animation:spin 22s linear infinite;object-fit:contain}
+.hero-wm{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:min(420px,40vw);height:min(420px,40vw);opacity:.04;animation:spin 22s linear infinite;object-fit:contain}
 @keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
 .hero-content{position:relative;z-index:1;max-width:1280px;width:100%;margin:0 auto}
 .hero-eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
@@ -183,7 +183,7 @@ a{text-decoration:none;color:inherit}
 .proof-text strong{display:block;color:var(--navy);font-weight:600;font-size:.9rem}
 .proof-stars{color:#f59e0b;font-size:1rem;letter-spacing:1px}
 .proof-divider{width:1px;height:36px;background:var(--gborder)}
-@media(max-width:640px){.proof-divider{display:none}.proof-inner{gap:20px}}
+@media(max-width:640px){.proof-divider{display:none}.proof-inner{gap:20px;justify-content:center}.proof-item{flex-basis:calc(50% - 8px)}}
 
 /* ── PROCESS STRIP ── */
 .process-strip{background:var(--dblue);padding:0}
@@ -192,7 +192,7 @@ a{text-decoration:none;color:inherit}
 .step-num{width:30px;height:30px;border-radius:50%;background:var(--blue);color:var(--white);font-family:var(--fd);font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .step-label{font-size:.85rem;font-weight:500;color:rgba(255,255,255,.9);white-space:nowrap}
 .step-arrow{color:var(--teal);font-size:1.1rem;padding:0 16px;line-height:1}
-@media(max-width:700px){.process-inner{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start}.step-arrow{padding:0 8px}}
+@media(max-width:700px){.process-inner{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start}.step-arrow{padding:0 8px}.process-strip{-webkit-overflow-scrolling:touch}.process-strip::after{content:'';display:block;min-width:24px;flex-shrink:0}}
 
 /* ── MAIN SECTION ── */
 .main-section{padding:72px 5vw 80px;background:var(--gbg)}
@@ -259,7 +259,7 @@ a{text-decoration:none;color:inherit}
 .success-back{font-size:.88rem;color:var(--blue);border:1.5px solid var(--blue);padding:9px 22px;border-radius:6px;transition:background .2s,color .2s}
 .success-back:hover{background:var(--blue);color:var(--white)}
 
-@media(max-width:960px){.main-inner{grid-template-columns:1fr;gap:40px}}
+@media(max-width:1024px){.main-inner{grid-template-columns:1fr;gap:40px}}
 @media(max-width:640px){.main-section{padding:48px 5vw 64px}.form-card{padding:24px}.form-grid{grid-template-columns:1fr}}
 
 /* ── TEAM / STORY SECTION ── */
@@ -311,6 +311,7 @@ a{text-decoration:none;color:inherit}
 .tcard-author{border-top:1px solid var(--gborder);padding-top:14px}
 .tcard-name{font-family:var(--fd);font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:2px}
 .tcard-role{font-size:.78rem;color:var(--gmuted);line-height:1.4}
+@media(max-width:960px){.tgrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:860px){.tgrid{grid-template-columns:1fr;max-width:500px}}
 
 /* ── Footer ── */
@@ -398,6 +399,9 @@ a{text-decoration:none;color:inherit}
 /* ── SCROLL REVEAL ── */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
 .reveal.visible{opacity:1;transform:none}
+@media (max-width: 480px) {
+  .footer-bar { flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+}
 </style>
 </head>
 <body>
